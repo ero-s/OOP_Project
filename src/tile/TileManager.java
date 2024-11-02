@@ -23,17 +23,16 @@ public class TileManager {
     public TileManager(GamePanel gp) {
         this.gp = gp;
 
-        tile = new Tile[100];
+        tile = new Tile[200];
         mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
         getTileImage();
-        //
         loadMap("/pics/maps/world01.txt");
         
  
     }
 
     public void getTileImage() {
-        setup(0, "/pics/tiles/master tiles/001.png", false);
+        setup(0, "/pics/tiles/master tiles/001.png", true);
         setup(1, "/pics/tiles/master tiles/002.png", true);
         setup(2, "/pics/tiles/master tiles/003.png", true);
         setup(3, "/pics/tiles/master tiles/004.png", true);
@@ -87,8 +86,8 @@ public class TileManager {
         setup(51, "/pics/tiles/master tiles/052.png", true);
         setup(52, "/pics/tiles/master tiles/053.png", false);
         setup(53, "/pics/tiles/master tiles/054.png", false);
-        setup(54, "/pics/tiles/master tiles/055.png", false);
-        setup(55, "/pics/tiles/master tiles/056.png", false);
+        setup(54, "/pics/tiles/master tiles/055.png", true);
+        setup(55, "/pics/tiles/master tiles/056.png", true);
         setup(56, "/pics/tiles/master tiles/057.png", false);
         setup(57, "/pics/tiles/master tiles/058.png", false);
         setup(58, "/pics/tiles/master tiles/059.png", false);
@@ -113,10 +112,10 @@ public class TileManager {
         setup(77, "/pics/tiles/master tiles/078.png", false);
         setup(78, "/pics/tiles/master tiles/079.png", false);
         setup(79, "/pics/tiles/master tiles/080.png", false);
-        setup(80, "/pics/tiles/master tiles/081.png", false);
-        setup(81, "/pics/tiles/master tiles/082.png", false);
-        setup(82, "/pics/tiles/master tiles/083.png", false);
-        setup(83, "/pics/tiles/master tiles/084.png", false);
+        setup(80, "/pics/tiles/master tiles/081.png", true);
+        setup(81, "/pics/tiles/master tiles/082.png", true);
+        setup(82, "/pics/tiles/master tiles/083.png", true);
+        setup(83, "/pics/tiles/master tiles/084.png", true);
         setup(84, "/pics/tiles/master tiles/085.png", false);
         setup(85, "/pics/tiles/master tiles/086.png", false);
         setup(86, "/pics/tiles/master tiles/087.png", false);
@@ -124,14 +123,14 @@ public class TileManager {
         setup(88, "/pics/tiles/master tiles/089.png", false);
         setup(89, "/pics/tiles/master tiles/090.png", false);
         setup(90, "/pics/tiles/master tiles/091.png", false);
-        setup(91, "/pics/tiles/master tiles/092.png", false);
-        setup(92, "/pics/tiles/master tiles/093.png", false);
-        setup(93, "/pics/tiles/master tiles/094.png", false);
-        setup(94, "/pics/tiles/master tiles/095.png", false);
-        setup(95, "/pics/tiles/master tiles/096.png", false);
-        setup(96, "/pics/tiles/master tiles/097.png", false);
-        setup(97, "/pics/tiles/master tiles/098.png", false);
-        setup(98, "/pics/tiles/master tiles/099.png", false);
+        setup(91, "/pics/tiles/master tiles/092.png", true);
+        setup(92, "/pics/tiles/master tiles/093.png", true);
+        setup(93, "/pics/tiles/master tiles/094.png", true);
+        setup(94, "/pics/tiles/master tiles/095.png", true);
+        setup(95, "/pics/tiles/master tiles/096.png", true);
+        setup(96, "/pics/tiles/master tiles/097.png", true);
+        setup(97, "/pics/tiles/master tiles/098.png", true);
+        setup(98, "/pics/tiles/master tiles/099.png", true);
         setup(99, "/pics/tiles/master tiles/100.png", false);
         setup(100, "/pics/tiles/master tiles/101.png", false);
         setup(101, "/pics/tiles/master tiles/102.png", false);
@@ -148,13 +147,13 @@ public class TileManager {
         setup(112, "/pics/tiles/master tiles/113.png", false);
         setup(113, "/pics/tiles/master tiles/114.png", false);
         setup(114, "/pics/tiles/master tiles/115.png", false);
-        setup(115, "/pics/tiles/master tiles/116.png", false);
-        setup(116, "/pics/tiles/master tiles/117.png", false);
-        setup(117, "/pics/tiles/master tiles/118.png", false);
-        setup(118, "/pics/tiles/master tiles/119.png", false);
-        setup(119, "/pics/tiles/master tiles/120.png", false);
-        setup(120, "/pics/tiles/master tiles/121.png", false);
-        setup(121, "/pics/tiles/master tiles/122.png", false);
+        setup(115, "/pics/tiles/master tiles/116.png", true);
+        setup(116, "/pics/tiles/master tiles/117.png", true);
+        setup(117, "/pics/tiles/master tiles/118.png", true);
+        setup(118, "/pics/tiles/master tiles/119.png", true);
+        setup(119, "/pics/tiles/master tiles/120.png", true);
+        setup(120, "/pics/tiles/master tiles/121.png", true);
+        setup(121, "/pics/tiles/master tiles/122.png", true);
         setup(122, "/pics/tiles/master tiles/123.png", false);
         setup(123, "/pics/tiles/master tiles/124.png", false);
         setup(124, "/pics/tiles/master tiles/125.png", false);
@@ -162,26 +161,25 @@ public class TileManager {
         setup(126, "/pics/tiles/master tiles/127.png", false);
         setup(127, "/pics/tiles/master tiles/128.png", false);
         setup(128, "/pics/tiles/master tiles/129.png", false);
-        setup(129, "/pics/tiles/master tiles/130.png", false);
-        setup(130, "/pics/tiles/master tiles/131.png", false);
-        setup(131, "/pics/tiles/master tiles/132.png", false);
-        setup(132, "/pics/tiles/master tiles/133.png", false);
-        setup(133, "/pics/tiles/master tiles/134.png", false);
-        setup(134, "/pics/tiles/master tiles/135.png", false);
-        setup(135, "/pics/tiles/master tiles/136.png", false);
-        setup(136, "/pics/tiles/master tiles/137.png", false);
-        setup(137, "/pics/tiles/master tiles/138.png", false);
-        setup(138, "/pics/tiles/master tiles/139.png", false);
-        setup(139, "/pics/tiles/master tiles/140.png", false);
-        setup(140, "/pics/tiles/master tiles/141.png", false);
-        setup(141, "/pics/tiles/master tiles/142.png", false);
-        setup(142, "/pics/tiles/master tiles/143.png", false);
+        setup(129, "/pics/tiles/master tiles/130.png", true);
+        setup(130, "/pics/tiles/master tiles/131.png", true);
+        setup(131, "/pics/tiles/master tiles/132.png", true);
+        setup(132, "/pics/tiles/master tiles/133.png", true);
+        setup(133, "/pics/tiles/master tiles/134.png", true);
+        setup(134, "/pics/tiles/master tiles/135.png", true);
+        setup(135, "/pics/tiles/master tiles/136.png", true);
+        setup(136, "/pics/tiles/master tiles/137.png", true);
+        setup(137, "/pics/tiles/master tiles/138.png", true);
+        setup(138, "/pics/tiles/master tiles/139.png", true);
+        setup(139, "/pics/tiles/master tiles/140.png", true);
+        setup(140, "/pics/tiles/master tiles/141.png", true);
+        setup(141, "/pics/tiles/master tiles/142.png", true);
+        setup(142, "/pics/tiles/master tiles/143.png", true);
         setup(143, "/pics/tiles/master tiles/144.png", false);
-        setup(144, "/pics/tiles/master tiles/145.png", false);
-        setup(145, "/pics/tiles/master tiles/146.png", false);
-        setup(146, "/pics/tiles/master tiles/147.png", false);
-        setup(147, "/pics/tiles/master tiles/148.png", false);
-        setup(148, "/pics/tiles/master tiles/149.png", false);
+        setup(144, "/pics/tiles/master tiles/145.png", true);
+        setup(145, "/pics/tiles/master tiles/146.png", true);
+        setup(146, "/pics/tiles/master tiles/147.png", true);
+        setup(147, "/pics/tiles/master tiles/148.png", true);
     }
     
     public void setup(int index, String imagePath, boolean collision) {

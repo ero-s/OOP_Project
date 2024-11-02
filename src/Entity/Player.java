@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-
 import object.OBJ_Projectile;
 import pkg2dgame.GamePanel;
 import pkg2dgame.KeyHandler;
@@ -43,8 +42,8 @@ public class Player extends Entity {
     }
     
     public void setDefaultValues() {
-        worldX = gp.tileSize * 23;
-        worldY = gp.tileSize * 21;
+        worldX = gp.tileSize * 29;
+        worldY = gp.tileSize * 41;
         speed = 6;
         direction = "down";
         
@@ -61,8 +60,8 @@ public class Player extends Entity {
     }
 
     public void setDefaultPositions(){
-        worldX = gp.tileSize * 23;
-        worldY = gp.tileSize * 21;
+        worldX = gp.tileSize * 29;
+        worldY = gp.tileSize * 41;
         direction = "down";
     }
     public void restoreLife(){
