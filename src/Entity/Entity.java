@@ -53,7 +53,7 @@ public class Entity {
     public int shotCounter = 0;
     int hpBarCounter = 0;
 
-    //character attributes
+    //character attributes this
     public int maxLife;
     public int life;
     public String name;
