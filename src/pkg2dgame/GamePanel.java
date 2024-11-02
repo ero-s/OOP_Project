@@ -18,6 +18,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import javax.swing.JPanel;
 import tile.TileManager;
+import tile_interactive.InteractiveTile;
+
 public class GamePanel extends JPanel implements Runnable{
     //Screen Settings
     final int originalTileSize = 32;
@@ -69,6 +71,7 @@ public class GamePanel extends JPanel implements Runnable{
     public Entity obj[] = new Entity[100];
     public Entity npc[] = new Entity[100];
     public Entity monster[] = new Entity[100];
+    public InteractiveTile iTile[] = new InteractiveTile[100];
     public ArrayList<Entity> entityList = new ArrayList<>();
     public ArrayList<Entity> projectileList = new ArrayList<>();
     
@@ -86,6 +89,7 @@ public class GamePanel extends JPanel implements Runnable{
         aSetter.setObject();
         aSetter.setNPC();
         aSetter.setMonster();
+        aSetter.setInteractiveTile();
         gameState = titleState;
 
         tempScreen = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
@@ -101,12 +105,14 @@ public class GamePanel extends JPanel implements Runnable{
         player.restoreLife();
         aSetter.setNPC();
         aSetter.setMonster();
+        aSetter.setInteractiveTile();
     }
     public void restart(){
         player.setDefaultValues();
         aSetter.setObject();
         aSetter.setNPC();
         aSetter.setMonster();
+        aSetter.setInteractiveTile();
     }
     public void setFullScreen() {
 
@@ -119,8 +125,6 @@ public class GamePanel extends JPanel implements Runnable{
         screenWidth2 = Main.window.getWidth();
         screenHeight2 = Main.window.getHeight();
     }
-
-
     public void startGameThread(){
         gameThread = new Thread(this);
         gameThread.start();
@@ -128,7 +132,6 @@ public class GamePanel extends JPanel implements Runnable{
 
     @Override
     public void run() {
-
         double drawInterval = 1000000000/FPS;
         double delta = 0;
         long lastTime = System.nanoTime();
@@ -137,13 +140,10 @@ public class GamePanel extends JPanel implements Runnable{
         int drawCount = 0;
 
         while(gameThread != null) {
-
             currentTime = System.nanoTime();
-
             delta += (currentTime - lastTime) / drawInterval;
             timer += (currentTime - lastTime);
             lastTime = currentTime;
-
             if(delta >= 1) {
                 update();
                 drawToTempScreen();
@@ -151,7 +151,6 @@ public class GamePanel extends JPanel implements Runnable{
                 delta--;
                 drawCount++;
             }
-
             if(timer >= 1000000000) {
                 System.out.println("FPS: " + drawCount);
                 drawCount = 0;
@@ -181,7 +180,6 @@ public class GamePanel extends JPanel implements Runnable{
                     else{
                         monster[i] = null;
                     }
-
                 }
             }
             //projectile
@@ -192,13 +190,15 @@ public class GamePanel extends JPanel implements Runnable{
                     projectileList.remove(projectileList.get(i));
                 }
             }
-            
+            for(int i = 0; i < iTile.length; i++){
+                if(iTile[i] != null){
+                    iTile[i].update();
+                }
+            }
         }
         if(gameState == pauseState){
             //nothing
         }
-        
-        
     }
     public void drawToTempScreen(){
         //title screen
@@ -208,6 +208,12 @@ public class GamePanel extends JPanel implements Runnable{
         else {
             //tile
             tileM.draw((Graphics2D) g2);
+            for (int i = 0; i < iTile.length; i++) {
+                if (iTile[i] != null) {
+                    iTile[i].draw(g2);
+                }
+            }
+
             entityList.add(player);
             //npc draw
             for (int i = 0; i < npc.length; i++) {
@@ -269,7 +275,6 @@ public class GamePanel extends JPanel implements Runnable{
     public void stopMusic(){
         sound.stop();
     }
-    
     public void playSE(int i){
         sound.setFile(i);
         sound.play();

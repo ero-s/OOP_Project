@@ -12,6 +12,8 @@ import object.OBJ_Key;
 import object.OBJ_Wheat;
 import object.OBJ_Door;
 import pkg2dgame.monster.MON_Sigma;
+import tile_interactive.IT_ChopTree;
+
 /**
  *
  * @author austi
@@ -52,5 +54,9 @@ public class AssetSetter {
 //        i++
 
 
+    }
+    public void setInteractiveTile(){
+        int i = 0;
+        gp.iTile[i] = new IT_ChopTree(gp,15,15);i++;
     }
 }
