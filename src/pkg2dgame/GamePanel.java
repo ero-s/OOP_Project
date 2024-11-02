@@ -35,6 +35,8 @@ public class GamePanel extends JPanel implements Runnable{
     //world settings sheesh
     public final int maxWorldCol = 50;
     public final int maxWorldRow = 50;
+    public final int maxMap = 10;           //change to how many maps to add or use
+    public int currentMap = 0;
 
     //full screen settings
     int screenWidth2 = screenWidth;
@@ -66,9 +68,9 @@ public class GamePanel extends JPanel implements Runnable{
     public final int optionState = 5;
     public int gameOverState = 6;
     
-    public Entity obj[] = new Entity[100];
-    public Entity npc[] = new Entity[100];
-    public Entity monster[] = new Entity[100];
+    public Entity obj[][] = new Entity[maxMap][100];
+    public Entity npc[][] = new Entity[maxMap][100];
+    public Entity monster[][] = new Entity[maxMap][100];
     public ArrayList<Entity> entityList = new ArrayList<>();
     public ArrayList<Entity> projectileList = new ArrayList<>();
     
