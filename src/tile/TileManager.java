@@ -24,12 +24,11 @@ public class TileManager {
         this.gp = gp;
 
         tile = new Tile[100];
-        mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
+        mapTileNum = new int[gp.maxMap][gp.maxWorldCol][gp.maxWorldRow];
         getTileImage();
         //
-        loadMap("/pics/maps/world01.txt");
-        
- 
+        loadMap("/pics/maps/world01.txt", 0);
+        loadMap("/pics/maps/world02.txt", 1);
     }
 
     public void getTileImage() {
@@ -144,7 +143,7 @@ public class TileManager {
 
 
 
-    public void loadMap(String filePath) {
+    public void loadMap(String filePath, int map) {
         try {
             InputStream is = getClass().getResourceAsStream(filePath);
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -157,7 +156,7 @@ public class TileManager {
                     String[] numbers = line.split(" ");
 
                     int num = Integer.parseInt(numbers[col]);
-                    mapTileNum[col][row] = num;  // Load base map
+                    mapTileNum[map][col][row] = num;  // Load base map
 
                     col++;
                 }
@@ -178,7 +177,7 @@ public class TileManager {
 
         while (worldCol < gp.maxWorldCol && worldRow < gp.maxWorldRow) {
 
-            int tileNum = mapTileNum[worldCol][worldRow];
+            int tileNum = mapTileNum[gp.currentMap][worldCol][worldRow];
             Tile currentTile = tile[tileNum];
 
             int worldX = worldCol * gp.tileSize;
