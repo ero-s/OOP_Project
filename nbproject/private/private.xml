@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/austi/OneDrive/Documents/NetBeansProjects/2dGame/src/Entity/Player.java</file>
+            <file>file:/C:/Users/austi/OneDrive/Documents/NetBeansProjects/2dGame/src/pkg2dgame/GamePanel.java</file>
+            <file>file:/C:/Users/austi/OneDrive/Documents/NetBeansProjects/2dGame/src/pkg2dgame/AssetSetter.java</file>
+            <file>file:/C:/Users/austi/OneDrive/Documents/NetBeansProjects/2dGame/src/pkg2dgame/monster/MON_Sigma.java</file>
+            <file>file:/C:/Users/austi/OneDrive/Documents/NetBeansProjects/2dGame/src/object/OBJ_Door.java</file>
+            <file>file:/C:/Users/austi/OneDrive/Documents/NetBeansProjects/2dGame/src/tile/TileManager.java</file>
+            <file>file:/C:/Users/austi/OneDrive/Documents/NetBeansProjects/2dGame/src/object/OBJ_Wheat.java</file>
+            <file>file:/C:/Users/austi/OneDrive/Documents/NetBeansProjects/2dGame/src/object/OBJ_Key.java</file>
+            <file>file:/C:/Users/austi/OneDrive/Documents/NetBeansProjects/2dGame/src/pkg2dgame/EventRect.java</file>
+            <file>file:/C:/Users/austi/OneDrive/Documents/NetBeansProjects/2dGame/src/pkg2dgame/Main.java</file>
+            <file>file:/C:/Users/austi/OneDrive/Documents/NetBeansProjects/2dGame/src/Entity/Entity.java</file>
+            <file>file:/C:/Users/austi/OneDrive/Documents/NetBeansProjects/2dGame/src/Entity/Andres.java</file>
+            <file>file:/C:/Users/austi/OneDrive/Documents/NetBeansProjects/2dGame/src/pkg2dgame/CollisionChecker.java</file>
+            <file>file:/C:/Users/austi/OneDrive/Documents/NetBeansProjects/2dGame/src/pics/maps/world01.txt</file>
+            <file>file:/C:/Users/austi/OneDrive/Documents/NetBeansProjects/2dGame/src/pkg2dgame/KeyHandler.java</file>
+            <file>file:/C:/Users/austi/OneDrive/Documents/NetBeansProjects/2dGame/src/object/OBJ_Heart.java</file>
+            <file>file:/C:/Users/austi/OneDrive/Documents/NetBeansProjects/2dGame/src/tile/Tile.java</file>
+            <file>file:/C:/Users/austi/OneDrive/Documents/NetBeansProjects/2dGame/src/pkg2dgame/EventHandler.java</file>
+            <file>file:/C:/Users/austi/OneDrive/Documents/NetBeansProjects/2dGame/src/pkg2dgame/UI.java</file>
+            <file>file:/C:/Users/austi/OneDrive/Documents/NetBeansProjects/2dGame/src/Entity/NPC_Khai.java</file>
+        </group>
+    </open-files>
+</project-private>
