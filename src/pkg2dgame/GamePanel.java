@@ -32,7 +32,7 @@ public class GamePanel extends JPanel implements Runnable{
     Config config = new Config(this);
     Thread getGameThread;
     
-    //world settings yipee
+    //world settings sheesh
     public final int maxWorldCol = 50;
     public final int maxWorldRow = 50;
 
