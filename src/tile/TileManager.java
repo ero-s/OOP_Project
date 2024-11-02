@@ -40,8 +40,8 @@ public class TileManager {
         setup(4, "/pics/tiles/master tiles/005.png", true);
         setup(5, "/pics/tiles/master tiles/006.png", true);
         setup(6, "/pics/tiles/master tiles/007.png", true);
-        setup(7, "/pics/tiles/mango parts/008.png", true);
-        setup(8, "/pics/tiles/mango parts/009.png", true);
+        setup(7, "/pics/tiles/master tiles/008.png", true);
+        setup(8, "/pics/tiles/master tiles/009.png", true);
         setup(9, "/pics/tiles/master tiles/010.png", true);
         setup(10, "/pics/tiles/master tiles/011.png", true);
         setup(11, "/pics/tiles/master tiles/012.png", true);
