@@ -200,68 +200,72 @@ public class GamePanel extends JPanel implements Runnable{
             //nothing
         }
     }
-    public void drawToTempScreen(){
-        //title screen
-        if(gameState == titleState){
+    public void drawToTempScreen() {
+        if (gameState == titleState) {
             ui.draw((Graphics2D) g2);
-        }
-        else {
-            //tile
+        } else {
+            // Draw tiles in the background
             tileM.draw((Graphics2D) g2);
-            for (int i = 0; i < iTile.length; i++) {
-                if (iTile[i] != null) {
-                    iTile[i].draw(g2);
-                }
-            }
 
+            // Add all entities, including the player, to `entityList` for sorting
             entityList.add(player);
-            //npc draw
+
+            // Add NPCs to `entityList`
             for (int i = 0; i < npc.length; i++) {
                 if (npc[i] != null) {
                     entityList.add(npc[i]);
                 }
             }
-            //object draw
+
+            // Add objects to `entityList`
             for (int i = 0; i < obj.length; i++) {
                 if (obj[i] != null) {
                     entityList.add(obj[i]);
                 }
             }
 
-            //monster draw
+            // Add monsters to `entityList`
             for (int i = 0; i < monster.length; i++) {
                 if (monster[i] != null) {
                     entityList.add(monster[i]);
                 }
             }
 
-            //projectile draw
+            // Add projectiles to `entityList`
             for (int i = 0; i < projectileList.size(); i++) {
                 if (projectileList.get(i) != null) {
                     entityList.add(projectileList.get(i));
                 }
             }
 
-            //sort
+            // Add interactive tiles to `entityList`
+            for (int i = 0; i < iTile.length; i++) {
+                if (iTile[i] != null) {
+                    entityList.add(iTile[i]);
+                }
+            }
+
+            // Sort entities based on `worldY` for layering
             Collections.sort(entityList, new Comparator<Entity>() {
                 @Override
                 public int compare(Entity e1, Entity e2) {
-                    int result = Integer.compare(e1.worldY, e2.worldY);
-                    return result;
+                    return Integer.compare(e1.worldY, e2.worldY);
                 }
             });
-            //draw entities
-            for (int i = 0; i < entityList.size(); i++) {
-                entityList.get(i).draw((Graphics2D) g2);
-            }
-            for (int i = 0; i < entityList.size(); i++) {
-                entityList.remove(i);
+
+            // Draw each entity based on sorted order
+            for (Entity entity : entityList) {
+                entity.draw((Graphics2D) g2);
             }
 
-            //ui
+            // Clear `entityList` after drawing
+            entityList.clear();
+
+            // Draw UI elements on top
             ui.draw((Graphics2D) g2);
         }
     }
+
     public void drawToScreen(){
         Graphics g = getGraphics();
         g.drawImage(tempScreen, 0, 0, screenWidth2, screenHeight2, null);
