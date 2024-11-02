@@ -14,7 +14,7 @@ import pkg2dgame.UtilityTool;
 public class TileManager {
     GamePanel gp;
     public Tile[] tile;
-    public int mapTileNum[][][];
+    public int mapTileNum[][];
     public final int screenX = 0, screenY = 0;
     Graphics2D g2;
     
@@ -24,11 +24,12 @@ public class TileManager {
         this.gp = gp;
 
         tile = new Tile[100];
-        mapTileNum = new int[gp.maxMap][gp.maxWorldCol][gp.maxWorldRow];
+        mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
         getTileImage();
         //
-        loadMap("/pics/maps/world01.txt", 0);
-        loadMap("/pics/maps/world02.txt", 1);
+        loadMap("/pics/maps/world01.txt");
+        
+ 
     }
 
     public void getTileImage() {
@@ -183,7 +184,7 @@ public class TileManager {
         setup(148, "/pics/tiles/master tiles/149.png", false);
     }
     
-    public void setup(int index, String imagePath,  boolean collision) {
+    public void setup(int index, String imagePath, boolean collision) {
         UtilityTool uTool = new UtilityTool();
         try {
             tile[index] = new Tile();
@@ -203,7 +204,7 @@ public class TileManager {
 
 
 
-    public void loadMap(String filePath, int map) {
+    public void loadMap(String filePath) {
         try {
             InputStream is = getClass().getResourceAsStream(filePath);
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -216,7 +217,7 @@ public class TileManager {
                     String[] numbers = line.split(" ");
 
                     int num = Integer.parseInt(numbers[col]);
-                    mapTileNum[map][col][row] = num;  // Load base map
+                    mapTileNum[col][row] = num;  // Load base map
 
                     col++;
                 }
@@ -237,7 +238,7 @@ public class TileManager {
 
         while (worldCol < gp.maxWorldCol && worldRow < gp.maxWorldRow) {
 
-            int tileNum = mapTileNum[gp.currentMap][worldCol][worldRow];
+            int tileNum = mapTileNum[worldCol][worldRow];
             Tile currentTile = tile[tileNum];
 
             int worldX = worldCol * gp.tileSize;
