@@ -27,6 +27,7 @@ public class SaveLoad {
             ds.useCost = gp.player.useCost; // might be optional
             ds.mana = gp.player.mana; // basin optional
 
+            // location
             ds.worldX = gp.player.worldX;
             ds.worldY = gp.player.worldY;
             // map
@@ -38,7 +39,6 @@ public class SaveLoad {
         } catch (Exception e) {
             System.out.println("Save Exception! "+e);
         }
-
 
     }
 
@@ -63,4 +63,5 @@ public class SaveLoad {
             System.out.println("Load Exception!");
         }
     }
+
 }
