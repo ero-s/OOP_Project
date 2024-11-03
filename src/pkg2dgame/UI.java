@@ -268,6 +268,7 @@ public class UI {
             case 1: options_fullScreenNotification(frameX, frameY);break;
             case 2: options_control(frameX, frameY); break;
             case 3: options_quitGame(frameX, frameY);break;
+            case 4: options_saveGame(frameX, frameY);break;
         }
         gp.keyH.enterPressed = false;
     }
@@ -317,14 +318,24 @@ public class UI {
             g2.drawString(">", textX - 25, textY);
             if(gp.keyH.enterPressed) {
                 subState = 2;
-                commandNum = 2;
+                commandNum = 0;
+            }
+        }
+
+        textY += lineHeight;
+        g2.drawString("Save", textX, textY);
+        if (commandNum == 4) {
+            g2.drawString(">", textX - 25, textY);
+            if(gp.keyH.enterPressed) {
+                subState = 4;
+                commandNum = 4;
             }
         }
 
         // Quit
         textY += lineHeight;
         g2.drawString("Quit", textX, textY);
-        if (commandNum == 4) {
+        if (commandNum == 5) {
             g2.drawString(">", textX - 25, textY);
             if(gp.keyH.enterPressed){
                 subState = 3;
@@ -333,9 +344,9 @@ public class UI {
         }
 
         // Back
-        textY += lineHeight*4;
+        textY += lineHeight*3;
         g2.drawString("Back", textX, textY);
-        if (commandNum == 5) {
+        if (commandNum == 6) {
             g2.drawString(">", textX - 25, textY);
             if(gp.keyH.enterPressed){
                 gp.gameState = gp.playState;
@@ -361,6 +372,27 @@ public class UI {
         g2.drawRect(textX, textY, 200, 24);
 
         gp.config.saveConfig();
+    }
+    public void options_saveGame(int frameX, int frameY){
+        int textX = frameX + gp.tileSize;
+        int textY = frameY + gp.tileSize * 3/2;
+        commandNum = 0;
+        currentDialogue = "Saving Game...";
+
+        for (String line : currentDialogue.split("\n")) {
+            g2.drawString(line, textX, textY);
+            textY += 40;
+        }
+
+        // BACK
+        textY += gp.tileSize * 6/2;
+        g2.drawString("Back", textX, textY);
+        if (commandNum == 0) {
+            g2.drawString(">", textX - 25, textY);
+            if (gp.keyH.enterPressed) {
+                subState = 0;
+            }
+        }
     }
 
     public void options_fullScreenNotification(int frameX, int frameY) {

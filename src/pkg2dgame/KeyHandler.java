@@ -169,7 +169,7 @@ public class KeyHandler implements KeyListener{
 
         int maxCommandNum = 0;
         switch (gp.ui.subState) {
-            case 0: maxCommandNum = 5; break;
+            case 0: maxCommandNum = 6; break;
             case 3: maxCommandNum = 1;break;
         }
 
