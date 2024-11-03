@@ -262,8 +262,8 @@ public class TileManager {
         setup(221, "/pics/tiles/master tiles/222.png", true);
         setup(222, "/pics/tiles/master tiles/223.png", true);
         setup(223, "/pics/tiles/master tiles/224.png", true);
-        setup(224, "/pics/tiles/master tiles/225.png", false);
-        setup(225, "/pics/tiles/master tiles/226.png", true);
+        setup(224, "/pics/tiles/master tiles/225.png", true);
+        setup(225, "/pics/tiles/master tiles/226.png", false);
         setup(226, "/pics/tiles/master tiles/227.png", true);
         setup(227, "/pics/tiles/master tiles/228.png", true);
         setup(228, "/pics/tiles/master tiles/229.png", true);
