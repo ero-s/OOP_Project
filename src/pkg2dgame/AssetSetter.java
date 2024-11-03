@@ -26,9 +26,12 @@ public class AssetSetter {
     }
     
     public void setObject(){
-        gp.obj[0] = new OBJ_Circus(gp);
-        gp.obj[0].worldX = 21 * gp.tileSize;
-        gp.obj[0].worldY = 21* gp.tileSize;
+        int i = 0;
+        int mapNum = 0;
+        gp.obj[mapNum][0] = new OBJ_Circus(gp);
+        gp.obj[mapNum][0].worldX = 21 * gp.tileSize;
+        gp.obj[mapNum][0].worldY = 21* gp.tileSize;
+        i++;
 //
 //        gp.obj[1] = new OBJ_Wheat(gp);
 //        gp.obj[1].worldX = 20 *gp.tileSize;
@@ -40,6 +43,8 @@ public class AssetSetter {
     }
     
     public void setNPC(){
+        int i = 0;
+        int mapNum = 0;
 //        gp.npc[0] = new Andres(gp);
 //        gp.npc[0].worldX = 22 * gp.tileSize;
 //        gp.npc[0].worldY = 21 * gp.tileSize;
@@ -48,6 +53,7 @@ public class AssetSetter {
     }
     public void setMonster(){
         int i = 0;
+        int mapNum = 0;
 //        gp.monster[i] = new MON_Sigma(gp);
 //        gp.monster[i].worldX = gp.tileSize * 23;
 //        gp.monster[i].worldY = gp.tileSize * 23;
@@ -57,6 +63,9 @@ public class AssetSetter {
     }
     public void setInteractiveTile(){
         int i = 0;
-        gp.iTile[i] = new IT_ChopTree(gp,15,15);i++;
+        int mapNum = 0;
+        gp.iTile[mapNum][i] = new IT_ChopTree(gp,32,41);i++;
+
+        //mapNum = mapIndex
     }
 }

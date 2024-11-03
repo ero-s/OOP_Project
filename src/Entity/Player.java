@@ -141,7 +141,7 @@ public class Player extends Entity {
             gp.eHandler.checkEvent();
             
             //if collision isfalse, player can move
-            if(collisionOn == false && keyH.enterPressed == false){
+            if(!collisionOn && !keyH.enterPressed){
                 switch(direction){
                     case "up":{
                         worldY -= speed;
@@ -198,8 +198,8 @@ public class Player extends Entity {
     }
     public void contactMonster(int i){
         if(i != 999){
-            if(!invincible && !gp.monster[i].dead){
-                int damage = gp.monster[i].atkPower - defense;
+            if(!invincible && !gp.monster[gp.currentMap][i].dead){
+                int damage = gp.monster[gp.currentMap][i].atkPower - defense;
                 if(damage < 0){
                     damage = 0;
                 }
@@ -212,25 +212,25 @@ public class Player extends Entity {
 
         if (i != 999) {
             System.out.println("Monster hit detected at index: " + i);
-            System.out.println("Monster life before damage: " + gp.monster[i].life);
-            if (!gp.monster[i].invincible && !gp.monster[i].dead) {
-                int damage = atkPower -gp.monster[i].defense;
+            System.out.println("Monster life before damage: " + gp.monster[gp.currentMap][i].life);
+            if (!gp.monster[gp.currentMap][i].invincible && !gp.monster[gp.currentMap][i].dead) {
+                int damage = atkPower -gp.monster[gp.currentMap][i].defense;
                 if(damage < 0){
                     damage = 0;
                 }
-                gp.monster[i].life -= damage;
+                gp.monster[gp.currentMap][i].life -= damage;
                 gp.ui.showMessage(damage + " damage!");
-                gp.monster[i].invincible = true;
+                gp.monster[gp.currentMap][i].invincible = true;
 //                gp.monster[i].damageReaction();
-                System.out.println("Monster life after damage: " + gp.monster[i].life);
+                System.out.println("Monster life after damage: " + gp.monster[gp.currentMap][i].life);
 
-                if (gp.monster[i].life <= 0) {
-                    gp.player.exp += gp.monster[i].exp;
-                    gp.ui.showMessage(gp.monster[i].name + " killed!");
-                    gp.ui.showMessage(gp.monster[i].exp + " exp gained!");
+                if (gp.monster[gp.currentMap][i].life <= 0) {
+                    gp.player.exp += gp.monster[gp.currentMap][i].exp;
+                    gp.ui.showMessage(gp.monster[gp.currentMap][i].name + " killed!");
+                    gp.ui.showMessage(gp.monster[gp.currentMap][i].exp + " exp gained!");
                     checkLevelUp();
-                    gp.monster[i].alive = false;
-                    gp.monster[i] = null;
+                    gp.monster[gp.currentMap][i].alive = false;
+                    gp.monster[gp.currentMap][i] = null;
                     System.out.println("Monster defeated!");
                 }
             }
@@ -332,7 +332,7 @@ public class Player extends Entity {
         if(gp.keyH.enterPressed){
             if(i != 999){
                 gp.gameState = gp.dialogueState;
-                gp.npc[i].speak();
+                gp.npc[gp.currentMap][i].speak();
             }
         }
     }
@@ -396,7 +396,7 @@ public class Player extends Entity {
 
         //reset alpha
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,1f));
-
+        System.out.println("WorldX: "+worldX/gp.tileSize+" WorldY: "+worldY/gp.tileSize);
 //use to debug for damage intake
 //        g2.setFont(new Font("Arial",Font.PLAIN, 26));
 //        g2.setColor(Color.red);

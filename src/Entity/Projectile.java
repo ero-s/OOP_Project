@@ -51,9 +51,6 @@ public class Projectile extends Entity{
         }
     }
 
-
-
-
     public void update() {
         collisionOn = false;  // Reset collision flag at the beginning of each update
 
@@ -67,7 +64,7 @@ public class Projectile extends Entity{
         }
 
         // Only check for monsters if they exist in the game panel
-        if (user == gp.player && gp.monster.length > 0) {  // Ensure monsters are present
+        if (user == gp.player && gp.monster[1].length > 0) {  // Ensure monsters are present
             int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
 
             // If a monster is hit, deal damage and deactivate the projectile
