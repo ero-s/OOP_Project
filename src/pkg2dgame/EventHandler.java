@@ -58,7 +58,7 @@ public class EventHandler {
 //            if(hit(0,24,21,"any")==true){damagePit(gp.dialogueState);}
 //            if(hit(0,20,21,"any")==true){healingPool(gp.dialogueState);}
             if(hit(0,31,41,"any")){teleport(1,9,44);}
-            else if(hit(1,31,41,"any")){teleport(0,29,41);}
+            else if(hit(1,8,45,"any")){teleport(0,29,41);}
         }
     }
     public void teleport(int map, int col, int row){

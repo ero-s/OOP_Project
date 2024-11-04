@@ -176,6 +176,10 @@ public class UI {
                 g2.drawString(text, x, y);
                 if(commandNum == 1){
                     g2.drawString(">", x-gp.tileSize, y);
+                    if(gp.keyH.enterPressed){
+                        //call load method
+                        System.out.print("load method called");
+                    }
                 }
 
                 text = "QUIT GAME";
@@ -191,7 +195,7 @@ public class UI {
 //            else if(titleScreenState == 1){
 //                g2.setColor(Color.white);
 //                g2.setFont(g2.getFont().deriveFont(42f));
-//                String text = ""
+//                String text = "";
 //            }
             
         }

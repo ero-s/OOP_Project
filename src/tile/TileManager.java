@@ -359,9 +359,9 @@ public class TileManager {
             int screenY = worldY - gp.player.worldY + gp.player.screenY;
 
             // Check if the tile is within screen bounds to render
-            if (worldX + gp.tileSize > gp.player.worldX - gp.player.screenX && 
-                worldX - gp.tileSize < gp.player.worldX + gp.player.screenX && 
-                worldY + gp.tileSize > gp.player.worldY - gp.player.screenY && 
+            if (worldX + gp.tileSize > gp.player.worldX - gp.player.screenX &&
+                worldX - gp.tileSize < gp.player.worldX + gp.player.screenX &&
+                worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
                 worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
 
                 // Draw the tile
@@ -405,9 +405,5 @@ public class TileManager {
                 worldRow++;
             }
         }
-        
-        
     }
-
-
 }
