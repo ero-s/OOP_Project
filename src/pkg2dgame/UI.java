@@ -166,9 +166,11 @@ public class UI {
                 x = getXforCenteredtext(text);
                 y += gp.tileSize * 2;
                 g2.drawString(text, x, y);
+
                 if(commandNum == 0){
                     g2.drawString(">", x-gp.tileSize, y);
                 }
+
 
                 text = "LOAD GAME";
                 x = getXforCenteredtext(text);
@@ -217,6 +219,28 @@ public class UI {
             y = gp.tileSize * 2;
             g2.drawString(text, x, y);
 
+            //main(?)
+            g2.setColor(Color.white);
+            g2.drawString(text, x-4, y-4);
+
+            //back
+            g2.setFont(g2.getFont().deriveFont(50f));
+            text = "Back";
+            x = getXforCenteredtext(text);
+            y += gp.tileSize * 2.5;
+            g2.drawString(text, x, y);
+            if (commandNum == 0) {
+                g2.drawString(">", x - 40, y);
+            }
+
+            //new game
+            text = "New Game";
+            x = getXforCenteredtext(text);
+            y += gp.tileSize/2;
+            g2.drawString(text, x, y);
+            if (commandNum == 1) {
+                g2.drawString(">", x - 40, y);
+            }
         }
 
         public void drawGameOverScreen() {
