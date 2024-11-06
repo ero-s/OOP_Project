@@ -199,7 +199,27 @@ public class UI {
 //            }
             
         }
-        public void drawGameOverScreen(){
+
+        public void drawLoadExist() {
+            g2.setColor(new Color(0,0,0,150));
+            g2.drawRect(0, 0, gp.screenWidth, gp.screenHeight);
+            int x, y;
+
+            String text;
+
+            g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 16f));
+
+            text = "Load exists, Are you sure to create game?";
+
+            // shadow
+            g2.setColor(Color.black);
+            x = getXforCenteredtext(text);
+            y = gp.tileSize * 2;
+            g2.drawString(text, x, y);
+
+        }
+
+        public void drawGameOverScreen() {
             g2.setColor(new Color(0,0,0,150));
             g2.drawRect(0,0,gp.screenWidth, gp.screenHeight);
             int x;
@@ -510,8 +530,10 @@ public class UI {
         // Check for navigation input to switch between "Yes" and "No"
         if (gp.keyH.upPressed) {
             commandNum = (commandNum == 0) ? 1 : 0;  // Toggle between 0 and 1
+
         } else if (gp.keyH.downPressed) {
             commandNum = (commandNum == 1) ? 0 : 1;  // Toggle between 1 and 0
+
         }
 
         // YES option

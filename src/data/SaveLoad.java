@@ -15,7 +15,7 @@ public class SaveLoad {
     public void save() {
         try {
 
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File("save.dat")));
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File("src/data/save.dat")));
             DataStorage ds = new DataStorage();
 
             ds.level = gp.player.level;
@@ -43,7 +43,7 @@ public class SaveLoad {
 
     public void load() {
         try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File("save.dat")));
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File("src/data/save.dat")));
 
             // Read Data Storage object
             DataStorage ds = (DataStorage)ois.readObject();
