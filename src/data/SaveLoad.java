@@ -15,7 +15,7 @@ public class SaveLoad {
     public void save() {
         try {
 
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File("save.dat")));
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File("src/data/save.dat")));
             DataStorage ds = new DataStorage();
 
             ds.level = gp.player.level;
@@ -26,15 +26,14 @@ public class SaveLoad {
             ds.exp = gp.player.exp;
             ds.useCost = gp.player.useCost; // might be optional
             ds.mana = gp.player.mana; // basin optional
-
-            // location
             ds.worldX = gp.player.worldX;
             ds.worldY = gp.player.worldY;
-            // map
+            ds.currentMap = gp.currentMap;
 
-            // write the Data Storage object
 
             oos.writeObject(ds);
+            oos.close();
+            System.out.println("Game saved successfully.");
 
         } catch (Exception e) {
             System.out.println("Save Exception! "+e);
@@ -44,11 +43,11 @@ public class SaveLoad {
 
     public void load() {
         try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File("save.dat")));
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File("src/data/save.dat")));
 
             // Read Data Storage object
-            DataStorage ds = (DataStorage) ois.readObject();
-
+            DataStorage ds = (DataStorage)ois.readObject();
+            ois.close();
             //Retrieve Data
             gp.player.level = ds.level;
             gp.player.atkPower = ds.atkPower;
@@ -58,6 +57,12 @@ public class SaveLoad {
             gp.player.exp = ds.exp;
             gp.player.useCost = ds.useCost;
             gp.player.mana = ds.mana;
+
+            gp.player.worldX = ds.worldX;
+            gp.player.worldY = ds.worldY;
+            gp.currentMap = ds.currentMap;
+
+            System.out.println("Game loaded successfully.");
 
         } catch (Exception e) {
             System.out.println("Load Exception!");

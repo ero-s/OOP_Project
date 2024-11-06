@@ -166,9 +166,11 @@ public class UI {
                 x = getXforCenteredtext(text);
                 y += gp.tileSize * 2;
                 g2.drawString(text, x, y);
+
                 if(commandNum == 0){
                     g2.drawString(">", x-gp.tileSize, y);
                 }
+
 
                 text = "LOAD GAME";
                 x = getXforCenteredtext(text);
@@ -199,7 +201,49 @@ public class UI {
 //            }
             
         }
-        public void drawGameOverScreen(){
+
+        public void drawLoadExist() {
+            g2.setColor(new Color(0,0,0,150));
+            g2.drawRect(0, 0, gp.screenWidth, gp.screenHeight);
+            int x, y;
+
+            String text;
+
+            g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 16f));
+
+            text = "Load exists, Are you sure to create game?";
+
+            // shadow
+            g2.setColor(Color.black);
+            x = getXforCenteredtext(text);
+            y = gp.tileSize * 2;
+            g2.drawString(text, x, y);
+
+            //main(?)
+            g2.setColor(Color.white);
+            g2.drawString(text, x-4, y-4);
+
+            //back
+            g2.setFont(g2.getFont().deriveFont(50f));
+            text = "Back";
+            x = getXforCenteredtext(text);
+            y += gp.tileSize * 2.5;
+            g2.drawString(text, x, y);
+            if (commandNum == 0) {
+                g2.drawString(">", x - 40, y);
+            }
+
+            //new game
+            text = "New Game";
+            x = getXforCenteredtext(text);
+            y += gp.tileSize/2;
+            g2.drawString(text, x, y);
+            if (commandNum == 1) {
+                g2.drawString(">", x - 40, y);
+            }
+        }
+
+        public void drawGameOverScreen() {
             g2.setColor(new Color(0,0,0,150));
             g2.drawRect(0,0,gp.screenWidth, gp.screenHeight);
             int x;
@@ -382,6 +426,7 @@ public class UI {
         int textY = frameY + gp.tileSize * 3/2;
         commandNum = 0;
         currentDialogue = "Saving Game...";
+        gp.saveLoad.save();
 
         for (String line : currentDialogue.split("\n")) {
             g2.drawString(line, textX, textY);
@@ -509,8 +554,10 @@ public class UI {
         // Check for navigation input to switch between "Yes" and "No"
         if (gp.keyH.upPressed) {
             commandNum = (commandNum == 0) ? 1 : 0;  // Toggle between 0 and 1
+
         } else if (gp.keyH.downPressed) {
             commandNum = (commandNum == 1) ? 0 : 1;  // Toggle between 1 and 0
+
         }
 
         // YES option

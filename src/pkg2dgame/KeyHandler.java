@@ -76,14 +76,19 @@ public class KeyHandler implements KeyListener{
                 }
             }
             if(code == KeyEvent.VK_ENTER){
-                if(gp.ui.commandNum == 0){
-                    // implement if/else statement for if there is a save file
+                if(gp.ui.commandNum == 0){ // new game
                     gp.gameState = gp.playState;
                 }
-                if(gp.ui.commandNum == 1){
-                    //implement load mechanic
+                if(gp.ui.commandNum == 1){ // load
+                    //later
+
+                        if (gp.saveLoad != null) {
+                            gp.saveLoad.load();
+                            gp.gameState = gp.playState;
+                        }
+
                 }
-                if(gp.ui.commandNum == 2){
+                if(gp.ui.commandNum == 2){ // exit
                     System.exit(0);
                 }
             }
