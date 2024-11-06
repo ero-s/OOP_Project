@@ -382,6 +382,7 @@ public class UI {
         int textY = frameY + gp.tileSize * 3/2;
         commandNum = 0;
         currentDialogue = "Saving Game...";
+        gp.saveLoad.save();
 
         for (String line : currentDialogue.split("\n")) {
             g2.drawString(line, textX, textY);

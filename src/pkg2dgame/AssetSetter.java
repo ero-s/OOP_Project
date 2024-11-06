@@ -54,10 +54,10 @@ public class AssetSetter {
     public void setMonster(){
         int i = 0;
         int mapNum = 0;
-//        gp.monster[i] = new MON_Sigma(gp);
-//        gp.monster[i].worldX = gp.tileSize * 23;
-//        gp.monster[i].worldY = gp.tileSize * 23;
-//        i++
+        gp.monster[0][i] = new MON_Sigma(gp);
+        gp.monster[0][i].worldX = gp.tileSize * 23;
+        gp.monster[0][i].worldY = gp.tileSize * 23;
+        i++;
 
 
     }
