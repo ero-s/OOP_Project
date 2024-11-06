@@ -77,10 +77,11 @@ public class KeyHandler implements KeyListener{
             }
             if(code == KeyEvent.VK_ENTER){
                 if(gp.ui.commandNum == 0){
+                    // implement if/else statement for if there is a save file
                     gp.gameState = gp.playState;
                 }
                 if(gp.ui.commandNum == 1){
-                    //later
+                    //implement load mechanic
                 }
                 if(gp.ui.commandNum == 2){
                     System.exit(0);
