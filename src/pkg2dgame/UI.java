@@ -30,6 +30,7 @@ public class UI {
     public String currentDialogue = "";
     public int commandNum = 0;
     public int titleScreenState = 0;
+    public int quitgameState = 0;
     public int slotCol = 0;
     public int slotRow = 0;
     public int subState = 0;
@@ -166,11 +167,14 @@ public class UI {
                 x = getXforCenteredtext(text);
                 y += gp.tileSize * 2;
                 g2.drawString(text, x, y);
-
                 if(commandNum == 0){
                     g2.drawString(">", x-gp.tileSize, y);
+                    if(gp.keyH.enterPressed){
+                        gp.player.setDefaultValues();
+                        gp.saveLoad.save();
+                        gp.saveLoad.hasSave = false;
+                    }
                 }
-
 
                 text = "LOAD GAME";
                 x = getXforCenteredtext(text);
@@ -178,10 +182,6 @@ public class UI {
                 g2.drawString(text, x, y);
                 if(commandNum == 1){
                     g2.drawString(">", x-gp.tileSize, y);
-                    if(gp.keyH.enterPressed){
-                        //call load method
-                        System.out.print("load method called");
-                    }
                 }
 
                 text = "QUIT GAME";
@@ -194,22 +194,57 @@ public class UI {
             }
               
 //            save and load mechanic
-//            else if(titleScreenState == 1){
-//                g2.setColor(Color.white);
-//                g2.setFont(g2.getFont().deriveFont(42f));
-//                String text = "";
-//            }
+            else if(titleScreenState == 1) {
+                drawLoadExist();
+            }
+            else if(titleScreenState == 2){
+                drawNoLoad();
+            }
             
         }
-
-        public void drawLoadExist() {
-            g2.setColor(new Color(0,0,0,150));
-            g2.drawRect(0, 0, gp.screenWidth, gp.screenHeight);
-            int x, y;
+        public void drawNoLoad(){
+            commandNum = 0;
+            g2.setColor(Color.orange);
+            g2.fillRect(0,0, gp.screenWidth, gp.screenHeight);
+            int x,y;
 
             String text;
 
-            g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 16f));
+            g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 32f));
+
+            text = "You have no saved progresses.";
+
+            // shadow
+            g2.setColor(Color.black);
+            x = getXforCenteredtext(text);
+            y = gp.tileSize * 2;
+            g2.drawString(text, x, y);
+
+            //main(?)
+            g2.setColor(Color.white);
+            g2.drawString(text, x-4, y-4);
+
+            g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 32F));
+            text = "BACK";
+            x = getXforCenteredtext(text);
+            y += gp.tileSize * 2;
+
+            g2.drawString(text, x, y);
+            if(commandNum == 0){
+                g2.drawString(">", x-gp.tileSize, y);
+                if(gp.keyH.enterPressed){
+                    titleScreenState = 0;
+                }
+            }
+        }
+        public void drawLoadExist() {
+            g2.setColor(Color.orange);
+            g2.fillRect(0,0, gp.screenWidth, gp.screenHeight);
+            int x,y;
+
+            String text;
+
+            g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 32f));
 
             text = "Load exists, Are you sure to create game?";
 
@@ -223,23 +258,30 @@ public class UI {
             g2.setColor(Color.white);
             g2.drawString(text, x-4, y-4);
 
-            //back
-            g2.setFont(g2.getFont().deriveFont(50f));
-            text = "Back";
+            g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 32F));
+            text = "BACK";
             x = getXforCenteredtext(text);
-            y += gp.tileSize * 2.5;
+            y += gp.tileSize * 2;
             g2.drawString(text, x, y);
-            if (commandNum == 0) {
-                g2.drawString(">", x - 40, y);
+            if(commandNum == 0){
+                g2.drawString(">", x-gp.tileSize, y);
+                if(gp.keyH.enterPressed){
+                    titleScreenState = 0;
+                    return;
+                }
             }
 
-            //new game
-            text = "New Game";
+            text = "NEW GAME";
             x = getXforCenteredtext(text);
             y += gp.tileSize/2;
             g2.drawString(text, x, y);
-            if (commandNum == 1) {
-                g2.drawString(">", x - 40, y);
+            if(commandNum == 1){
+                g2.drawString(">", x-gp.tileSize, y);
+                if(gp.keyH.enterPressed){
+                    gp.player.setDefaultValues();
+                    gp.saveLoad.save();
+                    commandNum = 0;
+                }
             }
         }
 
@@ -317,6 +359,7 @@ public class UI {
             case 2: options_control(frameX, frameY); break;
             case 3: options_quitGame(frameX, frameY);break;
             case 4: options_saveGame(frameX, frameY);break;
+            case 5: options_SaveOnQuit(frameX,frameY);break;
         }
         gp.keyH.enterPressed = false;
     }
@@ -540,6 +583,7 @@ public class UI {
     }
 
     public void options_quitGame(int frameX, int frameY) {
+
         int lineHeight = gp.tileSize / 2;
         int textX = frameX + gp.tileSize;
         int textY = frameY + lineHeight;
@@ -565,12 +609,11 @@ public class UI {
         textX = getXforCenteredtext(text);
         textY += lineHeight * 3;
         g2.drawString(text, textX, textY);
-
         if (commandNum == 0) {
             g2.drawString(">", textX - 25, textY);
             if (gp.keyH.enterPressed) {
-                subState = 0;
-                gp.gameState = gp.titleState;
+                commandNum = 0;
+                subState = 5;
             }
         }
 
@@ -584,7 +627,59 @@ public class UI {
             g2.drawString(">", textX - 25, textY);
             if (gp.keyH.enterPressed) {
                 subState = 0;
-                commandNum = 4;
+                commandNum = 0;
+            }
+        }
+    }
+
+    public void options_SaveOnQuit(int frameX, int frameY){
+        int lineHeight = gp.tileSize / 2;
+        int textX = frameX + gp.tileSize;
+        int textY = frameY + lineHeight;
+
+        currentDialogue = "Would you like to save\nbefore quitting?";
+
+        for (String line : currentDialogue.split("\n")) {
+            g2.drawString(line, textX, textY);
+            textY += 40;
+        }
+
+        // Check for navigation input to switch between "Yes" and "No"
+        if (gp.keyH.upPressed) {
+            commandNum = (commandNum == 0) ? 1 : 0;
+            gp.keyH.upPressed = false;  // Reset key state
+        } else if (gp.keyH.downPressed) {
+            commandNum = (commandNum == 1) ? 0 : 1;
+            gp.keyH.downPressed = false;  // Reset key state
+        }
+
+
+        // YES option
+        String text = "Yes";
+        textX = getXforCenteredtext(text);
+        textY += lineHeight * 3;
+        g2.drawString(text, textX, textY);
+        if (commandNum == 0) {
+            g2.drawString(">", textX - 25, textY);
+            if (gp.keyH.enterPressed) {
+                gp.saveLoad.save();
+                commandNum = 0;
+                subState = 0;
+                gp.gameState = gp.titleState;
+
+            }
+        }
+        // NO option
+        text = "No";
+        textX = getXforCenteredtext(text);
+        textY += lineHeight;
+        g2.drawString(text, textX, textY);
+        if (commandNum == 1) {
+            g2.drawString(">", textX - 25, textY);
+            if (gp.keyH.enterPressed) {
+                commandNum = 0;
+                subState = 0;
+                gp.gameState = gp.titleState;
             }
         }
     }
