@@ -28,6 +28,7 @@ public class TileManager {
         getTileImage();
         loadMap("/pics/maps/world01.txt", 0);
         loadMap("/pics/maps/world02.txt",1);
+        loadMap("/pics/maps/dungeon02.txt",2);
     }
 
     public void getTileImage() {
@@ -499,35 +500,35 @@ public class TileManager {
                 g2.drawImage(currentTile.image, screenX, screenY, null);
 
                 // Draw the tile's specific collision box if it has collision
-                if (currentTile.collision) {
-                    g2.setColor(Color.red);
-                    g2.setStroke(new java.awt.BasicStroke(1));
-
-                    // Calculate the tile's collision box world position
-                    int collisionBoxX = screenX + currentTile.collisionBox.x;
-                    int collisionBoxY = screenY + currentTile.collisionBox.y;
-                    int collisionBoxWidth = currentTile.collisionBox.width;
-                    int collisionBoxHeight = currentTile.collisionBox.height;
-
-                    // Draw the tile's specific collision box
-                    g2.drawRect(collisionBoxX, collisionBoxY, collisionBoxWidth, collisionBoxHeight);
-                }
+//                if (currentTile.collision) {
+//                    g2.setColor(Color.red);
+//                    g2.setStroke(new java.awt.BasicStroke(1));
+//
+//                    // Calculate the tile's collision box world position
+//                    int collisionBoxX = screenX + currentTile.collisionBox.x;
+//                    int collisionBoxY = screenY + currentTile.collisionBox.y;
+//                    int collisionBoxWidth = currentTile.collisionBox.width;
+//                    int collisionBoxHeight = currentTile.collisionBox.height;
+//
+//                    // Draw the tile's specific collision box
+//                    g2.drawRect(collisionBoxX, collisionBoxY, collisionBoxWidth, collisionBoxHeight);
+//                }
             }
 
-            // Now draw the player's collision area
-            int entityScreenX = gp.player.worldX - gp.player.screenX;
-            int entityScreenY = gp.player.worldY - gp.player.screenY;
-
-            // Extract the entity's solidArea (collision box)
-            int collisionX = entityScreenX + gp.player.solidArea.x;
-            int collisionY = entityScreenY + gp.player.solidArea.y;
-            int collisionWidth = gp.player.solidArea.width;
-            int collisionHeight = gp.player.solidArea.height;
-
-            // Draw the entity's collision area
-            g2.setColor(Color.blue);  // Use a different color for the entity's collision area
-            g2.setStroke(new java.awt.BasicStroke(1));  // Set stroke for visibility
-            g2.drawRect(collisionX, collisionY, collisionWidth , collisionHeight);
+//            // Now draw the player's collision area
+//            int entityScreenX = gp.player.worldX - gp.player.screenX;
+//            int entityScreenY = gp.player.worldY - gp.player.screenY;
+//
+//            // Extract the entity's solidArea (collision box)
+//            int collisionX = entityScreenX + gp.player.solidArea.x;
+//            int collisionY = entityScreenY + gp.player.solidArea.y;
+//            int collisionWidth = gp.player.solidArea.width;
+//            int collisionHeight = gp.player.solidArea.height;
+//
+//            // Draw the entity's collision area
+//            g2.setColor(Color.blue);  // Use a different color for the entity's collision area
+//            g2.setStroke(new java.awt.BasicStroke(1));  // Set stroke for visibility
+//            g2.drawRect(collisionX, collisionY, collisionWidth , collisionHeight);
 
             worldCol++;
 

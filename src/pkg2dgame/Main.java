@@ -11,7 +11,6 @@ public class Main {
         window.setTitle("Two brothers in a farm");
         GamePanel gamePanel = new GamePanel();
         window.add(gamePanel);
-
         gamePanel.config.loadConfig();
         if(gamePanel.fullScreenOn){
             window.setUndecorated(true);
