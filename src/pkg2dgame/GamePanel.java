@@ -25,7 +25,7 @@ import tile_interactive.InteractiveTile;
 public class GamePanel extends JPanel implements Runnable{
     //Screen Settings
     final int originalTileSize = 32;
-    final int scale = 3;
+    final int scale = 3  ;
     public final int tileSize = originalTileSize * scale;
     public final int maxScreenCol = 14;
     public final int maxScreenRow = 8;

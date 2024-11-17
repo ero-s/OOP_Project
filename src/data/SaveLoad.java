@@ -1,11 +1,14 @@
 package data;
 
 import pkg2dgame.GamePanel;
-
 import java.io.*;
 
 public class SaveLoad {
     GamePanel gp;
+    public ObjectOutputStream oos;
+    public DataStorage ds;
+    public ObjectInputStream ois;
+    public boolean hasSave = false;
 
     public SaveLoad(GamePanel gp) {
         this.gp = gp;
@@ -15,8 +18,8 @@ public class SaveLoad {
     public void save() {
         try {
 
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File("src/data/save.dat")));
-            DataStorage ds = new DataStorage();
+            oos = new ObjectOutputStream(new FileOutputStream(new File("src/data/save.dat")));
+            ds = new DataStorage();
 
             ds.level = gp.player.level;
             ds.atkPower = gp.player.atkPower;
@@ -30,10 +33,10 @@ public class SaveLoad {
             ds.worldY = gp.player.worldY;
             ds.currentMap = gp.currentMap;
 
-
             oos.writeObject(ds);
             oos.close();
             System.out.println("Game saved successfully.");
+            hasSave = true;
 
         } catch (Exception e) {
             System.out.println("Save Exception! "+e);
@@ -43,10 +46,10 @@ public class SaveLoad {
 
     public void load() {
         try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File("src/data/save.dat")));
+            ois = new ObjectInputStream(new FileInputStream(new File("src/data/save.dat")));
 
             // Read Data Storage object
-            DataStorage ds = (DataStorage)ois.readObject();
+            ds = (DataStorage)ois.readObject();
             ois.close();
             //Retrieve Data
             gp.player.level = ds.level;

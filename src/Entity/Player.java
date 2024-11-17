@@ -16,7 +16,7 @@ public class Player extends Entity {
 //    public int hasKey = 0;
     int standCounter = 0;
 
-    BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
+    public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
 
     public Player(GamePanel gp, KeyHandler keyH) {
         super(gp);
@@ -42,6 +42,7 @@ public class Player extends Entity {
     }
     
     public void setDefaultValues() {
+        gp.currentMap = 0;
         worldX = gp.tileSize * 29;
         worldY = gp.tileSize * 41;
         speed = 6;

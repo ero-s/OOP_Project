@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Entity;
 
 import java.awt.*;
@@ -244,13 +240,13 @@ public class Entity {
     public void changeAlpha(Graphics2D g2, float alphaValue){
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alphaValue));
     }
-    public BufferedImage setup(String imagePath, int width, int height){
+    public static BufferedImage setup(String imagePath, int width, int height){
         UtilityTool uTool = new UtilityTool();
 
         BufferedImage image = null;
 
         try {
-            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(imagePath), "Image not found: " + imagePath));
+            image = ImageIO.read(Objects.requireNonNull(Entity.class.getResourceAsStream(imagePath), "Image not found: " + imagePath));
             image = uTool.scaleImage(image, width, height);
         } catch (IOException e) {
             e.printStackTrace();

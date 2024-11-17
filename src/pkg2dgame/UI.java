@@ -9,14 +9,16 @@ package pkg2dgame;
  * @author austi
  */
 import Entity.Entity;
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics2D;
+
+import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import object.OBJ_Heart;
+
+import static java.awt.Font.TRUETYPE_FONT;
 //import java.awt.image.BufferedImage;
 
 public class UI {
@@ -24,12 +26,14 @@ public class UI {
 	GamePanel gp;
     Graphics2D g2;
 	Font arial_40, arial_80b;
+    Font maruMonica;
 	BufferedImage fullHeart, halfHeart, emptyHeart;
 	public boolean messageOn = false;
 	public boolean gameFinished = false;
     public String currentDialogue = "";
     public int commandNum = 0;
     public int titleScreenState = 0;
+    public int quitgameState = 0;
     public int slotCol = 0;
     public int slotRow = 0;
     public int subState = 0;
@@ -41,6 +45,15 @@ public class UI {
 
 	public UI(GamePanel gp) {
 		this.gp = gp;
+
+        InputStream is = getClass().getResourceAsStream("/pics/fonts/MP16REG.ttf");
+        try{
+            maruMonica = Font.createFont(TRUETYPE_FONT, is);
+        }catch(FontFormatException e){
+            e.printStackTrace();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
 
 		arial_40 = new Font("Arial", Font.PLAIN, 40);
 		arial_80b = new Font("Arial", Font.BOLD, 80);
@@ -60,7 +73,7 @@ public class UI {
 
 	public void draw(Graphics2D g2) {
         this.g2 = g2;
-        g2.setFont(arial_40);
+        g2.setFont(maruMonica);
         g2.setColor(Color.white);
 
         //title state
@@ -144,12 +157,23 @@ public class UI {
                 x+=gp.tileSize;
             }
         }
+        public void drawCarrot(int x, int y, int width, int height){
+            BufferedImage carrot = Entity.setup("/pics/ui/carrot.png", gp.tileSize, gp.tileSize);
+            g2.drawImage(carrot,x,y,width, height, null);
+        }
         public void drawTitleScreen(){
             if(titleScreenState == 0){
-                g2.setColor(Color.orange);
-                g2.fillRect(0,0, gp.screenWidth, gp.screenHeight);
+
+                BufferedImage title = Entity.setup("/pics/ui/FARMHOUSE.png", gp.tileSize, gp.tileSize);
+                g2.drawImage(title,0,0,1350, 780, null);
+
+                BufferedImage carrot = Entity.setup("/pics/ui/carrot.png", gp.tileSize, gp.tileSize);
+
+
+
                 g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 96F));
-                String text = "Two Brothers in a Farm";
+                String text = "Harvest Fest:";
+                String text2 = "Tale of Two Brothers";
                 int x = getXforCenteredtext(text);
                 int y = gp.tileSize * 3;
 
@@ -159,57 +183,111 @@ public class UI {
                 //main text
                 g2.setColor(Color.white);
                 g2.drawString(text, x, y);
+                y += gp.tileSize;
+
+                //shadow
+                g2.setColor(Color.black);
+                g2.drawString(text2, 255, y+5);
+                //main text
+                g2.setColor(Color.white);
+                g2.drawString(text2, 250, y);
 
                 //menu
                 g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 32F));
                 text = "NEW GAME";
                 x = getXforCenteredtext(text);
-                y += gp.tileSize * 2;
+                y += gp.tileSize;
+                g2.setColor(Color.black);
+                g2.drawString(text, x+2, y+2);
+                g2.setColor(Color.white);
                 g2.drawString(text, x, y);
-
                 if(commandNum == 0){
-                    g2.drawString(">", x-gp.tileSize, y);
+                    drawCarrot(x-gp.tileSize/2,y-gp.tileSize/2,gp.tileSize/2, gp.tileSize/2);
+                    if(gp.keyH.enterPressed){
+                        gp.player.setDefaultValues();
+                        gp.saveLoad.save();
+                        gp.saveLoad.hasSave = false;
+                    }
                 }
-
 
                 text = "LOAD GAME";
                 x = getXforCenteredtext(text);
                 y += gp.tileSize/2;
+                g2.setColor(Color.black);
+                g2.drawString(text, x+2, y+2);
+                g2.setColor(Color.white);
                 g2.drawString(text, x, y);
                 if(commandNum == 1){
-                    g2.drawString(">", x-gp.tileSize, y);
-                    if(gp.keyH.enterPressed){
-                        //call load method
-                        System.out.print("load method called");
-                    }
+                    g2.drawImage(carrot,x-gp.tileSize/2,y-gp.tileSize/2,gp.tileSize/2, gp.tileSize/2, null);
                 }
 
                 text = "QUIT GAME";
                 x = getXforCenteredtext(text);
                 y += gp.tileSize/2;
+                g2.setColor(Color.black);
+                g2.drawString(text, x+2, y+2);
+                g2.setColor(Color.white);
                 g2.drawString(text, x, y);
                 if(commandNum == 2){
-                    g2.drawString(">", x-gp.tileSize, y);
+                    g2.drawImage(carrot,x-gp.tileSize/2,y-gp.tileSize/2,gp.tileSize/2, gp.tileSize/2, null);
                 }
             }
               
 //            save and load mechanic
-//            else if(titleScreenState == 1){
-//                g2.setColor(Color.white);
-//                g2.setFont(g2.getFont().deriveFont(42f));
-//                String text = "";
-//            }
+            else if(titleScreenState == 1) {
+                drawLoadExist();
+            }
+            else if(titleScreenState == 2){
+                drawNoLoad();
+            }
             
         }
+    public void drawNoLoad(){
+        commandNum = 0;
 
+        BufferedImage title = Entity.setup("/pics/ui/FARMHOUSE_1.png", gp.tileSize, gp.tileSize);
+        g2.drawImage(title,0,0,1350, 780, null);
+
+        int x, y;
+
+        String text;
+
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 32f));
+
+        text = "You have no saved progresses.";
+
+        // Shadow
+        g2.setColor(Color.black);
+        x = getXforCenteredtext(text);
+        y = gp.tileSize * 2;
+        g2.drawString(text, x, y);
+
+        // Main text
+        g2.setColor(Color.white);
+        g2.drawString(text, x - 4, y - 4);
+
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 32F));
+        text = "BACK";
+        x = getXforCenteredtext(text);
+        y += gp.tileSize * 2;
+
+        g2.drawString(text, x, y);
+
+        if (commandNum == 0) {
+            g2.drawString(">", x - gp.tileSize, y);
+            if (gp.keyH.enterPressed) {
+                titleScreenState = 0;
+            }
+        }
+    }
         public void drawLoadExist() {
-            g2.setColor(new Color(0,0,0,150));
-            g2.drawRect(0, 0, gp.screenWidth, gp.screenHeight);
-            int x, y;
+            g2.setColor(Color.orange);
+            g2.fillRect(0,0, gp.screenWidth, gp.screenHeight);
+            int x,y;
 
             String text;
 
-            g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 16f));
+            g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 32f));
 
             text = "Load exists, Are you sure to create game?";
 
@@ -223,29 +301,36 @@ public class UI {
             g2.setColor(Color.white);
             g2.drawString(text, x-4, y-4);
 
-            //back
-            g2.setFont(g2.getFont().deriveFont(50f));
-            text = "Back";
+            g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 32F));
+            text = "BACK";
             x = getXforCenteredtext(text);
-            y += gp.tileSize * 2.5;
+            y += gp.tileSize * 2;
             g2.drawString(text, x, y);
-            if (commandNum == 0) {
-                g2.drawString(">", x - 40, y);
+            if(commandNum == 0){
+                drawCarrot(x-gp.tileSize/2, y-gp.tileSize/2, gp.tileSize/2, gp.tileSize/2);
+                if(gp.keyH.enterPressed){
+                    titleScreenState = 0;
+                    return;
+                }
             }
 
-            //new game
-            text = "New Game";
+            text = "NEW GAME";
             x = getXforCenteredtext(text);
             y += gp.tileSize/2;
             g2.drawString(text, x, y);
-            if (commandNum == 1) {
-                g2.drawString(">", x - 40, y);
+            if(commandNum == 1){
+                drawCarrot(x-gp.tileSize/2, y-gp.tileSize/2, gp.tileSize/2, gp.tileSize/2);
+                if(gp.keyH.enterPressed){
+                    gp.player.setDefaultValues();
+                    gp.saveLoad.save();
+                    commandNum = 0;
+                }
             }
         }
 
         public void drawGameOverScreen() {
-            g2.setColor(new Color(0,0,0,150));
-            g2.drawRect(0,0,gp.screenWidth, gp.screenHeight);
+            g2.setColor(new Color(0,0,0,200));
+            g2.fillRect(0,0,gp.screenWidth, gp.screenHeight);
             int x;
             int y;
             String text;
@@ -266,19 +351,25 @@ public class UI {
             g2.setFont(g2.getFont().deriveFont(50f));
             text = "Retry";
             x = getXforCenteredtext(text);
-            y += gp.tileSize * 2.5;
+            y += (int) (gp.tileSize * 2.5);
+            g2.setColor(Color.black);
+            g2.drawString(text, x+2, y+2);
+            g2.setColor(Color.white);
             g2.drawString(text, x, y);
             if (commandNum == 0) {
-                g2.drawString(">", x - 40, y);
+                drawCarrot(x-gp.tileSize/2, y-gp.tileSize/2, gp.tileSize/2, gp.tileSize/2);
             }
 
             // Back to the title screen
             text = "Quit";
             x = getXforCenteredtext(text);
             y += gp.tileSize/2;
+            g2.setColor(Color.black);
+            g2.drawString(text, x+2, y+2);
+            g2.setColor(Color.white);
             g2.drawString(text, x, y);
             if (commandNum == 1) {
-                g2.drawString(">", x - 40, y);
+                drawCarrot(x-gp.tileSize/2, y-gp.tileSize/2, gp.tileSize/2, gp.tileSize/2);
             }
 
         }
@@ -305,18 +396,19 @@ public class UI {
         g2.setFont(g2.getFont().deriveFont(32F));
 
         // SUB WINDOW
-        int frameX = gp.tileSize * 4;
-        int frameY = gp.tileSize;
-        int frameWidth = gp.tileSize * 6;
-        int frameHeight = gp.tileSize * 6;
+        int frameX = gp.tileSize * 3;
+        int frameY = 0;
+        int frameWidth = gp.tileSize * 8;
+        int frameHeight = gp.tileSize * 8;
         drawSubWindow(frameX, frameY, frameWidth, frameHeight);
 
         switch (subState) {
-            case 0: options_top(frameX, frameY);break;
-            case 1: options_fullScreenNotification(frameX, frameY);break;
-            case 2: options_control(frameX, frameY); break;
-            case 3: options_quitGame(frameX, frameY);break;
-            case 4: options_saveGame(frameX, frameY);break;
+            case 0: options_top(frameX+gp.tileSize, frameY+gp.tileSize);break;
+            case 1: options_fullScreenNotification(frameX+gp.tileSize, frameY+gp.tileSize);break;
+            case 2: options_control(frameX+gp.tileSize, frameY+gp.tileSize); break;
+            case 3: options_quitGame(frameX+gp.tileSize, frameY+gp.tileSize);break;
+            case 4: options_saveGame(frameX+gp.tileSize, frameY+gp.tileSize);break;
+            case 5: options_SaveOnQuit(frameX+gp.tileSize,frameY+gp.tileSize);break;
         }
         gp.keyH.enterPressed = false;
     }
@@ -338,7 +430,7 @@ public class UI {
         textY += lineHeight*2;
         g2.drawString("Full Screen", textX, textY);
         if (commandNum == 0) {
-            g2.drawString(">", textX - 25, textY);
+            drawCarrot(textX-gp.tileSize/2, textY-gp.tileSize/2, gp.tileSize/2, gp.tileSize/2);
             if(gp.keyH.enterPressed){
                 gp.fullScreenOn = !gp.fullScreenOn;
                 subState = 1;
@@ -349,21 +441,21 @@ public class UI {
         textY += lineHeight;
         g2.drawString("Music", textX, textY);
         if (commandNum == 1) {
-            g2.drawString(">", textX - 25, textY);
+            drawCarrot(textX-gp.tileSize/2, textY-gp.tileSize/2, gp.tileSize/2, gp.tileSize/2);
         }
 
         // SFX
         textY += lineHeight;
         g2.drawString("SFX", textX, textY);
         if (commandNum == 2) {
-            g2.drawString(">", textX - 25, textY);
+            drawCarrot(textX-gp.tileSize/2, textY-gp.tileSize/2, gp.tileSize/2, gp.tileSize/2);
         }
 
         // CONTROL
         textY += lineHeight;
         g2.drawString("Control", textX, textY);
         if (commandNum == 3) {
-            g2.drawString(">", textX - 25, textY);
+            drawCarrot(textX-gp.tileSize/2, textY-gp.tileSize/2, gp.tileSize/2, gp.tileSize/2);
             if(gp.keyH.enterPressed) {
                 subState = 2;
                 commandNum = 0;
@@ -373,7 +465,7 @@ public class UI {
         textY += lineHeight;
         g2.drawString("Save", textX, textY);
         if (commandNum == 4) {
-            g2.drawString(">", textX - 25, textY);
+            drawCarrot(textX-gp.tileSize/2, textY-gp.tileSize/2, gp.tileSize/2, gp.tileSize/2);
             if(gp.keyH.enterPressed) {
                 subState = 4;
                 commandNum = 4;
@@ -384,7 +476,7 @@ public class UI {
         textY += lineHeight;
         g2.drawString("Quit", textX, textY);
         if (commandNum == 5) {
-            g2.drawString(">", textX - 25, textY);
+            drawCarrot(textX-gp.tileSize/2, textY-gp.tileSize/2, gp.tileSize/2, gp.tileSize/2);
             if(gp.keyH.enterPressed){
                 subState = 3;
                 commandNum = 0;
@@ -395,7 +487,7 @@ public class UI {
         textY += lineHeight*3;
         g2.drawString("Back", textX, textY);
         if (commandNum == 6) {
-            g2.drawString(">", textX - 25, textY);
+            drawCarrot(textX-gp.tileSize/2, textY-gp.tileSize/2, gp.tileSize/2, gp.tileSize/2);
             if(gp.keyH.enterPressed){
                 gp.gameState = gp.playState;
                 commandNum = 0;
@@ -437,7 +529,7 @@ public class UI {
         textY += gp.tileSize * 6/2;
         g2.drawString("Back", textX, textY);
         if (commandNum == 0) {
-            g2.drawString(">", textX - 25, textY);
+            drawCarrot(textX-gp.tileSize/2, textY-gp.tileSize/2, gp.tileSize/2, gp.tileSize/2);
             if (gp.keyH.enterPressed) {
                 subState = 0;
             }
@@ -459,7 +551,7 @@ public class UI {
         textY += gp.tileSize * 6/2;
         g2.drawString("Back", textX, textY);
         if (commandNum == 0) {
-            g2.drawString(">", textX - 25, textY);
+            drawCarrot(textX-gp.tileSize/2, textY-gp.tileSize/2, gp.tileSize/2, gp.tileSize/2);
             if (gp.keyH.enterPressed) {
                 subState = 0;
             }
@@ -500,7 +592,7 @@ public class UI {
         // BACK
         textY += lineHeight ;
         g2.drawString("Back", textX, textY);
-        g2.drawString(">", textX - 25, textY);
+        drawCarrot(textX-gp.tileSize/2, textY-gp.tileSize/2, gp.tileSize/2, gp.tileSize/2);
         if (commandNum == 0) {
             if (gp.keyH.enterPressed) {
                 subState = 0;
@@ -540,7 +632,8 @@ public class UI {
     }
 
     public void options_quitGame(int frameX, int frameY) {
-        int lineHeight = gp.tileSize / 2;
+
+        int lineHeight = gp.tileSize;
         int textX = frameX + gp.tileSize;
         int textY = frameY + lineHeight;
 
@@ -563,28 +656,80 @@ public class UI {
         // YES option
         String text = "Yes";
         textX = getXforCenteredtext(text);
-        textY += lineHeight * 3;
+        textY += gp.tileSize;
         g2.drawString(text, textX, textY);
-
         if (commandNum == 0) {
-            g2.drawString(">", textX - 25, textY);
+            drawCarrot(textX-gp.tileSize/2, textY-gp.tileSize/2, gp.tileSize/2, gp.tileSize/2);
             if (gp.keyH.enterPressed) {
-                subState = 0;
-                gp.gameState = gp.titleState;
+                commandNum = 0;
+                subState = 5;
             }
         }
 
         // NO option
         text = "No";
         textX = getXforCenteredtext(text);
-        textY += lineHeight;
+        textY += 40;
         g2.drawString(text, textX, textY);
 
         if (commandNum == 1) {
-            g2.drawString(">", textX - 25, textY);
+            drawCarrot(textX-gp.tileSize/2, textY-gp.tileSize/2, gp.tileSize/2, gp.tileSize/2);
             if (gp.keyH.enterPressed) {
                 subState = 0;
-                commandNum = 4;
+                commandNum = 0;
+            }
+        }
+    }
+
+    public void options_SaveOnQuit(int frameX, int frameY){
+        int lineHeight = gp.tileSize;
+        int textX = frameX + gp.tileSize;
+        int textY = frameY + lineHeight;
+
+        currentDialogue = "Would you like to save\nbefore quitting?";
+
+        for (String line : currentDialogue.split("\n")) {
+            g2.drawString(line, textX, textY);
+            textY += 40;
+        }
+
+        // Check for navigation input to switch between "Yes" and "No"
+        if (gp.keyH.upPressed) {
+            commandNum = (commandNum == 0) ? 1 : 0;
+            gp.keyH.upPressed = false;  // Reset key state
+        } else if (gp.keyH.downPressed) {
+            commandNum = (commandNum == 1) ? 0 : 1;
+            gp.keyH.downPressed = false;  // Reset key state
+        }
+
+
+        // YES option
+        String text = "Yes";
+        textX = getXforCenteredtext(text);
+        textY += lineHeight;
+        g2.drawString(text, textX, textY);
+        if (commandNum == 0) {
+            drawCarrot(textX-gp.tileSize/2, textY-gp.tileSize/2, gp.tileSize/2, gp.tileSize/2);
+            if (gp.keyH.enterPressed) {
+                gp.saveLoad.save();
+                commandNum = 0;
+                subState = 0;
+                gp.gameState = gp.titleState;
+
+            }
+        }
+        // NO option
+        text = "No";
+        textX = getXforCenteredtext(text);
+        textY += 40;
+        g2.drawString(text, textX, textY);
+        if (commandNum == 1) {
+            drawCarrot(textX-gp.tileSize/2, textY-gp.tileSize/2, gp.tileSize/2, gp.tileSize/2);
+
+            if (gp.keyH.enterPressed) {
+                commandNum = 0;
+                subState = 0;
+                gp.gameState = gp.titleState;
             }
         }
     }
@@ -601,9 +746,9 @@ public class UI {
             //display text
             g2.setColor(Color.white);
             g2.setFont(g2.getFont().deriveFont(32f));
-            int textX = frameX + 20;
-            int textY = frameY + gp.tileSize/2;
-            final int lineHeight = 64;
+            int textX = frameX + 80;
+            int textY = frameY + gp.tileSize/2+ 48;
+            final int lineHeight = 48;
 
             //labels
             g2.drawString("Level: ",textX,textY);
@@ -622,8 +767,8 @@ public class UI {
             textY +=lineHeight;
 
             //values
-            int tailX = (frameX + frameWidth) - 30;
-            textY = frameY + gp.tileSize/2;
+            int tailX = (frameX + frameWidth) - 80;
+            textY = frameY + gp.tileSize/2 + 48;
             String value;
 
             //level
@@ -671,14 +816,8 @@ public class UI {
 
         
         public void drawSubWindow(int x, int y, int width, int height){
-            Color c = new Color(165, 42 ,42, 200);
-            g2.setColor(c);
-            g2.fillRoundRect(x, y, width, height, 35, 35);
-            
-            c = new Color(255,255,255);
-            g2.setColor(c);
-            g2.setStroke(new BasicStroke(5));
-            g2.drawRoundRect(x+5, y+5, width-10, height-10,25,25);
+            BufferedImage subWindow = Entity.setup("/pics/ui/subWindow.png", width, height);
+            g2.drawImage(subWindow,x,y,width, height, null);
         }
         public void drawPauseScreen(){
             g2.setFont(g2.getFont().deriveFont(Font.PLAIN,80F));
