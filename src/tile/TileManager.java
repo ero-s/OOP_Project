@@ -1,6 +1,5 @@
 package tile;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.io.BufferedReader;
@@ -28,7 +27,9 @@ public class TileManager {
         getTileImage();
         loadMap("/pics/maps/world01.txt", 0);
         loadMap("/pics/maps/world02.txt",1);
-        loadMap("/pics/maps/dungeon02.txt",2);
+        loadMap("/pics/maps/dungeon03.txt",2);
+        loadMap("/pics/maps/dungeon01.txt",3);
+        loadMap("/pics/maps/dungeon02.txt",4);
     }
 
     public void getTileImage() {
@@ -424,7 +425,51 @@ public class TileManager {
         setup(379, "/pics/tiles/master tiles/380.png", false);
         setup(380, "/pics/tiles/master tiles/381.png", false);
         setup(381, "/pics/tiles/master tiles/382.png", false);
-
+        setup(382, "/pics/tiles/master tiles/383.png", false);
+        setup(383, "/pics/tiles/master tiles/384.png", false);
+        setup(384, "/pics/tiles/master tiles/385.png", false);
+        setup(385, "/pics/tiles/master tiles/386.png", false);
+        setup(386, "/pics/tiles/master tiles/387.png", false);
+        setup(387, "/pics/tiles/master tiles/388.png", false);
+        setup(388, "/pics/tiles/master tiles/389.png", false);
+        setup(389, "/pics/tiles/master tiles/390.png", false);
+        setup(390, "/pics/tiles/master tiles/391.png", false);
+        setup(391, "/pics/tiles/master tiles/392.png", false);
+        setup(392, "/pics/tiles/master tiles/393.png", false);
+        setup(393, "/pics/tiles/master tiles/394.png", false);
+        setup(394, "/pics/tiles/master tiles/395.png", false);
+        setup(395, "/pics/tiles/master tiles/396.png", false);
+        setup(396, "/pics/tiles/master tiles/397.png", false);
+        setup(397, "/pics/tiles/master tiles/398.png", false);
+        setup(398, "/pics/tiles/master tiles/399.png", false);
+        setup(399, "/pics/tiles/master tiles/400.png", false);
+        setup(400, "/pics/tiles/master tiles/401.png", false);
+        setup(401, "/pics/tiles/master tiles/402.png", false);
+        setup(402, "/pics/tiles/master tiles/403.png", false);
+        setup(403, "/pics/tiles/master tiles/404.png", false);
+        setup(404, "/pics/tiles/master tiles/405.png", false);
+        setup(405, "/pics/tiles/master tiles/406.png", false);
+        setup(406, "/pics/tiles/master tiles/407.png", false);
+        setup(407, "/pics/tiles/master tiles/408.png", false);
+        setup(408, "/pics/tiles/master tiles/409.png", false);
+        setup(409, "/pics/tiles/master tiles/410.png", false);
+        setup(410, "/pics/tiles/master tiles/411.png", false);
+        setup(411, "/pics/tiles/master tiles/412.png", false);
+        setup(412, "/pics/tiles/master tiles/413.png", false);
+        setup(413, "/pics/tiles/master tiles/414.png", false);
+        setup(414, "/pics/tiles/master tiles/415.png", false);
+        setup(415, "/pics/tiles/master tiles/416.png", false);
+        setup(416, "/pics/tiles/master tiles/417.png", false);
+        setup(417, "/pics/tiles/master tiles/418.png", false);
+        setup(418, "/pics/tiles/master tiles/419.png", false);
+        setup(419, "/pics/tiles/master tiles/420.png", false);
+        setup(420, "/pics/tiles/master tiles/421.png", false);
+        setup(421, "/pics/tiles/master tiles/422.png", false);
+        setup(422, "/pics/tiles/master tiles/423.png", false);
+        setup(423, "/pics/tiles/master tiles/424.png", false);
+        setup(424, "/pics/tiles/master tiles/425.png", false);
+        setup(425, "/pics/tiles/master tiles/426.png", false);
+        setup(426, "/pics/tiles/master tiles/427.png", false);
     }
     
     public void setup(int index, String imagePath, boolean collision) {
