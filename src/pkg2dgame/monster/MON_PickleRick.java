@@ -108,7 +108,7 @@ public class MON_PickleRick extends Entity {
         int yDistance = Math.abs(worldY - gp.player.worldY);
         int tileDistance = (xDistance + yDistance)/gp.tileSize;
 
-        if(!onPath && tileDistance < 5){
+        if(!onPath && tileDistance < 5 && shotCounter == 30){
             int i = new Random().nextInt(100)+1;
             if(i > 50){
                 onPath = true;

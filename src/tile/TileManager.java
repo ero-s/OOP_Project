@@ -23,9 +23,9 @@ public class TileManager {
         getTileImage();
         loadMap("/pics/maps/world01.txt", 0);
         loadMap("/pics/maps/world02.txt",1);
-        loadMap("/pics/maps/dungeon03.txt",2);
-        loadMap("/pics/maps/dungeon01.txt",3);
-        loadMap("/pics/maps/dungeon02.txt",4);
+        loadMap("/pics/maps/dungeon03",2);
+        loadMap("/pics/maps/dungeon01",3);
+        loadMap("/pics/maps/dungeon02",4);
     }
 
     public void getTileImage() {
@@ -37,10 +37,10 @@ public class TileManager {
         setup(5, "/pics/tiles/master tiles/006.png", true);
         setup(6, "/pics/tiles/master tiles/007.png", true);
         setup(7, "/pics/tiles/master tiles/008.png", true);
-        setup(8, "/pics/tiles/master tiles/009.png", true);
-        setup(9, "/pics/tiles/master tiles/010.png", true);
-        setup(10, "/pics/tiles/master tiles/011.png", true);
-        setup(11, "/pics/tiles/master tiles/012.png", true);
+        setup(8, "/pics/tiles/master tiles/009.png", false);
+        setup(9, "/pics/tiles/master tiles/010.png", false);
+        setup(10, "/pics/tiles/master tiles/011.png", false);
+        setup(11, "/pics/tiles/master tiles/012.png", false);
         setup(12, "/pics/tiles/master tiles/013.png", true);
         setup(13, "/pics/tiles/master tiles/014.png", true);
         setup(14, "/pics/tiles/master tiles/015.png", true);
@@ -128,21 +128,21 @@ public class TileManager {
         setup(96, "/pics/tiles/master tiles/097.png", true);
         setup(97, "/pics/tiles/master tiles/098.png", true);
         setup(98, "/pics/tiles/master tiles/099.png", true);
-        setup(99, "/pics/tiles/master tiles/100.png", false);
-        setup(100, "/pics/tiles/master tiles/101.png", false);
-        setup(101, "/pics/tiles/master tiles/102.png", false);
-        setup(102, "/pics/tiles/master tiles/103.png", false);
-        setup(103, "/pics/tiles/master tiles/104.png", false);
-        setup(104, "/pics/tiles/master tiles/105.png", false);
-        setup(105, "/pics/tiles/master tiles/106.png", false);
-        setup(106, "/pics/tiles/master tiles/107.png", false);
-        setup(107, "/pics/tiles/master tiles/108.png", false);
+        setup(99, "/pics/tiles/master tiles/100.png", true);
+        setup(100, "/pics/tiles/master tiles/101.png", true);
+        setup(101, "/pics/tiles/master tiles/102.png", true);
+        setup(102, "/pics/tiles/master tiles/103.png", true);
+        setup(103, "/pics/tiles/master tiles/104.png", true);
+        setup(104, "/pics/tiles/master tiles/105.png", true);
+        setup(105, "/pics/tiles/master tiles/106.png", true);
+        setup(106, "/pics/tiles/master tiles/107.png", true);
+        setup(107, "/pics/tiles/master tiles/108.png", true);
         setup(108, "/pics/tiles/master tiles/109.png", false);
         setup(109, "/pics/tiles/master tiles/110.png", false);
         setup(110, "/pics/tiles/master tiles/111.png", false);
-        setup(111, "/pics/tiles/master tiles/112.png", false);
-        setup(112, "/pics/tiles/master tiles/113.png", false);
-        setup(113, "/pics/tiles/master tiles/114.png", false);
+        setup(111, "/pics/tiles/master tiles/112.png", true);
+        setup(112, "/pics/tiles/master tiles/113.png", true);
+        setup(113, "/pics/tiles/master tiles/114.png", true);
         setup(114, "/pics/tiles/master tiles/115.png", false);
         setup(115, "/pics/tiles/master tiles/116.png", true);
         setup(116, "/pics/tiles/master tiles/117.png", true);
@@ -467,7 +467,6 @@ public class TileManager {
         setup(425, "/pics/tiles/master tiles/426.png", false);
         setup(426, "/pics/tiles/master tiles/427.png", false);
     }
-    
     public void setup(int index, String imagePath, boolean collision) {
         UtilityTool uTool = new UtilityTool();
         try {
@@ -575,7 +574,6 @@ public class TileManager {
         }
         if(drawPath){
             g2.setColor(new Color(255,0,0,70));
-
             for(int i = 0; i < gp.pFinder.pathList.size(); i++){
                 int worldX = gp.pFinder.pathList.get(i).col * gp.tileSize;
                 int worldY = gp.pFinder.pathList.get(i).row * gp.tileSize;
