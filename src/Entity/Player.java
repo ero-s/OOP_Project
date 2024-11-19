@@ -176,11 +176,20 @@ public class Player extends Entity {
                 spriteCounter = 0;
             }
         }
-        if(gp.keyH.shotkeyPressed&&!projectile.alive){
+        if(gp.keyH.shotkeyPressed && !projectile.alive){
             //sets position, direction and user
             projectile.set(worldX, worldY, direction, true, this);
-            //add to array list
-            gp.projectileList.add(projectile);
+            
+            // projectile.subtractResource(this);
+
+
+            //check vacancy
+            for(int i = 0; i < gp.projectile[1].length; i++){
+                if(gp.projectile[gp.currentMap][i] == null){
+                    gp.projectile[gp.currentMap][i] = projectile;
+                    break;
+                }
+            }
         }
         //invincible time for player
         if(invincible){
@@ -313,6 +322,9 @@ public class Player extends Entity {
             int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
             damageMonster(monsterIndex, atkPower);
 
+            int projectileIndex = gp.cChecker.checkEntity(this, gp.projectile);
+            damageProjectile(projectileIndex);
+
             // Restore original position
             worldX = currentWorldX;
             worldY = currentWorldY;
@@ -328,6 +340,13 @@ public class Player extends Entity {
         }
     }
 
+    public void damageProjectile(int i){
+        if(i != 999){
+            Entity projectile = gp.projectile[gp.currentMap][i];
+            projectile.alive = false;
+            // generateParticle(projectile,projectile);
+        }
+    }
 
     public void interactNPC(int i){
         if(gp.keyH.enterPressed){

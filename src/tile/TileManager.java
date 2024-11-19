@@ -27,9 +27,9 @@ public class TileManager {
         getTileImage();
         loadMap("/pics/maps/world01.txt", 0);
         loadMap("/pics/maps/world02.txt",1);
-        loadMap("/pics/maps/dungeon03.txt",2);
-        loadMap("/pics/maps/dungeon01.txt",3);
-        loadMap("/pics/maps/dungeon02.txt",4);
+        loadMap("/pics/maps/dungeon01.txt",2);
+        loadMap("/pics/maps/dungeon02.txt",3);
+        loadMap("/pics/maps/dungeon03.txt",4);
     }
 
     public void getTileImage() {
