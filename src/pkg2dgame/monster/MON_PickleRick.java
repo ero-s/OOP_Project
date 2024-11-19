@@ -1,25 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package pkg2dgame.monster;
 
 import Entity.Entity;
 import java.util.Random;
+
+import object.OBJ_Projectile;
 import pkg2dgame.GamePanel;
 
-/**
- *
- * @author austi
- */
-public class MON_Sigma extends Entity {
+public class MON_PickleRick extends Entity{
     GamePanel gp;
     public int invincibleCounter = 0;  // Counter to reset invincibility after a delay
 
-    public MON_Sigma(GamePanel gp) {
+    public MON_PickleRick(GamePanel gp) {
         super(gp);
         this.gp = gp;
-        name = "Sigma";
+        name = "Pickle Rick";
         speed = 1;
         maxLife = 1000;
         life = maxLife;
@@ -28,6 +22,8 @@ public class MON_Sigma extends Entity {
         atkPower = 2;
         defense = 2;
         exp = 3;
+        projectile = new OBJ_Projectile(gp);
+        projectile.atkPower = 1;
 
         solidArea.x = 16;
         solidArea.y = 32;
@@ -39,14 +35,14 @@ public class MON_Sigma extends Entity {
     }
 
     public void getImage() {
-        up1 = setup("/pics/monsters/Sigma/up1.png", gp.tileSize, gp.tileSize);
-        up2 = setup("/pics/monsters/Sigma/up2.png", gp.tileSize, gp.tileSize);
-        left1 = setup("/pics/monsters/Sigma/left1.png", gp.tileSize, gp.tileSize);
-        left2 = setup("/pics/monsters/Sigma/left2.png", gp.tileSize, gp.tileSize);
-        right1 = setup("/pics/monsters/Sigma/right1.png", gp.tileSize, gp.tileSize);
-        right2 = setup("/pics/monsters/Sigma/right2.png", gp.tileSize, gp.tileSize);
-        down1 = setup("/pics/monsters/Sigma/down1.png", gp.tileSize, gp.tileSize);
-        down2 = setup("/pics/monsters/Sigma/down2.png", gp.tileSize, gp.tileSize);
+        up1 = setup("/pics/monsters/PickleRick/up1.png", gp.tileSize, gp.tileSize);
+        up2 = setup("/pics/monsters/PickleRick/up2.png", gp.tileSize, gp.tileSize);
+        left1 = setup("/pics/monsters/PickleRick/left1.png", gp.tileSize, gp.tileSize);
+        left2 = setup("/pics/monsters/PickleRick/left2.png", gp.tileSize, gp.tileSize);
+        right1 = setup("/pics/monsters/PickleRick/right1.png", gp.tileSize, gp.tileSize);
+        right2 = setup("/pics/monsters/PickleRick/right2.png", gp.tileSize, gp.tileSize);
+        down1 = setup("/pics/monsters/PickleRick/down1.png", gp.tileSize, gp.tileSize);
+        down2 = setup("/pics/monsters/PickleRick/down2.png", gp.tileSize, gp.tileSize);
     }
 
     @Override
@@ -68,6 +64,11 @@ public class MON_Sigma extends Entity {
         gp.cChecker.checkTile(this);  // Check tile collision
         gp.cChecker.checkEntity(this, gp.npc);  // Check NPC collision
         gp.cChecker.checkPlayer(this);  // Check collision with the player
+
+        boolean contactPlayer = gp.cChecker.checkPlayer(this);
+        if(this.type == 2 && contactPlayer){
+            damagePlayer(atkPower);
+        }
 
         // Only move if there is no collision
         if (!collisionOn) {
@@ -112,8 +113,6 @@ public class MON_Sigma extends Entity {
             onPath = false;
         }
     }
-
-
     public void setAction() {
         if (onPath) {
 //            //set goal Position
@@ -125,6 +124,13 @@ public class MON_Sigma extends Entity {
             int goalRow = (gp.player.worldY + gp.player.solidArea.y)/gp.tileSize;
 
             searchPath(goalCol, goalRow);
+
+            int i = new Random().nextInt(200) + 1;
+            if (i > 99 && !projectile.alive && shotCounter == 0) {
+                projectile.set(worldX, worldY, direction, true, this);
+                gp.projectileList.add(projectile);
+            }
+
         }
         else {
             // Decide movement direction every 120 frames
@@ -145,6 +151,8 @@ public class MON_Sigma extends Entity {
                 actionLockCounter = 0;
             }
         }
+
+
     }
 
     public void damageReaction() {
@@ -153,4 +161,3 @@ public class MON_Sigma extends Entity {
 
     }
 }
-

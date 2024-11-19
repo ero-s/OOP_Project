@@ -7,13 +7,7 @@ public class IT_ChopTree extends InteractiveTile {
     public IT_ChopTree(GamePanel gp, int col, int row) {
         super(gp, col, row);
         this.gp = gp;
-//        collisionOn = true;
-//        solidArea.x = 64;
-//        solidArea.y = 120;
-//        solidArea.width = 64;
-//        solidArea.height = 64;
-//        solidAreaDefaultX = solidArea.x;
-//        solidAreaDefaultY = solidArea.y;
+        setCollisionArea(16,16,32,32,32,32);
         // Load image for the tree
         down1 = setup("/pics/tile_interactive/it_tree.png", gp.tileSize, gp.tileSize);
         destructible = true; // Mark tree as destructible

@@ -75,6 +75,19 @@ public class Projectile extends Entity{
             }
         }
 
+        if (user != gp.player) {  // Ensure monsters are present
+            boolean contactPlayer = gp.cChecker.checkPlayer(this);
+
+            // If a monster is hit, deal damage and deactivate the projectile
+            if (!gp.player.invincible && contactPlayer) {
+                damagePlayer(atkPower);
+                alive = false;
+                return;
+            }
+        }
+
+
+
         // Move the projectile based on direction
         switch (direction) {
             case "up": worldY -= speed; break;
@@ -99,6 +112,8 @@ public class Projectile extends Entity{
             spriteNum = (spriteNum == 1) ? 2 : 1;
             spriteCounter = 0;
         }
+
+
     }
 
 

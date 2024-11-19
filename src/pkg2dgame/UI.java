@@ -99,6 +99,7 @@ public class UI {
         //character state
         if (gp.gameState == gp.characterState) {
             drawCharacterScreen();
+            drawInventory();
         }
         //option
         if (gp.gameState == gp.optionState) {
@@ -129,6 +130,35 @@ public class UI {
             }
         }
     }
+        public void drawInventory(){
+            //frame slot
+            int frameX = gp.tileSize * 8;
+            int frameY = gp.tileSize;
+            int frameWidth = gp.tileSize * 6;
+            int frameHeight = gp.tileSize * 5;
+            drawSubWindow(frameX, frameY, frameWidth, frameHeight);
+
+            // SLOT
+            final int slotXStart = frameX + gp.tileSize + 32;
+            final int slotYStart = frameY + gp.tileSize + 16;
+
+            int slotX = slotXStart;
+            int slotY = slotYStart;
+
+            // CURSOR
+            int cursorX = slotXStart + (gp.tileSize/2 * slotCol);
+            int cursorY = slotYStart + (gp.tileSize/2 * slotRow);
+
+            int cursorWidth = gp.tileSize/2;
+            int cursorHeight = gp.tileSize/2;
+
+            // DRAW CURSOR
+            g2.setColor(Color.white);
+            g2.setStroke(new BasicStroke(3));
+
+            g2.drawRoundRect(cursorX, cursorY, cursorWidth, cursorHeight, 10, 10);
+
+        }
         public void drawPlayerLife(){
 //            gp.player.maxLife = 10;
 //            gp.player.life = 10;
@@ -702,7 +732,6 @@ public class UI {
             gp.keyH.downPressed = false;  // Reset key state
         }
 
-
         // YES option
         String text = "Yes";
         textX = getXforCenteredtext(text);
@@ -715,9 +744,9 @@ public class UI {
                 commandNum = 0;
                 subState = 0;
                 gp.gameState = gp.titleState;
-
             }
         }
+
         // NO option
         text = "No";
         textX = getXforCenteredtext(text);

@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Objects;
 import javax.imageio.ImageIO;
 import pkg2dgame.GamePanel;
 import pkg2dgame.UtilityTool;
@@ -14,15 +15,11 @@ import pkg2dgame.UtilityTool;
 public class TileManager {
     GamePanel gp;
     public Tile[] tile;
-    public int mapTileNum[][][];
-    public final int screenX = 0, screenY = 0;
-    Graphics2D g2;
-    
-    
+    public int[][][] mapTileNum;
+    boolean drawPath = true;
 
     public TileManager(GamePanel gp) {
         this.gp = gp;
-
         tile = new Tile[500];
         mapTileNum = new int[gp.maxMap][gp.maxWorldCol][gp.maxWorldRow];
         getTileImage();
@@ -431,7 +428,7 @@ public class TileManager {
         UtilityTool uTool = new UtilityTool();
         try {
             tile[index] = new Tile();
-            tile[index].image = ImageIO.read(getClass().getResourceAsStream(imagePath));
+            tile[index].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(imagePath)));
             tile[index].image = uTool.scaleImage(tile[index].image, gp.tileSize, gp.tileSize);
             tile[index].collision = collision;
 
@@ -444,9 +441,6 @@ public class TileManager {
             e.printStackTrace();
         }
     }
-
-
-
     public void loadMap(String filePath, int map) {
         try {
             InputStream is = getClass().getResourceAsStream(filePath);
@@ -474,8 +468,6 @@ public class TileManager {
             e.printStackTrace();
         }
     }
-
-
     public void draw(Graphics2D g2) {
         int worldCol = 0, worldRow = 0;
 
@@ -514,7 +506,7 @@ public class TileManager {
 //                    g2.drawRect(collisionBoxX, collisionBoxY, collisionBoxWidth, collisionBoxHeight);
 //                }
             }
-
+//
 //            // Now draw the player's collision area
 //            int entityScreenX = gp.player.worldX - gp.player.screenX;
 //            int entityScreenY = gp.player.worldY - gp.player.screenY;
@@ -535,6 +527,17 @@ public class TileManager {
             if (worldCol == gp.maxWorldCol) {
                 worldCol = 0;
                 worldRow++;
+            }
+        }
+        if(drawPath){
+            g2.setColor(new Color(255,0,0,70));
+
+            for(int i = 0; i < gp.pFinder.pathList.size(); i++){
+                int worldX = gp.pFinder.pathList.get(i).col * gp.tileSize;
+                int worldY = gp.pFinder.pathList.get(i).row * gp.tileSize;
+                int screenX = worldX - gp.player.worldX + gp.player.screenX;
+                int screenY = worldY - gp.player.worldY + gp.player.screenY;
+                g2.fillRect(screenX, screenY, gp.tileSize, gp.tileSize);
             }
         }
     }
