@@ -4,15 +4,8 @@
  */
 package pkg2dgame;
 
-import Entity.Andres;
-import Entity.NPC_Khai;
-import Entity.NPC_Pugtato;
 import object.OBJ_Circus;
-import object.OBJ_Key;
-import object.OBJ_Wheat;
-import object.OBJ_Door;
-import pkg2dgame.monster.MON_PickleRick;
-import pkg2dgame.monster.MON_Sigma;
+import pkg2dgame.monster.*;
 import tile_interactive.IT_ChopTree;
 
 /**
@@ -26,13 +19,27 @@ public class AssetSetter {
         this.gp = gp;
     }
     
+    public void setMonsterTile(int mapNum, int ID, int x, int y){
+        gp.monster[mapNum][ID].worldX = gp.tileSize * x;
+        gp.monster[mapNum][ID].worldY = gp.tileSize * y;
+    }
+
+    public void setObjectTile(int mapNum, int ID, int x, int y){
+        gp.obj[mapNum][ID].worldX = gp.tileSize * x;
+        gp.obj[mapNum][ID].worldY = gp.tileSize * y;
+    }
+
+    public void setNPCTile(int mapNum, int ID, int x, int y){
+        gp.monster[mapNum][ID].worldX = gp.tileSize * x;
+        gp.monster[mapNum][ID].worldY = gp.tileSize * y;
+    }
+
     public void setObject(){
         int i = 0;
         int mapNum = 0;
-//        gp.obj[mapNum][0] = new OBJ_Circus(gp);
-//        gp.obj[mapNum][0].worldX = 21 * gp.tileSize;
-//        gp.obj[mapNum][0].worldY = 21* gp.tileSize;
-//        i++;
+        gp.obj[mapNum][0] = new OBJ_Circus(gp);
+        setObjectTile(mapNum, i, 21, 21);
+        i++;
 //
 //        gp.obj[1] = new OBJ_Wheat(gp);
 //        gp.obj[1].worldX = 20 *gp.tileSize;
@@ -46,25 +53,44 @@ public class AssetSetter {
     public void setNPC(){
         int i = 0;
         int mapNum = 0;
-        gp.npc[0][1] = new NPC_Khai(gp);
-        gp.npc[0][1].worldX = 25 * gp.tileSize;
-        gp.npc[0][1].worldY = 35 * gp.tileSize;
+        // gp.npc[0] = new Andres(gp);
+        // gp.npc[0].worldX = 22 * gp.tileSize;
+        // gp.npc[0].worldY = 21 * gp.tileSize; 
 
         
     }
     public void setMonster(){
         int i = 0;
-        gp.monster[0][i] = new MON_Sigma(gp);
-        gp.monster[0][i].worldX = gp.tileSize * 23;
-        gp.monster[0][i].worldY = gp.tileSize * 23;
+        int mapNum = 0;
+
+        // Map 1
+        gp.monster[mapNum][i] = new MON_Sigma(gp);
+        setMonsterTile(mapNum, i, 23, 23);
         i++;
 
-        gp.monster[0][i] = new MON_PickleRick(gp);
-        gp.monster[0][i].worldX = gp.tileSize * 31;
-        gp.monster[0][i].worldY = gp.tileSize * 36;
+        // Map 2
+        mapNum = 1;
+
+        // Map 3
+        mapNum = 2;
+
+        // Dungeon 1
+        mapNum = 3;
+        gp.monster[mapNum][i] = new MON_JakOLantern(gp);
+        setMonsterTile(mapNum, i, 23, 23);
         i++;
-
-
+        gp.monster[mapNum][i] = new MON_KingJack(gp);
+        setMonsterTile(mapNum, i, 22, 23);
+        i++;
+        gp.monster[mapNum][i] = new MON_PickleRick(gp);
+        setMonsterTile(mapNum, i, 21, 23);
+        i++;
+        gp.monster[mapNum][i] = new MON_Mogger(gp);
+        setMonsterTile(mapNum, i, 20, 23);
+        i++;
+        gp.monster[mapNum][i] = new MON_Mewer(gp);
+        setMonsterTile(mapNum, i, 19, 23);
+        i++;
     }
     public void setInteractiveTile(){
         int i = 0;

@@ -12,14 +12,14 @@ import pkg2dgame.GamePanel;
  *
  * @author austi
  */
-public class MON_PickleRick extends Entity {
+public class MON_KingJack extends Entity {
     GamePanel gp;
     public int invincibleCounter = 0;  // Counter to reset invincibility after a delay
 
-    public MON_PickleRick(GamePanel gp) {
+    public MON_KingJack(GamePanel gp) {
         super(gp);
         this.gp = gp;
-        name = "PickleRick";
+        name = "KingJack";
         speed = 1;
         maxLife = 10;
         life = maxLife;
@@ -39,14 +39,14 @@ public class MON_PickleRick extends Entity {
     }
 
     public void getImage() {
-        up1 = setup("/pics/monsters/PickleRick/up1.png", gp.tileSize, gp.tileSize);
-        up2 = setup("/pics/monsters/PickleRick/up2.png", gp.tileSize, gp.tileSize);
-        left1 = setup("/pics/monsters/PickleRick/left1.png", gp.tileSize, gp.tileSize);
-        left2 = setup("/pics/monsters/PickleRick/left2.png", gp.tileSize, gp.tileSize);
-        right1 = setup("/pics/monsters/PickleRick/right1.png", gp.tileSize, gp.tileSize);
-        right2 = setup("/pics/monsters/PickleRick/right2.png", gp.tileSize, gp.tileSize);
-        down1 = setup("/pics/monsters/PickleRick/down1.png", gp.tileSize, gp.tileSize);
-        down2 = setup("/pics/monsters/PickleRick/down2.png", gp.tileSize, gp.tileSize);
+        up1 = setup("/pics/monsters/KingJack/up1.png", gp.tileSize, gp.tileSize);
+        up2 = setup("/pics/monsters/KingJack/up2.png", gp.tileSize, gp.tileSize);
+        left1 = setup("/pics/monsters/KingJack/left1.png", gp.tileSize, gp.tileSize);
+        left2 = setup("/pics/monsters/KingJack/left2.png", gp.tileSize, gp.tileSize);
+        right1 = setup("/pics/monsters/KingJack/right1.png", gp.tileSize, gp.tileSize);
+        right2 = setup("/pics/monsters/KingJack/right2.png", gp.tileSize, gp.tileSize);
+        down1 = setup("/pics/monsters/KingJack/down1.png", gp.tileSize, gp.tileSize);
+        down2 = setup("/pics/monsters/KingJack/down2.png", gp.tileSize, gp.tileSize);
     }
 
     @Override
