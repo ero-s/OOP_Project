@@ -188,13 +188,8 @@ public class Player extends Entity {
             
             // projectile.subtractResource(this);
 
-            //check vacancy
-            for(int i = 0; i < gp.projectile[1].length; i++){
-                if(gp.projectile[gp.currentMap][i] == null){
-                    gp.projectile[gp.currentMap][i] = projectile;
-                    break;
-                }
-            }
+            //add it to the list
+            gp.projectileList.add(projectile);
 
             shotCounter = 0;
             // gp.playSe(10);
@@ -329,9 +324,6 @@ public class Player extends Entity {
             int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
             damageMonster(monsterIndex, atkPower);
 
-            int projectileIndex = gp.cChecker.checkEntity(this, gp.projectile);
-            damageProjectile(projectileIndex);
-
             // Restore original position
             worldX = currentWorldX;
             worldY = currentWorldY;
@@ -344,14 +336,6 @@ public class Player extends Entity {
             spriteNum = 1;
             spriteCounter = 0;
             gp.keyH.jPressed = false; // Reset attack key press
-        }
-    }
-
-    public void damageProjectile(int i){
-        if(i != 999){
-            Entity projectile = gp.projectile[gp.currentMap][i];
-            projectile.alive = false;
-            // generateParticle(projectile,projectile);
         }
     }
 

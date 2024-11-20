@@ -133,13 +133,8 @@ public class MON_Sigma extends Entity {
             int i = new Random().nextInt(200)+1;
             if(i > 197 && projectile.alive == false && shotCounter == 30){
                 projectile.set(worldX, worldY, direction, true, this);
-
-                for(int ii = 0; i < gp.projectile[1].length; ii++){
-                    if(gp.projectile[gp.currentMap][ii] == null){
-                        gp.projectile[gp.currentMap][ii] = projectile;
-                        break;
-                    }
-                }
+                gp.projectileList.add(projectile);
+                shotCounter = 0;
             }
         }
         else {
