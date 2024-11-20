@@ -199,8 +199,6 @@ public class UI {
 
                 BufferedImage carrot = Entity.setup("/pics/ui/carrot.png", gp.tileSize, gp.tileSize);
 
-
-
                 g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 96F));
                 String text = "Harvest Fest:";
                 String text2 = "Tale of Two Brothers";

@@ -67,7 +67,11 @@ public class MON_Sigma extends Entity {
         collisionOn = false;
         gp.cChecker.checkTile(this);  // Check tile collision
         gp.cChecker.checkEntity(this, gp.npc);  // Check NPC collision
-        gp.cChecker.checkPlayer(this);  // Check collision with the player
+
+        boolean contactPlayer = gp.cChecker.checkPlayer(this);
+        if(this.type == 2 && contactPlayer){
+            damagePlayer(atkPower);
+        }
 
         // Only move if there is no collision
         if (!collisionOn) {

@@ -57,8 +57,14 @@ public class EventHandler {
             
 //            if(hit(0,24,21,"any")==true){damagePit(gp.dialogueState);}
 //            if(hit(0,20,21,"any")==true){healingPool(gp.dialogueState);}
+
+            // spring to autumn
             if(hit(0,31,41,"any")){teleport(1,9,44);}
             else if(hit(1,8,45,"any")){teleport(0,29,41);}
+
+            // spring to castle
+            if(hit(0,4,10,"any")){teleport(3,24,6);}
+            else if(hit(3,30,30,"any")){teleport(0,4,10);}
 
             if(hit(1,14,2,"any")){teleport(2,18,7);}
         }

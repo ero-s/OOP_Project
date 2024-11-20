@@ -15,7 +15,6 @@ public class Player extends Entity {
     KeyHandler keyH;
     
     public final int screenX, screenY;
-//    public int hasKey = 0;
     int standCounter = 0;
     public ArrayList <Entity> inventory = new ArrayList<Entity>();
     public final int inventorySize = 20;
@@ -67,6 +66,7 @@ public class Player extends Entity {
     }
 
     public void setDefaultPositions(){
+        gp.currentMap = 0;
         worldX = gp.tileSize * 29;
         worldY = gp.tileSize * 41;
         direction = "down";
@@ -146,7 +146,7 @@ public class Player extends Entity {
             //check event
             gp.eHandler.checkEvent();
             
-            //if collision isfalse, player can move
+            //if collision is false, player can move
             if(!collisionOn && !keyH.enterPressed){
                 switch(direction){
                     case "up":{
