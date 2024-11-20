@@ -6,6 +6,8 @@ package pkg2dgame.monster;
 
 import Entity.Entity;
 import java.util.Random;
+
+import object.OBJ_Projectile;
 import pkg2dgame.GamePanel;
 
 /**
@@ -28,6 +30,7 @@ public class MON_PickleRick extends Entity {
         atkPower = 2;
         defense = 2;
         exp = 3;
+        projectile = new OBJ_Projectile(gp);
 
         solidArea.x = 16;
         solidArea.y = 32;
@@ -69,6 +72,11 @@ public class MON_PickleRick extends Entity {
         gp.cChecker.checkEntity(this, gp.npc);  // Check NPC collision
         gp.cChecker.checkPlayer(this);  // Check collision with the player
 
+        boolean contactPlayer = gp.cChecker.checkPlayer(this);
+        if(this.type == 2 && contactPlayer){
+            damagePlayer(atkPower);
+        }
+
         // Only move if there is no collision
         if (!collisionOn) {
             switch (direction) {
@@ -96,32 +104,66 @@ public class MON_PickleRick extends Entity {
                 spriteNum = 1;
             }
             spriteCounter = 0;
+        } int xDistance = Math.abs(worldX - gp.player.worldX);
+        int yDistance = Math.abs(worldY - gp.player.worldY);
+        int tileDistance = (xDistance + yDistance)/gp.tileSize;
+
+        if(!onPath && tileDistance < 5){
+            int i = new Random().nextInt(100)+1;
+            if(i > 50){
+                onPath = true;
+            }
+        }
+        if(onPath && tileDistance > 10){
+            onPath = false;
         }
     }
-
     public void setAction() {
-        // Decide movement direction every 120 frames
-        actionLockCounter++;
-        if (actionLockCounter == 120) {
-            Random random = new Random();
-            int i = random.nextInt(100) + 1;
+        if (onPath) {
+//            //set goal Position
+//            int goalCol = 4;
+//            int goalRow = 11;
 
-            if (i <= 25) {
-                direction = "up";
-            } else if (i > 25 && i <= 50) {
-                direction = "down";
-            } else if (i > 50 && i <= 75) {
-                direction = "left";
-            } else {
-                direction = "right";
+            //set to follow player
+            int goalCol = (gp.player.worldX + gp.player.solidArea.x)/gp.tileSize;
+            int goalRow = (gp.player.worldY + gp.player.solidArea.y)/gp.tileSize;
+
+            searchPath(goalCol, goalRow);
+
+            int i = new Random().nextInt(200) + 1;
+            if (i > 99 && !projectile.alive ) {
+                projectile.set(worldX, worldY, direction, true, this);
+                gp.projectileList.add(projectile);
             }
-            actionLockCounter = 0;
+
         }
+        else {
+            // Decide movement direction every 120 frames
+            actionLockCounter++;
+            if (actionLockCounter == 120) {
+                Random random = new Random();
+                int i = random.nextInt(100) + 1;
+
+                if (i <= 25) {
+                    direction = "up";
+                } else if (i > 25 && i <= 50) {
+                    direction = "down";
+                } else if (i > 50 && i <= 75) {
+                    direction = "left";
+                } else {
+                    direction = "right";
+                }
+                actionLockCounter = 0;
+            }
+        }
+
+
     }
 
     public void damageReaction() {
         actionLockCounter = 0;
-        direction = gp.player.direction;
+        onPath = true;
+
     }
 }
 

@@ -5,6 +5,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
 import javax.imageio.ImageIO;
+
+import ai.Node;
 import pkg2dgame.GamePanel;
 import pkg2dgame.UtilityTool;
 
@@ -32,13 +34,14 @@ public class Entity {
     public boolean alive = true;
     public boolean dead = false;
     boolean hpBarOn = false;
+    public boolean onPath = false;
 
     // collision display
-    public Rectangle solidArea = new Rectangle(32,32,32,32);
+    public Rectangle solidArea = new Rectangle(64,64,64,64);
     public int xOffset;
     public int yOffset;
-    public int solidAreaDefaultX = 32;
-    public int solidAreaDefaultY = 32;
+    public int solidAreaDefaultX = 64;
+    public int solidAreaDefaultY = 64;
 
     // counter
     public int actionLockCounter = 0;
@@ -85,9 +88,7 @@ public class Entity {
                 break;
         }
     }
-
-    public void update(){
-        setAction();
+    public void checkCollision(){
         collisionOn = false;
         gp.cChecker.checkTile(this);
         gp.cChecker.checkObject(this, false);
@@ -97,6 +98,12 @@ public class Entity {
         if(this.type == 2 && contactPlayer){
             damagePlayer(atkPower);
         }
+    }
+
+    public void update(){
+        setAction();
+        checkCollision();
+
         String dialogues[] = new String[20];
         int dialogueIndex = 0;
 
@@ -144,7 +151,6 @@ public class Entity {
             gp.player.invincible = true;
         }
     }
-
     public void draw(Graphics2D g2) {
         // Reset to fully opaque by default for each draw call
         resetAlpha(g2);
@@ -190,14 +196,23 @@ public class Entity {
 
                 // Draw the collision box
                 g2.setColor(Color.red);
-                int collisionBoxX = screenX + solidArea.x;
-                int collisionBoxY = screenY + solidArea.y;
-                g2.drawRect(collisionBoxX, collisionBoxY, solidArea.width, solidArea.height);
+                int collisionBoxX = screenX + this.solidAreaDefaultX;
+                int collisionBoxY = screenY + this.solidAreaDefaultY;
+                g2.drawRect(collisionBoxX, collisionBoxY, this.solidArea.width, this.solidArea.height);
 
                 // Reset opacity after each draw to avoid affecting other elements
                 resetAlpha(g2);
             }
         }
+    }
+
+    public void setCollisionArea(int x, int y, int width, int height, int defaultX, int defaultY){
+        solidArea.x = x;
+        solidArea.y = y;
+        solidArea.width = width;
+        solidArea.height = height;
+        solidAreaDefaultX = defaultX;
+        solidAreaDefaultY = defaultY;
     }
 
 //    public boolean isDying = false;
@@ -235,8 +250,6 @@ public class Entity {
     public void resetAlpha(Graphics2D g2) {
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
     }
-
-
     public void changeAlpha(Graphics2D g2, float alphaValue){
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alphaValue));
     }
@@ -257,7 +270,68 @@ public class Entity {
 
         return image;
     }
+    public void searchPath(int goalCol, int goalRow) {
+        int startCol = (worldX + solidArea.x)/gp.tileSize;
+        int startRow = (worldY + solidArea.y)/gp.tileSize;
+        gp.pFinder.setNodes(startCol, startRow, goalCol, goalRow);
 
+        if(gp.pFinder.search()){
+            System.out.println("Path is found");
+            // next worldX and worldY
+            int nextX = gp.pFinder.pathList.getFirst().col * gp.tileSize;
+            int nextY = gp.pFinder.pathList.getFirst().row * gp.tileSize;
 
+            //entity's solid area position
+            int enLeftX = worldX + solidArea.x;
+            int enRightX = worldX + solidArea.x + solidArea.width;
+            int enTopY = worldY + solidArea.y;
+            int enBottomY = worldY + solidArea.y + solidArea.height;
 
+            if(enTopY > nextY && enLeftX >= nextX & enRightX < nextX + gp.tileSize){
+                direction = "up";
+            }
+            else if(enTopY < nextY && enLeftX >= nextX & enRightX < nextX + gp.tileSize){
+                direction = "down";
+            }
+            else if(enTopY >= nextY && enBottomY < nextY + gp.tileSize){
+                if(enLeftX > nextX){ direction = "left";
+                }if(enLeftX < nextX) direction = "right";
+            }
+            else if(enTopY > nextY && enLeftX > nextX){
+                direction = "up";
+                checkCollision();
+                if(collisionOn){
+                    direction = "left";
+                }
+            }
+            else if(enTopY > nextY && enLeftX < nextX){
+                direction = "up";
+                checkCollision();
+                if(collisionOn){
+                    direction = "right";
+                }
+            }
+            else if(enTopY < nextY && enLeftX > nextX){
+                direction = "down";
+                checkCollision();
+                if(collisionOn){
+                    direction = "left";
+                }
+            }
+            else if(enTopY < nextY && enLeftX < nextX){
+                direction = "down";
+                checkCollision();
+                if(collisionOn){
+                    direction = "right";
+                }
+            }
+
+            //npc stops when reaching player
+//            int nextCol = gp.pFinder.pathList.getFirst().col;
+//            int nextRow = gp.pFinder.pathList.getFirst().row;
+//            if(nextCol == goalCol && nextRow == goalRow){
+//                onPath = false;
+//            }
+        }
+    }
 }

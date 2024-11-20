@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+
 import object.OBJ_Projectile;
 import pkg2dgame.GamePanel;
 import pkg2dgame.KeyHandler;
@@ -15,6 +17,8 @@ public class Player extends Entity {
     public final int screenX, screenY;
 //    public int hasKey = 0;
     int standCounter = 0;
+    public ArrayList <Entity> inventory = new ArrayList<Entity>();
+    public final int inventorySize = 20;
 
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
 
@@ -39,6 +43,8 @@ public class Player extends Entity {
         setDefaultValues();
         getPlayerImage();
         getPlayerAttackImage();
+//        setItems();
+
     }
     
     public void setDefaultValues() {
@@ -65,11 +71,15 @@ public class Player extends Entity {
         worldY = gp.tileSize * 41;
         direction = "down";
     }
+
+//      To be continued// gotta consult them first
+//    public void setItems(){
+//
+//    }
     public void restoreLife(){
         life = maxLife;
         invincible = false;
     }
-
     public void getPlayerImage() {
 
         up1 = setup("/pics/player/Hakobe/Walk back-1.png", gp.tileSize, gp.tileSize);
@@ -81,7 +91,6 @@ public class Player extends Entity {
         down1 = setup("/pics/player/Hakobe/Walk front-1.png", gp.tileSize, gp.tileSize);
         down2 = setup("/pics/player/Hakobe/Walk front-2.png", gp.tileSize, gp.tileSize);
     }
-
     public void getPlayerAttackImage() {
 
         attackUp1 = setup("/pics/player/AttackHakobe/up2.png", gp.tileSize, gp.tileSize*2);
@@ -93,10 +102,6 @@ public class Player extends Entity {
         attackDown1 = setup("/pics/player/AttackHakobe/down1.png", gp.tileSize, gp.tileSize*2);
         attackDown2 = setup("/pics/player/AttackHakobe/down2.png", gp.tileSize, gp.tileSize*2);
     }
-    
-    /**
-     *
-     */
     public void update() {
         if(keyH.jPressed) {//attack control
             attack();
@@ -176,12 +181,12 @@ public class Player extends Entity {
                 spriteCounter = 0;
             }
         }
-        if(gp.keyH.shotkeyPressed && !projectile.alive){
+
+        if(gp.keyH.shotkeyPressed && !projectile.alive && shotCounter == 30){ // && projectile.haveResource(this) == true
             //sets position, direction and user
             projectile.set(worldX, worldY, direction, true, this);
             
             // projectile.subtractResource(this);
-
 
             //check vacancy
             for(int i = 0; i < gp.projectile[1].length; i++){
@@ -190,7 +195,11 @@ public class Player extends Entity {
                     break;
                 }
             }
+
+            shotCounter = 0;
+            // gp.playSe(10);
         }
+
         //invincible time for player
         if(invincible){
             invincibleCounter++;
@@ -231,7 +240,7 @@ public class Player extends Entity {
                 gp.monster[gp.currentMap][i].life -= damage;
                 gp.ui.showMessage(damage + " damage!");
                 gp.monster[gp.currentMap][i].invincible = true;
-//                gp.monster[i].damageReaction();
+                gp.monster[gp.currentMap][i].damageReaction();
                 System.out.println("Monster life after damage: " + gp.monster[gp.currentMap][i].life);
 
                 if (gp.monster[gp.currentMap][i].life <= 0) {
@@ -262,7 +271,6 @@ public class Player extends Entity {
                                     +"You feel stronger!";
         }
     }
-
     public void pickUpObject(int i){
         if(i != 999){
 //            String objName = gp.obj[i].name;
@@ -279,7 +287,6 @@ public class Player extends Entity {
 //            }
         }
     }
-
     public void attack() {
         spriteCounter++;
 
@@ -289,7 +296,7 @@ public class Player extends Entity {
         }
 
         // Display second attack frame
-        else if (spriteCounter > 10 && spriteCounter <= 30) {
+        else if (spriteCounter <= 30) {
             spriteNum = 2;
 
             // Save current player collision area for attack detection
@@ -356,7 +363,6 @@ public class Player extends Entity {
             }
         }
     }
-
     public void draw(Graphics2D g2) {
         BufferedImage image = null;
         int tempScreenX = screenX;

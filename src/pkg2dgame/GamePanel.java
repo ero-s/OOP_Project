@@ -18,6 +18,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import javax.swing.JPanel;
 
+import ai.Pathfinder;
 import data.SaveLoad;
 import tile.TileManager;
 import tile_interactive.InteractiveTile;
@@ -36,6 +37,7 @@ public class GamePanel extends JPanel implements Runnable{
     public SaveLoad saveLoad; // for save
     Config config = new Config(this);
     Thread getGameThread;
+    public Pathfinder pFinder = new Pathfinder(this);
     
     //world settings
     public final int maxWorldCol = 50;
@@ -88,10 +90,8 @@ public class GamePanel extends JPanel implements Runnable{
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
-
         saveLoad = new SaveLoad(this);
     }
-    
     public void setupGame(){
         GamePanel gp;
         aSetter.setObject();
@@ -244,9 +244,9 @@ public class GamePanel extends JPanel implements Runnable{
             }
 
             // Add projectiles to `entityList`
-            for (int i = 0; i < projectileList.size(); i++) {
-                if (projectileList.get(i) != null) {
-                    entityList.add(projectileList.get(i));
+            for (int i = 0; i < projectile[1].length; i++) {
+                if (projectile[currentMap][i] == null) {
+                    entityList.add(projectile[currentMap][i]);
                 }
             }
 
