@@ -57,7 +57,14 @@ public class Entity {
     public int type; //type of entity 1: npc, 2:monster
     public int level, atkPower, defense, exp, nextLevelExp, coin, mana, useCost;
     public Projectile projectile;
+    public Entity currentWeapon;
+    public Entity currentShield;
+    public int attack, defPower;
 
+    //item attributes
+    public int attackValue;
+    public int defenseValue;
+    public String description = "";
 
     public Entity(GamePanel gp){
         this.gp = gp;
