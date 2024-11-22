@@ -19,6 +19,7 @@ public class Sound {
     
     public Sound(){
         soundURL[0] = getClass().getResource("/pics/sound/littleroot_town.wav");
+        soundURL[1] = getClass().getResource("/pics/sound/Confirm 1.wav");
     }
     
     public void setFile(int i){
