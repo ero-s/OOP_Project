@@ -24,7 +24,7 @@ public class MON_JakOLantern extends Entity {
         maxLife = 10;
         life = maxLife;
         invincible = false;  // Monster starts without invincibility
-        type = 2;
+        type = type_monster;
         atkPower = 2;
         defense = 2;
         exp = 3;

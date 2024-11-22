@@ -39,8 +39,9 @@ public class Player extends Entity {
         solidArea.width = 24;
         solidArea.height = 12;
 
-        attackArea.width = 32;
-        attackArea.height = 32;
+        // attack area removed - equip and use items #28
+        // attackArea.width = 32;
+        // attackArea.height = 32;
         
         setDefaultValues();
         getPlayerImage();
@@ -79,6 +80,7 @@ public class Player extends Entity {
         inventory.add(new OBJ_Key(gp));
     }
     public int getAttack(){
+        attackArea = currentWeapon.attackArea;
         return attack = atkPower * currentWeapon.attackValue;
     }
 
@@ -364,11 +366,45 @@ public class Player extends Entity {
         }
     }
 
+    public void pickUpObject(int i){
+        if(i != 999){
+            String text;
+            if(inventory.size() != maxInventorySize){
+                inventory.add(gp.obj[i]);
+                text = "Got a " + gp.obj[i].name;
+            } else {
+                text = "You cannot carry any more!";
+            }
+            gp.ui.addMessage(text);
+            gp.obj[i] = null;
+        }
+    }
+
     public void interactNPC(int i){
         if(gp.keyH.enterPressed){
             if(i != 999){
                 gp.gameState = gp.dialogueState;
                 gp.npc[gp.currentMap][i].speak();
+            }
+        }
+    }
+
+    public void selectItem(){
+        int itemIndex = gp.ui.getItemIndexOnSlot();
+        if(itemIndex < inventory.size()){
+            Entity selectedItem = inventory.get(itemIndex);
+
+            if(selectedItem.type == type_sword || selectedItem.type == type_axe){
+                currentWeapon = selectedItem;
+                attack = getAttack();
+            }
+            if(selectedItem.type == type_shield){
+                currentShield = selectedItem;
+                defPower = getDefense();
+            }
+            if(selectedItem.type == type_consumable){
+                selectedItem.use(this);
+                inventory.remove(itemIndex);
             }
         }
     }

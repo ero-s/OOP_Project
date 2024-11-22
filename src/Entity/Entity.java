@@ -54,7 +54,7 @@ public class Entity {
     public int maxLife;
     public int life;
     public String name;
-    public int type; //type of entity 1: npc, 2:monster
+    
     public int level, atkPower, defense, exp, nextLevelExp, coin, mana, useCost;
     public Projectile projectile;
     public Entity currentWeapon;
@@ -65,6 +65,17 @@ public class Entity {
     public int attackValue;
     public int defenseValue;
     public String description = "";
+
+
+    //type
+    public int type; //type of entity 1: npc, 2:monster
+    public final int type_player = 0;
+    public final int type_npc = 1;
+    public final int type_monster = 2;
+    public final int type_sword = 3;
+    public final int type_axe = 4;
+    public final int type_shield = 5;
+    public final int type_consumable = 6;
 
     public Entity(GamePanel gp){
         this.gp = gp;
@@ -93,6 +104,8 @@ public class Entity {
                 break;
         }
     }
+
+    public void use(Entity entity){}
     public void checkCollision(){
         collisionOn = false;
         gp.cChecker.checkTile(this);

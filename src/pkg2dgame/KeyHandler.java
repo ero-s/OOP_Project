@@ -4,6 +4,7 @@
  */
 package pkg2dgame;
 
+import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -219,6 +220,10 @@ public class KeyHandler implements KeyListener{
                 gp.ui.slotCol++;
                 gp.playSE(1);
             }
+        }
+
+        if(code == KeyEvent.VK_ENTER){
+            gp.player.selectItem();
         }
     }
     public void gameOverState(int code){
