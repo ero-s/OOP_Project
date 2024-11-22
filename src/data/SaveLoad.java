@@ -8,12 +8,22 @@ public class SaveLoad {
     public ObjectOutputStream oos;
     public DataStorage ds;
     public ObjectInputStream ois;
-    public boolean hasSave = false;
+    //private boolean hasSave;
+    private boolean existingSave;
 
     public SaveLoad(GamePanel gp) {
         this.gp = gp;
     }
     // in GamePanel SaveLoad saveLoad
+
+    public boolean getHasSave() {
+        load(); // does this because we can't get the shits from load if we dont.
+        return existingSave;
+    }
+
+    public void setHasSave(boolean existingSave) {
+        this.existingSave = existingSave;
+    }
 
     public void save() {
         try {
@@ -32,11 +42,11 @@ public class SaveLoad {
             ds.worldX = gp.player.worldX;
             ds.worldY = gp.player.worldY;
             ds.currentMap = gp.currentMap;
-
+            ds.hasSave = true;
             oos.writeObject(ds);
             oos.close();
             System.out.println("Game saved successfully.");
-            hasSave = true;
+
 
         } catch (Exception e) {
             System.out.println("Save Exception! "+e);
@@ -45,6 +55,21 @@ public class SaveLoad {
     }
 
     public void load() {
+        File saveFile = new File("src/data/save.dat");
+
+        if (!saveFile.exists()) {
+            System.out.println("No save file found.");
+            existingSave = false; // No save file means no existing save
+            return;
+        }
+
+        // Check if the file is empty
+        if (saveFile.length() == 0) {
+            System.out.println("The save file is empty.");
+            existingSave = false; // No valid save data
+            return;
+        }
+
         try {
             ois = new ObjectInputStream(new FileInputStream(new File("src/data/save.dat")));
 
@@ -64,6 +89,9 @@ public class SaveLoad {
             gp.player.worldX = ds.worldX;
             gp.player.worldY = ds.worldY;
             gp.currentMap = ds.currentMap;
+
+            gp.hasSave = ds.hasSave;
+            setHasSave(gp.hasSave);
 
             System.out.println("Game loaded successfully.");
 

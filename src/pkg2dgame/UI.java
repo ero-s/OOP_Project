@@ -234,7 +234,7 @@ public class UI {
                     if(gp.keyH.enterPressed){
                         gp.player.setDefaultValues();
                         gp.saveLoad.save();
-                        gp.saveLoad.hasSave = false;
+                        //gp.saveLoad.setHasSave(true);
                     }
                 }
 

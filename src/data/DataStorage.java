@@ -6,4 +6,6 @@ public class DataStorage implements Serializable {
 
     //PLAYER STATS
     int level, atkPower, defense,  exp, nextLevelExp, coin, mana, useCost, worldX, worldY, currentMap;
+
+    boolean hasSave = false;
 }
