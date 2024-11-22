@@ -21,7 +21,7 @@ public class MON_Sigma extends Entity {
         this.gp = gp;
         name = "Sigma";
         speed = 1;
-        maxLife = 1000;
+        maxLife = 5000;
         life = maxLife;
         invincible = false;  // Monster starts without invincibility
         type = 2;

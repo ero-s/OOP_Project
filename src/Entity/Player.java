@@ -7,6 +7,7 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import object.OBJ_Key;
 import object.OBJ_Projectile;
 import pkg2dgame.GamePanel;
 import pkg2dgame.KeyHandler;
@@ -42,7 +43,7 @@ public class Player extends Entity {
         setDefaultValues();
         getPlayerImage();
         getPlayerAttackImage();
-//        setItems();
+        // setItems();
 
     }
     
@@ -72,10 +73,14 @@ public class Player extends Entity {
         direction = "down";
     }
 
-//      To be continued// gotta consult them first
-//    public void setItems(){
-//
-//    }
+// //      To be continued// gotta consult them first
+//     public void setItems(){
+//         inventory.add(currentWeapon);
+//         inventory.add(currentShield);
+//         inventory.add(new OBJ_Key(gp));
+//         inventory.add(new OBJ_Key(gp));
+//     }
+
     public void restoreLife(){
         life = maxLife;
         invincible = false;

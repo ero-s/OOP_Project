@@ -4,11 +4,8 @@
  */
 package pkg2dgame;
 
-import object.OBJ_Projectile;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.security.Key;
 
 /**
  *
@@ -199,24 +196,28 @@ public class KeyHandler implements KeyListener{
         if (code == KeyEvent.VK_W) {
             if (gp.ui.slotRow != 0) {
                 gp.ui.slotRow--;
+                gp.playSE(1);
             }
         }
 
         if (code == KeyEvent.VK_A) {
             if (gp.ui.slotCol != 0) {
                 gp.ui.slotCol--;
+                gp.playSE(1);
             }
         }
 
         if (code == KeyEvent.VK_S) {
             if (gp.ui.slotRow != 4) {
                 gp.ui.slotRow++;
+                gp.playSE(1);
             }
         }
 
         if (code == KeyEvent.VK_D) {
             if (gp.ui.slotCol != 5) {
                 gp.ui.slotCol++;
+                gp.playSE(1);
             }
         }
     }

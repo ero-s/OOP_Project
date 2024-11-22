@@ -5,8 +5,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
 import javax.imageio.ImageIO;
-
-import ai.Node;
 import pkg2dgame.GamePanel;
 import pkg2dgame.UtilityTool;
 
@@ -184,12 +182,25 @@ public class Entity {
 
                     g2.setColor(new Color(255, 0, 40));
                     g2.fillRect(screenX, screenY - 15, (int) hpBarValue, 10);
+
+                    hpBarCounter++;
+
+                    if(hpBarCounter > 600){
+                        hpBarCounter = 0;
+                        hpBarOn = false;
+                    }
+                }
+
+                if(invincible == true){
+                    hpBarOn = true;
+                    hpBarCounter = 0;
+                    changeAlpha(g2,0.4f);
                 }
 
                 // Run the death animation if the entity is in the process of dying
-//                if (!alive) {
-//                    deadAnimation(g2);
-//                }
+               if (!alive) {
+                   deadAnimation(g2);
+               }
 
                 // Draw the character’s image
                 g2.drawImage(image, screenX, screenY, null);
@@ -226,23 +237,23 @@ public class Entity {
 
     public void deadAnimation(Graphics2D g2) {
         // Ensure animation only plays if isDying is true
+        deadCounter++;
+        int i = 5;
         if (dead) {
             // Blinking sequence: alternate alpha every 5 frames
-            if (deadCounter < 5) changeAlpha(g2, 0f);
-            else if (deadCounter < 10) changeAlpha(g2, 1f);
-            else if (deadCounter < 15) changeAlpha(g2, 0f);
-            else if (deadCounter < 20) changeAlpha(g2, 1f);
-            else if (deadCounter < 25) changeAlpha(g2, 0f);
-            else if (deadCounter < 30) changeAlpha(g2, 1f);
-            else if (deadCounter < 35) changeAlpha(g2, 0f);
-            else if (deadCounter < 40) changeAlpha(g2, 1f);
+            if (deadCounter <= i) changeAlpha(g2, 0f);
+            else if (deadCounter > i && deadCounter <= i*2) changeAlpha(g2, 1f);
+            else if (deadCounter > i*2 && deadCounter <= i*3)  changeAlpha(g2, 0f);
+            else if (deadCounter > i*3 && deadCounter <= i*4)  changeAlpha(g2, 1f);
+            else if (deadCounter > i*4 && deadCounter <= i*5)  changeAlpha(g2, 0f);
+            else if (deadCounter > i*5 && deadCounter <= i*6)  changeAlpha(g2, 1f);
+            else if (deadCounter > i*6 && deadCounter <= i*7)  changeAlpha(g2, 0f);
+            else if (deadCounter > i*7 && deadCounter <= i*8)  changeAlpha(g2, 1f);
 
             // After the animation ends, stop drawing the entity and hide HP bar
             if (deadCounter >= 40) {
                 dead = false;
                 hpBarOn = false; // Hide HP bar
-            } else {
-                deadCounter++; // Increment counter if animation still playing
             }
         }
     }
