@@ -115,6 +115,8 @@ public class UI {
             drawGameOverScreen();
         }
 
+        //narration in new game
+
 
     }
     public void drawMessage(){

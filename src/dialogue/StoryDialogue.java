@@ -49,7 +49,6 @@ public class StoryDialogue extends JFrame implements Dialogue {
         dialogues.add("Andres darts between trees, his quick movements stirring the undergrowth. His eyes scan the forest floor eagerly, searching for the perfect branch to claim victory. Ethan, in contrast, moves with measured precision, his gaze focused and determined. He inspects the fallen limbs around him, calculating their size and weight with a practiced eye.");
         dialogues.add("The forest is their arena, each step crunching against the carpet of dry leaves and twigs. Jacob shouts in triumph as he hoists a sizable branch, his grin wide and confident. Moments later, Hakobe emerges, hauling an even larger, more impressive find over his shoulder.");
         dialogues.add("The brothers converge at the clearing, their laughter mingling with the sounds of the woods, as they compare their discoveries and revel in their shared moment of spirited competition.");
-
     }
 
     @Override
