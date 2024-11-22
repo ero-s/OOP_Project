@@ -91,6 +91,9 @@ public class AssetSetter {
         gp.monster[mapNum][i] = new MON_Mewer(gp);
         setMonsterTile(mapNum, i, 19, 23);
         i++;
+        gp.monster[mapNum][i] = new MON_Jill(gp);
+        setMonsterTile(mapNum, i, 19, 23);
+        i++;
     }
     public void setInteractiveTile(){
         int i = 0;

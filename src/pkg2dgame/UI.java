@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import dialogue.StoryDialogue;
 import object.OBJ_Heart;
 
 import static java.awt.Font.TRUETYPE_FONT;
@@ -40,6 +41,8 @@ public class UI {
     ArrayList<String> message = new ArrayList<>();
     ArrayList<Integer> messageCounter = new ArrayList<>();
 
+    private StoryDialogue storyDialogue;
+
 //	double playTime;
 //	DecimalFormat dFormat = new DecimalFormat("#0.00");
 
@@ -63,6 +66,8 @@ public class UI {
                 fullHeart = heart.image;
                 halfHeart = heart.image2;
                 emptyHeart = heart.image3;
+
+        storyDialogue = new StoryDialogue();
                 
 	}
 
@@ -109,6 +114,10 @@ public class UI {
         if(gp.gameState == gp.gameOverState){
             drawGameOverScreen();
         }
+
+        //narration in new game
+
+
     }
     public void drawMessage(){
         int messageX = gp.tileSize/2;
@@ -141,13 +150,25 @@ public class UI {
             // SLOT
             final int slotXStart = frameX + gp.tileSize + 32;
             final int slotYStart = frameY + gp.tileSize + 16;
-
             int slotX = slotXStart;
             int slotY = slotYStart;
+            int slotSize = gp.tileSize/2;
+
+            // DRAW PLAYER'S ITEM
+            for(int i = 0; i < gp.player.inventory.size(); i++){
+                g2.drawImage(gp.player.inventory.get(i).down1, slotX, slotY,null);
+                slotX += slotSize; 
+                if(i == 4 || i == 9 || i == 14){
+                    slotX = slotXStart;
+                    slotY += slotSize;
+                }
+            }   
+
+            
 
             // CURSOR
-            int cursorX = slotXStart + (gp.tileSize/2 * slotCol);
-            int cursorY = slotYStart + (gp.tileSize/2 * slotRow);
+            int cursorX = slotXStart + (slotSize * slotCol);
+            int cursorY = slotYStart + (slotSize * slotRow);
 
             int cursorWidth = gp.tileSize/2;
             int cursorHeight = gp.tileSize/2;
@@ -158,7 +179,33 @@ public class UI {
 
             g2.drawRoundRect(cursorX, cursorY, cursorWidth, cursorHeight, 10, 10);
 
+            //description frame
+
+            int dFrameX = frameX;
+            int dFrameY = frameY + frameHeight;
+            int dFrameWidth = frameWidth;
+            int dFrameHeight = gp.tileSize;
+            drawSubWindow(dFrameX, dFrameY, dFrameWidth, dFrameHeight);
+
+            //draw description text
+            int textX = dFrameX + 20;
+            int textY = dFrameY + gp.tileSize;
+            g2.setFont(g2.getFont().deriveFont(28F));
+
+            int itemIndex = getItemIndexOnSlot();
+
+            if(itemIndex < gp.player.inventory.size()){
+                for(String line : gp.player.inventory.get(itemIndex).description.split("\n")){
+                    g2.drawString(line, textX, textY);
+                    textY += 32;
+                }
+            }
         }
+        public int getItemIndexOnSlot(){
+            int itemIndex = slotCol + (slotRow*5);
+            return itemIndex;
+        }
+
         public void drawPlayerLife(){
 //            gp.player.maxLife = 10;
 //            gp.player.life = 10;
@@ -234,7 +281,6 @@ public class UI {
                     if(gp.keyH.enterPressed){
                         gp.player.setDefaultValues();
                         gp.saveLoad.save();
-                        //gp.saveLoad.setHasSave(true);
                     }
                 }
 
@@ -270,6 +316,17 @@ public class UI {
             }
             
         }
+
+    private void startNewGame() {
+        // Set the game state to dialogue
+        gp.gameState = gp.dialogueState;
+
+        // Load the dialogues in StoryDialogue
+        storyDialogue.loadDialogues();
+        //drawNarrationDialogueScreen(); // Load the initial dialogues
+        storyDialogue.display(); // Display the first dialogue
+    }
+
     public void drawNoLoad(){
         commandNum = 0;
 
@@ -351,10 +408,38 @@ public class UI {
                 if(gp.keyH.enterPressed){
                     gp.player.setDefaultValues();
                     gp.saveLoad.save();
+                    startNewGame();
                     commandNum = 0;
                 }
             }
         }
+
+
+        // the first part will show the dialogue [ not done ]
+    public void drawNarrationDialogueScreen() {
+        // Define the dimensions and position for the dialogue window
+        int x = gp.tileSize / 2; // X position
+        int y = gp.tileSize * 21 / 4; // Y position
+        int width = gp.screenWidth - x * 2; // Width of the dialogue box
+        int height = gp.tileSize * 2; // Height of the dialogue box
+
+        // Draw the dialogue window background
+        drawSubWindow(x, y, width, height);
+
+        // Set the font and color for the dialogue text
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 32f));
+        g2.setColor(Color.white);
+
+        // Calculate the starting position for the text
+        x += gp.tileSize / 2; // Add some padding to the left
+        y += gp.tileSize / 2; // Add some padding to the top
+
+        // Split the current dialogue into lines and draw each line
+        for (String line : currentDialogue.split("\n")) {
+            g2.drawString(line, x, y); // Draw the current line
+            y += 40; // Move down for the next line
+        }
+    }
 
         public void drawGameOverScreen() {
             g2.setColor(new Color(0,0,0,200));
@@ -792,6 +877,8 @@ public class UI {
             textY +=lineHeight;
             g2.drawString("Coin: ",textX,textY);
             textY +=lineHeight;
+            g2.drawString("Weapon: ",textX,textY);
+            textY +=lineHeight;
 
             //values
             int tailX = (frameX + frameWidth) - 80;
@@ -839,6 +926,13 @@ public class UI {
             textX = getXForAlignToRight(value, tailX);
             g2.drawString(value,textX,textY);
             textY +=lineHeight;
+
+            //weapon
+            g2.drawImage(gp.player.currentWeapon.down1, tailX - gp.tileSize, textY, null);
+            textY += gp.tileSize;
+            g2.drawImage(gp.player.currentShield.down1, tailX - gp.tileSize, textY, null);
+            textY += gp.tileSize;
+
         }
 
         

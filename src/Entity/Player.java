@@ -7,7 +7,10 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import object.OBJ_Key;
 import object.OBJ_Projectile;
+import object.OBJ_Shield_Wood;
+import object.OBJ_Sword_Normal;
 import pkg2dgame.GamePanel;
 import pkg2dgame.KeyHandler;
 
@@ -17,7 +20,7 @@ public class Player extends Entity {
     public final int screenX, screenY;
     int standCounter = 0;
     public ArrayList <Entity> inventory = new ArrayList<Entity>();
-    public final int inventorySize = 20;
+    public final int maxInventorySize = 20;
 
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
 
@@ -42,7 +45,7 @@ public class Player extends Entity {
         setDefaultValues();
         getPlayerImage();
         getPlayerAttackImage();
-//        setItems();
+        setItems();
 
     }
     
@@ -57,12 +60,30 @@ public class Player extends Entity {
         maxLife = 6;
         life = maxLife;
         level = 1;
-        atkPower = 100;
+        atkPower = 1;
         defense = 1;
         exp = 0;
         projectile = new OBJ_Projectile(gp);
         nextLevelExp = 5;
         coin = 0;
+        currentWeapon = new OBJ_Sword_Normal(gp);
+        currentShield = new OBJ_Shield_Wood(gp);
+        attack = getAttack();
+        defPower = getDefense();
+    }
+
+    public void setItems(){
+        inventory.add(currentWeapon);
+        inventory.add(currentShield);
+        inventory.add(new OBJ_Key(gp));
+        inventory.add(new OBJ_Key(gp));
+    }
+    public int getAttack(){
+        return attack = atkPower * currentWeapon.attackValue;
+    }
+
+    public int getDefense(){
+        return defPower = defense * currentShield.defenseValue;
     }
 
     public void setDefaultPositions(){
@@ -72,10 +93,14 @@ public class Player extends Entity {
         direction = "down";
     }
 
-//      To be continued// gotta consult them first
-//    public void setItems(){
-//
-//    }
+// //      To be continued// gotta consult them first
+//     public void setItems(){
+//         inventory.add(currentWeapon);
+//         inventory.add(currentShield);
+//         inventory.add(new OBJ_Key(gp));
+//         inventory.add(new OBJ_Key(gp));
+//     }
+
     public void restoreLife(){
         life = maxLife;
         invincible = false;

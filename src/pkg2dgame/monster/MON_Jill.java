@@ -12,14 +12,14 @@ import pkg2dgame.GamePanel;
  *
  * @author austi
  */
-public class MON_Sigma extends Entity {
+public class MON_Jill extends Entity {
     GamePanel gp;
     public int invincibleCounter = 0;  // Counter to reset invincibility after a delay
 
-    public MON_Sigma(GamePanel gp) {
+    public MON_Jill(GamePanel gp) {
         super(gp);
         this.gp = gp;
-        name = "Sigma";
+        name = "Jill";
         speed = 1;
         maxLife = 500;
         life = maxLife;
@@ -39,14 +39,14 @@ public class MON_Sigma extends Entity {
     }
 
     public void getImage() {
-        up1 = setup("/pics/monsters/Sigma/up1.png", gp.tileSize, gp.tileSize);
-        up2 = setup("/pics/monsters/Sigma/up2.png", gp.tileSize, gp.tileSize);
-        left1 = setup("/pics/monsters/Sigma/left1.png", gp.tileSize, gp.tileSize);
-        left2 = setup("/pics/monsters/Sigma/left2.png", gp.tileSize, gp.tileSize);
-        right1 = setup("/pics/monsters/Sigma/right1.png", gp.tileSize, gp.tileSize);
-        right2 = setup("/pics/monsters/Sigma/right2.png", gp.tileSize, gp.tileSize);
-        down1 = setup("/pics/monsters/Sigma/down1.png", gp.tileSize, gp.tileSize);
-        down2 = setup("/pics/monsters/Sigma/down2.png", gp.tileSize, gp.tileSize);
+        up1 = setup("/pics/monsters/Jill/up1.png", gp.tileSize, gp.tileSize);
+        up2 = setup("/pics/monsters/Jill/up2.png", gp.tileSize, gp.tileSize);
+        left1 = setup("/pics/monsters/Jill/left1.png", gp.tileSize, gp.tileSize);
+        left2 = setup("/pics/monsters/Jill/left2.png", gp.tileSize, gp.tileSize);
+        right1 = setup("/pics/monsters/Jill/right1.png", gp.tileSize, gp.tileSize);
+        right2 = setup("/pics/monsters/Jill/right2.png", gp.tileSize, gp.tileSize);
+        down1 = setup("/pics/monsters/Jill/down1.png", gp.tileSize, gp.tileSize);
+        down2 = setup("/pics/monsters/Jill/down2.png", gp.tileSize, gp.tileSize);
     }
 
     @Override

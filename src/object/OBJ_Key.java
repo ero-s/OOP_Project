@@ -22,7 +22,7 @@ public class OBJ_Key extends Entity{
         down1 = setup("/pics/objects/key.png",gp.tileSize, gp.tileSize);
        
         collision = true;
-        
+        description = "[" + name + "]\nIt opens a door.";
     }
     
     public void draw(Graphics2D g2, GamePanel gp) {
