@@ -93,7 +93,10 @@ public class TileManager {
                 worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
 
                 // Draw the tile
-                g2.drawImage(currentTile.image, screenX, screenY, null);
+                if(currentTile != null){
+                    g2.drawImage(currentTile.image, screenX, screenY, null);
+                }
+
 
                 // Draw the tile's specific collision box if it has collision
 //                if (currentTile.collision) {

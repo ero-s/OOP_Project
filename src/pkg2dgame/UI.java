@@ -181,15 +181,17 @@ public class UI {
 
             //description frame
 
-            int dFrameX = frameX;
+            int dFrameX = frameX + gp.tileSize/2;
             int dFrameY = frameY + frameHeight;
-            int dFrameWidth = frameWidth;
-            int dFrameHeight = gp.tileSize;
-            drawSubWindow(dFrameX, dFrameY, dFrameWidth, dFrameHeight);
+            int dFrameWidth = frameWidth - gp.tileSize;
+            int dFrameHeight = gp.tileSize * 3/2;
+            drawBlackBox(dFrameX, dFrameY, dFrameWidth, dFrameHeight);
 
             //draw description text
-            int textX = dFrameX + 20;
-            int textY = dFrameY + gp.tileSize;
+            int textX = dFrameX + gp.tileSize;
+            int textY = dFrameY + gp.tileSize/2;
+
+            g2.setColor(Color.white);
             g2.setFont(g2.getFont().deriveFont(28F));
 
             int itemIndex = getItemIndexOnSlot();
@@ -851,15 +853,15 @@ public class UI {
             //display window
             final int frameX = gp.tileSize/2;
             final int frameY = gp.tileSize;
-            final int frameWidth = gp.tileSize *4;
-            final int frameHeight = gp.tileSize *5;
+            final int frameWidth = gp.tileSize *5;
+            final int frameHeight = gp.tileSize *7;
             drawSubWindow(frameX, frameY, frameWidth, frameHeight);
 
             //display text
             g2.setColor(Color.white);
             g2.setFont(g2.getFont().deriveFont(32f));
-            int textX = frameX + 80;
-            int textY = frameY + gp.tileSize/2+ 48;
+            int textX = frameX + 120;
+            int textY = frameY + gp.tileSize* 3/2;
             final int lineHeight = 48;
 
             //labels
@@ -881,8 +883,8 @@ public class UI {
             textY +=lineHeight;
 
             //values
-            int tailX = (frameX + frameWidth) - 80;
-            textY = frameY + gp.tileSize/2 + 48;
+            int tailX = (frameX + frameWidth) - 120;
+            textY = frameY + gp.tileSize + 48;
             String value;
 
             //level
@@ -958,5 +960,11 @@ public class UI {
             int length = (int)g2.getFontMetrics().getStringBounds(text,g2).getWidth();
             int x = tailX - length/2;
             return x;
+        }
+
+        public void drawBlackBox(int x, int y, int width, int height){
+            g2.drawRect(x, y, width, height);
+            g2.setColor(new Color(0,0,0,200));
+            g2.fillRect(x,y,width,height);
         }
 }

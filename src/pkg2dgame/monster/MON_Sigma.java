@@ -129,13 +129,6 @@ public class MON_Sigma extends Entity {
             int goalRow = (gp.player.worldY + gp.player.solidArea.y)/gp.tileSize;
 
             searchPath(goalCol, goalRow);
-
-            int i = new Random().nextInt(200)+1;
-            if(i > 197 && projectile.alive == false && shotCounter == 30){
-                projectile.set(worldX, worldY, direction, true, this);
-                gp.projectileList.add(projectile);
-                shotCounter = 0;
-            }
         }
         else {
             // Decide movement direction every 120 frames

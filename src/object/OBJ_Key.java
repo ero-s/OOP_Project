@@ -19,7 +19,7 @@ public class OBJ_Key extends Entity{
     public OBJ_Key(GamePanel gp){
         super(gp);
         name = "Key";
-        down1 = setup("/pics/objects/key.png",gp.tileSize, gp.tileSize);
+        down1 = setup("/pics/objects/key.png",gp.tileSize/2, gp.tileSize/2);
        
         collision = true;
         description = "[" + name + "]\nIt opens a door.";

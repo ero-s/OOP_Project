@@ -61,9 +61,12 @@ public class Pathfinder {
         int row = 0, col = 0;
         while(col < gp.maxWorldCol && row < gp.maxWorldRow){
             int tileNum = gp.tileM.mapTileNum[gp.currentMap][col][row];
-            if(gp.tileM.tile[tileNum].collision){
-                node[col][row].solid = true;
+            if(gp.tileM.tile[tileNum] != null){
+                if(gp.tileM.tile[tileNum].collision){
+                    node[col][row].solid = true;
+                }
             }
+
 
             for(int i = 0; i < gp.iTile[1].length; i++){
                 if(gp.iTile[gp.currentMap][i] != null && gp.iTile[gp.currentMap][i].destructible){
