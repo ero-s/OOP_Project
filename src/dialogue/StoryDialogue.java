@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Timer;
 
-public class StoryDialogue extends JFrame implements Dialogue {
+public class StoryDialogue implements Dialogue {
     private ArrayList<String> dialogues;
     private int currentIndex;
     private JTextArea textArea;
@@ -19,21 +19,19 @@ public class StoryDialogue extends JFrame implements Dialogue {
         currentIndex = 0;
 
         // text dialogues details
-        textArea = new JTextArea();
-        textArea.setEditable(false);
-        textArea.setLineWrap(true);
-        textArea.setWrapStyleWord(true);
-        textArea.setFont(new Font("Arial", Font.PLAIN, 16));
-        add(new JScrollPane(textArea), BorderLayout.CENTER);
+        //textArea = new JTextArea();
+        //textArea.setEditable(false);
+        //textArea.setLineWrap(true);
+        //textArea.setWrapStyleWord(true);
+        //textArea.setFont(new Font("Arial", Font.PLAIN, 16));
+        //add(new JScrollPane(textArea), BorderLayout.CENTER);
 
         // next button
         nextButton = new JButton("Next");
         nextButton.addActionListener(new NextButtonListener());
-        add(nextButton, BorderLayout.SOUTH);
+
 
         loadDialogues();
-
-        setVisible(true);
     }
 
     public boolean hasNext() {
