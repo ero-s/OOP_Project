@@ -28,6 +28,7 @@ public class UI {
     public boolean messageOn = false;
     public boolean gameFinished = false;
     public String currentDialogue = "";
+    public int counter = 0;
     public int commandNum = 0;
     public int titleScreenState = 0;
     public int quitgameState = 0;
@@ -75,6 +76,25 @@ public class UI {
         messageCounter.add(0);
     }
 
+    public void drawTransition() {
+        counter++;
+        g2.setColor(new Color(0, 0, 0, counter * 5));
+        g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
+
+        if (counter == 50) {
+            counter = 0;
+
+            gp.gameState = gp.playState;
+            gp.currentMap = gp.eHandler.map;
+
+            gp.player.worldX = gp.tileSize * gp.eHandler.col;
+            gp.player.worldY = gp.tileSize * gp.eHandler.row;
+
+            gp.eHandler.previousEventX = gp.player.worldX;
+            gp.eHandler.previousEventY = gp.player.worldY;
+        }
+    }
+
     public void draw(Graphics2D g2) {
         this.g2 = g2;
         g2.setFont(maruMonica);
@@ -83,6 +103,9 @@ public class UI {
         //title state
         if (gp.gameState == gp.titleState) {
             drawTitleScreen();
+        }
+        if(gp.gameState == gp.transitionState){
+            drawTransition();
         }
 
         //play state
@@ -138,6 +161,8 @@ public class UI {
             }
         }
     }
+
+
     public void drawInventory(){
         //frame slot
         int frameX = gp.tileSize * 8;
@@ -151,26 +176,25 @@ public class UI {
         final int slotYStart = frameY + gp.tileSize + 16;
         int slotX = slotXStart;
         int slotY = slotYStart;
-        int slotSize = gp.tileSize/2;
+        int slotSize = gp.tileSize - 32;
 
         // DRAW PLAYER'S ITEM
         for(int i = 0; i < gp.player.inventory.size(); i++){
-
             // EQUIP CURSOR
-            if (gp.player.inventory.get(i) == gp.player.currentWeapon || gp.player.inventory.get(i) == gp.player.currentShield) {
-                g2.setColor(new Color(240, 190, 90));
-                g2.fillRoundRect(slotX, slotY, gp.tileSize/2, gp.tileSize/2, 10, 10);
+            if (gp.player.inventory.get(i).equals(gp.player.currentWeapon) || gp.player.inventory.get(i).equals(gp.player.currentShield)) {
+                g2.setColor(new Color(240, 190, 90, 255));
+                g2.setStroke(new BasicStroke(1)); // Ensure stroke is thin if needed
+                g2.fillRoundRect(slotX, slotY, gp.tileSize / 2, gp.tileSize / 2, 10, 10);
+
             }
 
             g2.drawImage(gp.player.inventory.get(i).down1, slotX, slotY,null);
             slotX += slotSize;
-            if(i == 5 || i == 9 || i == 14){
+            if(i == 4 || i == 8 || i == 12){
                 slotX = slotXStart;
                 slotY += slotSize;
             }
         }
-
-
 
         // CURSOR
         int cursorX = slotXStart + (slotSize * slotCol);
@@ -186,7 +210,6 @@ public class UI {
         g2.drawRoundRect(cursorX, cursorY, cursorWidth, cursorHeight, 10, 10);
 
         //description frame
-
         int dFrameX = frameX + gp.tileSize/2;
         int dFrameY = frameY + frameHeight;
         int dFrameWidth = frameWidth - gp.tileSize;
@@ -195,8 +218,6 @@ public class UI {
         //draw description text
         int textX = dFrameX + gp.tileSize;
         int textY = dFrameY + gp.tileSize/2;
-
-
 
         int itemIndex = getItemIndexOnSlot();
 
@@ -262,6 +283,8 @@ public class UI {
             x += 32;
         }
     }
+
+
     public void drawCarrot(int x, int y, int width, int height){
         BufferedImage carrot = Entity.setup("/pics/ui/carrot.png", gp.tileSize, gp.tileSize);
         g2.drawImage(carrot,x,y,width, height, null);

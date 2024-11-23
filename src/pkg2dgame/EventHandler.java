@@ -2,7 +2,7 @@ package pkg2dgame;
 public class EventHandler {
     GamePanel gp;
     EventRect[][][] eventRect;
-    
+    public int map, row, col;
     int previousEventX, previousEventY;
     boolean canTouchEvent = true;
     
@@ -10,9 +10,9 @@ public class EventHandler {
         this.gp = gp;
         eventRect = new EventRect[gp.maxMap][gp.maxWorldCol][gp.maxWorldRow];
 
-        int map = 0;
-        int col = 0;
-        int row = 0;
+        map = 0;
+        col = 0;
+        row = 0;
         while(map < gp.maxMap && col< gp.maxWorldCol && row < gp.maxWorldRow){
             eventRect[map][col][row] = new EventRect();
             eventRect[map][col][row].x = 42;
@@ -54,29 +54,28 @@ public class EventHandler {
             else if(hit(1,8,45,"any")){teleport(0,29,41);}
 
             // spring to castle
-            if(hit(0,4,10,"any")){teleport(3,24,6);}
+            if(hit(0,5,11,"any") || hit(0,4,11,"any")){teleport(3,24,6);}
             else if(hit(3,30,30,"any")){teleport(0,4,10);}
 
             if(hit(1,14,2,"any")){teleport(2,18,7);}
         }
     }
     public void teleport(int map, int col, int row){
-        gp.currentMap = map;
-        gp.player.worldX = gp.tileSize * col;
-        gp.player.worldY = gp.tileSize * row;
-        previousEventX = gp.player.worldX;
-        previousEventY = gp.player.worldY;
+        gp.gameState = gp.transitionState;
+        this.map = map;
+        this.col = col;
+        this.row = row;
         canTouchEvent = false;
     }
     public boolean hit(int map, int col, int row, String reqDirection){
         boolean hit = false;
         if(map == gp.currentMap){
-            gp.player.solidArea.x = gp.player.worldX + gp.player.solidArea.x;
-            gp.player.solidArea.y = gp.player.worldY + gp.player.solidArea.y;
+            gp.player.mapTransArea.x = gp.player.worldX + gp.player.mapTransArea.x;
+            gp.player.mapTransArea.y = gp.player.worldY + gp.player.mapTransArea.y;
             eventRect[map][col][row].x = col*gp.tileSize + eventRect[map][col][row].x;
             eventRect[map][col][row].y = row*gp.tileSize + eventRect[map][col][row].y;
 
-            if(gp.player.solidArea.intersects(eventRect[map][col][row]) && !eventRect[map][col][row].eventDone){
+            if(gp.player.mapTransArea.intersects(eventRect[map][col][row]) && !eventRect[map][col][row].eventDone){
                 if(gp.player.direction.contentEquals(reqDirection)|| reqDirection.contentEquals("any")){
                     hit = true;
 
@@ -84,8 +83,9 @@ public class EventHandler {
                     previousEventY = gp.player.worldY;
                 }
             }
-            gp.player.solidArea.x = gp.player.solidAreaDefaultX;
-            gp.player.solidArea.y = gp.player.solidAreaDefaultY;
+            gp.player.mapTransArea.x = gp.player.mapTransAreaDefaultX;
+            gp.player.mapTransArea.y = gp.player.mapTransAreaDefaultY;
+
             eventRect[map][col][row].x = eventRect[map][col][row].eventRectDefaultX;
             eventRect[map][col][row].y = eventRect[map][col][row].eventRectDefaultY;
         }
