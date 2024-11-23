@@ -72,7 +72,13 @@ public class AssetSetter {
 
         // Map 1
         gp.monster[mapNum][i] = new MON_Sigma(gp);
-        setMonsterTile(mapNum, i, 23, 23);
+        setMonsterTile(mapNum, i, 25, 33);
+        i++;
+        gp.monster[mapNum][i] = new MON_Sigma(gp);
+        setMonsterTile(mapNum, i, 26, 33);
+        i++;
+        gp.monster[mapNum][i] = new MON_Sigma(gp);
+        setMonsterTile(mapNum, i, 27, 33);
         i++;
         // Dungeon 1
         mapNum = 2;

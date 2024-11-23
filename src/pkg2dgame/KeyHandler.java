@@ -79,6 +79,7 @@ public class KeyHandler implements KeyListener{
                         gp.ui.titleScreenState = 1;
                     }
                     else{
+                        gp.setupGame();
                         gp.player.setDefaultValues();
                         gp.saveLoad.save();
                         gp.saveLoad.setHasSave(true);
@@ -118,7 +119,8 @@ public class KeyHandler implements KeyListener{
                 if(gp.ui.commandNum == 0){ // back
                     gp.ui.titleScreenState = 0;
                 }
-                if(gp.ui.commandNum == 1){ // load
+                if(gp.ui.commandNum == 1){ // new game
+                    gp.setupGame();
                     gp.player.setDefaultValues();
                     gp.saveLoad.save();
                     gp.saveLoad.setHasSave(true);

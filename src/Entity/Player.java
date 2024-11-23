@@ -12,6 +12,8 @@ import pkg2dgame.GamePanel;
 import pkg2dgame.KeyHandler;
 
 public class Player extends Entity {
+    public int maxMana;
+    public boolean attackCanceled;
     KeyHandler keyH;
     
     public final int screenX, screenY;
@@ -72,6 +74,8 @@ public class Player extends Entity {
         currentShield = new Blank(gp);
         attack = getAttack();
         defPower = getDefense();
+        maxMana = 4;
+        mana = maxMana;
     }
 
     public void setItems(){
@@ -136,43 +140,43 @@ public class Player extends Entity {
         else if(keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed || keyH.enterPressed){
             if (keyH.upPressed) {
                 direction = "up";
-                
+
             }
             else if (keyH.leftPressed) {
                 direction = "left";
-                
+
             }
             else if (keyH.downPressed) {
                 direction = "down"; // Fix: should set direction to "down"
-                
+
             }
             else if (keyH.rightPressed) {
                 direction = "right";
-                
+
             }
-            
+
             //checks tile collsion
             collisionOn = false;
             gp.cChecker.checkTile(this);
-            
+
             //check obj collision
             int objIndex = gp.cChecker.checkObject(this, true);
             pickUpObject(gp.currentMap, objIndex);
-            
+
             //check npc collision
             int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
             interactNPC(npcIndex);
-            
+
             //check monster collision
             int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
             contactMonster(monsterIndex);
 
             //check iTile collision
             gp.cChecker.checkEntity(this, gp.iTile);
-            
+
             //check event
             gp.eHandler.checkEvent();
-            
+
             //if collision is false, player can move
             if(!collisionOn && !keyH.enterPressed){
                 switch(direction){
@@ -192,11 +196,11 @@ public class Player extends Entity {
                         worldX += speed;
                         break;
                     }
-                    
+
                 }
-            }  
+            }
             gp.keyH.enterPressed = false;
-            
+
             spriteCounter++;
             if(spriteCounter > 12){
                 if(spriteNum == 1){
@@ -209,41 +213,17 @@ public class Player extends Entity {
             }
         }
 
-        if (cooldownTimer > 0) {
-            projectileUsed = false;
-            cooldownTimer--;
-        }
-
-// If the cooldown is active and the shot key is pressed
-        if (gp.keyH.shotkeyPressed && cooldownTimer > 0) {
-            // Only show the message if it hasn't been displayed yet
-            if (!cooldownMessageShown) {
-                String text = projectile.name + " is on cooldown for " + (cooldownTimer / 60) + " seconds.";
-                gp.ui.showMessage(text);
-                cooldownMessageShown = true; // Set the flag to true after showing the message
-            }
-        } else if (gp.keyH.shotkeyPressed && cooldownTimer == 0 && !projectile.alive) {
-            // Reset the flag when the projectile is used successfully
-            cooldownMessageShown = false;
-
-            // Sets position, direction, and user for the projectile
+        if(gp.keyH.shotkeyPressed && !projectile.alive && shotCounter == 30 && projectile.haveResource(this)){
+            //sets position, direction and user
             projectile.set(worldX, worldY, direction, true, this);
 
-            // Add the projectile to the list
+            projectile.subtractResource(this);
+
+            //add it to the list
             gp.projectileList.add(projectile);
 
-            // Reset the cooldown timer
-            cooldownTimer = projectileCooldown;
-            projectileUsed = true;
-        }
-
-        // Update the cooldown timer if active
-        if (cooldownTimer > 0) {
-            cooldownTimer--;
-            if (cooldownTimer == 0) {
-                // Reset the flag when the cooldown finishes
-                cooldownMessageShown = false;
-            }
+            shotCounter = 0;
+            // gp.playSe(10);
         }
 
         //invincible time for player
@@ -293,7 +273,6 @@ public class Player extends Entity {
                     gp.player.exp += gp.monster[gp.currentMap][i].exp;
                     gp.ui.showMessage(gp.monster[gp.currentMap][i].name + " killed!");
                     gp.ui.showMessage(gp.monster[gp.currentMap][i].exp + " exp gained!");
-                    checkLevelUp();
                     gp.monster[gp.currentMap][i].alive = false;
                     gp.monster[gp.currentMap][i].dead = true;
                     System.out.println("Monster defeated!");
@@ -308,6 +287,7 @@ public class Player extends Entity {
             level++;
             nextLevelExp *= 2;
             maxLife += 2;
+            maxMana += 2;
             atkPower +=1;
             defense +=1;
             life = maxLife;

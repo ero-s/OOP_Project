@@ -7,6 +7,7 @@ package pkg2dgame.monster;
 import Entity.Entity;
 import java.util.Random;
 
+import object.CON_Cabbage;
 import object.CON_Carrot;
 import object.OBJ_Coin;
 import pkg2dgame.GamePanel;
@@ -170,6 +171,7 @@ public class MON_Sigma extends Entity implements MON_Interface{
             dropItem(new OBJ_Coin(gp));
         } else { // Includes '51 to 100'
             dropItem(new CON_Carrot(gp));
+            dropItem(new CON_Cabbage(gp));
         }
 
     }

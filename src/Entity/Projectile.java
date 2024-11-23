@@ -123,7 +123,7 @@ public class Projectile extends Entity{
         boolean haveResource = false;
         return haveResource;
     }
-    
+
     public void subtractResource(Entity user){ }
 
 

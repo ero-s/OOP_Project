@@ -9,7 +9,7 @@ public class OBJ_Axe extends Entity{
 
         type = type_axe;
         name = "Woodcutter's Axe";
-        down1 = setup("/pics/objects/axe.png", gp.tileSize, gp.tileSize);
+        down1 = setup("/pics/objects/axe.png", gp.tileSize/2, gp.tileSize/2);
         description = "[Woodcutter's Axe]\nA bit rusty but still reliable.";
 
         attackValue = 2;
