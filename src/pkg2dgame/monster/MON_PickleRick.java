@@ -14,7 +14,7 @@ import pkg2dgame.GamePanel;
  *
  * @author austi
  */
-public class MON_PickleRick extends Entity {
+public class MON_PickleRick extends Entity implements MON_Interface{
     GamePanel gp;
     public int invincibleCounter = 0;  // Counter to reset invincibility after a delay
 
