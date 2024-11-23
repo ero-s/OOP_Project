@@ -52,9 +52,9 @@ public class UI {
         InputStream is = getClass().getResourceAsStream("/pics/fonts/MP16REG.ttf");
         try{
             maruMonica = Font.createFont(TRUETYPE_FONT, is);
-        }catch(FontFormatException e){
+        } catch(FontFormatException e){
             e.printStackTrace();
-        }catch(IOException e){
+        } catch(IOException e) {
             e.printStackTrace();
         }
 
@@ -281,6 +281,9 @@ public class UI {
                     if(gp.keyH.enterPressed){
                         gp.player.setDefaultValues();
                         gp.saveLoad.save();
+                        // add for the narration
+
+
                     }
                 }
 
@@ -307,7 +310,7 @@ public class UI {
                 }
             }
               
-//            save and load mechanic
+//            save and load mechanic [ implemented ]
             else if(titleScreenState == 1) {
                 drawLoadExist();
             }
@@ -317,6 +320,7 @@ public class UI {
             
         }
 
+        // this will supposedly show the narration screen
     private void startNewGame() {
         // Set the game state to dialogue
         gp.gameState = gp.dialogueState;
@@ -408,6 +412,7 @@ public class UI {
                 if(gp.keyH.enterPressed){
                     gp.player.setDefaultValues();
                     gp.saveLoad.save();
+                    drawNarrationDialogueScreen();
                     startNewGame();
                     commandNum = 0;
                 }
