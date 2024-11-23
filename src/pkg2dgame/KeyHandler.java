@@ -4,6 +4,7 @@
  */
 package pkg2dgame;
 
+import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -81,14 +82,14 @@ public class KeyHandler implements KeyListener{
                         gp.setupGame();
                         gp.player.setDefaultValues();
                         gp.saveLoad.save();
-                        gp.saveLoad.setHasSave(true);
+                        gp.saveLoad.setHasSave(false);
                         gp.gameState = gp.playState;
-                    }
-                }
+                    }                }
 
                 if(gp.ui.commandNum == 1){ // load
                     boolean isTrue = gp.saveLoad.getHasSave();
-                        if (isTrue == true) {
+
+                        if (isTrue) {
                             gp.saveLoad.load();
                             gp.gameState = gp.playState;
                         }
@@ -122,7 +123,7 @@ public class KeyHandler implements KeyListener{
                     gp.setupGame();
                     gp.player.setDefaultValues();
                     gp.saveLoad.save();
-                    gp.saveLoad.setHasSave(true);
+                    gp.saveLoad.setHasSave(false);
                     gp.gameState = gp.playState;
                     gp.ui.titleScreenState = 0;
                 }
@@ -210,20 +211,20 @@ public class KeyHandler implements KeyListener{
         }
 
         if (code == KeyEvent.VK_S) {
-            if (gp.ui.slotRow != 4) {
+            if (gp.ui.slotRow != 3) {
                 gp.ui.slotRow++;
                 gp.playSE(1);
             }
         }
 
         if (code == KeyEvent.VK_D) {
-            if (gp.ui.slotCol != 5) {
+            if (gp.ui.slotCol != 4) {
                 gp.ui.slotCol++;
                 gp.playSE(1);
             }
         }
 
-        if (code == KeyEvent.VK_ENTER) {
+        if(code == KeyEvent.VK_ENTER){
             gp.player.selectItem();
         }
     }

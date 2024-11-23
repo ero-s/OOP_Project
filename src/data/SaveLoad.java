@@ -13,6 +13,7 @@ public class SaveLoad {
 
     public SaveLoad(GamePanel gp) {
         this.gp = gp;
+        existingSave = false;
     }
     // in GamePanel SaveLoad saveLoad
 

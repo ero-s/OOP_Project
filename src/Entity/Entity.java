@@ -36,10 +36,13 @@ public class Entity {
 
     // collision display
     public Rectangle solidArea = new Rectangle(64,64,64,64);
+    public Rectangle mapTransArea = new Rectangle(0,0,0,0);
     public int xOffset;
     public int yOffset;
     public int solidAreaDefaultX = 64;
     public int solidAreaDefaultY = 64;
+    public int mapTransAreaDefaultX = 0;
+    public int mapTransAreaDefaultY = 0;
 
     // counter
     public int actionLockCounter = 0;
@@ -246,6 +249,14 @@ public class Entity {
                 resetAlpha(g2);
             }
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Entity entity = (Entity) obj;
+        return name.equals(entity.name) && type == entity.type;
     }
 
     public void setCollisionArea(int x, int y, int width, int height, int defaultX, int defaultY){
