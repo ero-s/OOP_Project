@@ -22,7 +22,6 @@ public class CON_Cabbage extends Entity {
         solidArea.height = 16;
         xOffset = 0;
         yOffset = 0;
-        stackable = true;
         setCollisionArea(solidArea.x, solidArea.y, solidArea.width, solidArea.height, 0, 16);
     }
 
