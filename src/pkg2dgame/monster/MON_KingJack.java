@@ -21,10 +21,10 @@ public class MON_KingJack extends Entity {
         this.gp = gp;
         name = "KingJack";
         speed = 1;
-        maxLife = 10;
+        maxLife = 500;
         life = maxLife;
         invincible = false;  // Monster starts without invincibility
-        type = 2;
+        type = type_monster;
         atkPower = 2;
         defense = 2;
         exp = 3;
@@ -67,7 +67,11 @@ public class MON_KingJack extends Entity {
         collisionOn = false;
         gp.cChecker.checkTile(this);  // Check tile collision
         gp.cChecker.checkEntity(this, gp.npc);  // Check NPC collision
-        gp.cChecker.checkPlayer(this);  // Check collision with the player
+
+        boolean contactPlayer = gp.cChecker.checkPlayer(this);
+        if(this.type == 2 && contactPlayer){
+            damagePlayer(atkPower);
+        }
 
         // Only move if there is no collision
         if (!collisionOn) {
@@ -97,31 +101,67 @@ public class MON_KingJack extends Entity {
             }
             spriteCounter = 0;
         }
+
+        int xDistance = Math.abs(worldX - gp.player.worldX);
+        int yDistance = Math.abs(worldY - gp.player.worldY);
+        int tileDistance = (xDistance + yDistance)/gp.tileSize;
+
+        if(!onPath && tileDistance < 5){
+            int i = new Random().nextInt(100)+1;
+            if(i > 50){
+                onPath = true;
+            }
+        }
+        if(onPath && tileDistance > 10){
+            onPath = false;
+        }
     }
 
-    public void setAction() {
-        // Decide movement direction every 120 frames
-        actionLockCounter++;
-        if (actionLockCounter == 120) {
-            Random random = new Random();
-            int i = random.nextInt(100) + 1;
 
-            if (i <= 25) {
-                direction = "up";
-            } else if (i > 25 && i <= 50) {
-                direction = "down";
-            } else if (i > 50 && i <= 75) {
-                direction = "left";
-            } else {
-                direction = "right";
+    public void setAction() {
+        if (onPath) {
+//            //set goal Position
+//            int goalCol = 4;
+//            int goalRow = 11;
+
+            //set to follow player
+            int goalCol = (gp.player.worldX + gp.player.solidArea.x)/gp.tileSize;
+            int goalRow = (gp.player.worldY + gp.player.solidArea.y)/gp.tileSize;
+
+            searchPath(goalCol, goalRow);
+
+            int i = new Random().nextInt(200)+1;
+            if(i > 197 && projectile.alive == false && shotCounter == 30){
+                projectile.set(worldX, worldY, direction, true, this);
+                gp.projectileList.add(projectile);
+                shotCounter = 0;
             }
-            actionLockCounter = 0;
+        }
+        else {
+            // Decide movement direction every 120 frames
+            actionLockCounter++;
+            if (actionLockCounter == 120) {
+                Random random = new Random();
+                int i = random.nextInt(100) + 1;
+
+                if (i <= 25) {
+                    direction = "up";
+                } else if (i > 25 && i <= 50) {
+                    direction = "down";
+                } else if (i > 50 && i <= 75) {
+                    direction = "left";
+                } else {
+                    direction = "right";
+                }
+                actionLockCounter = 0;
+            }
         }
     }
 
     public void damageReaction() {
         actionLockCounter = 0;
-        direction = gp.player.direction;
+        onPath = true;
+
     }
 }
 
