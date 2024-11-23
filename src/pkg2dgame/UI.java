@@ -190,7 +190,7 @@ public class UI {
 
             g2.drawImage(gp.player.inventory.get(i).down1, slotX, slotY,null);
             slotX += slotSize;
-            if(i == 4 || i == 8 || i == 12){
+            if(i == 4 || i == 9 || i == 14){
                 slotX = slotXStart;
                 slotY += slotSize;
             }
