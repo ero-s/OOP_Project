@@ -55,7 +55,7 @@ public class Entity {
     public int life;
     public String name;
     
-    public int level, atkPower, defense, exp, nextLevelExp, coin, mana, useCost;
+    public int level, atkPower, defense, exp, nextLevelExp, coin, mana, maxMana, useCost, ammo;
     public Projectile projectile;
     public Entity currentWeapon;
     public Entity currentShield;
@@ -157,7 +157,9 @@ public class Entity {
                 }
                 spriteCounter = 0;
             }
+
     }
+
     public void damagePlayer(int atkPower){
         if(!gp.player.invincible){
             //damage player

@@ -1,9 +1,9 @@
 package object;
 
+import Entity.Entity;
 import Entity.Projectile;
-import pkg2dgame.GamePanel;
-
 import java.awt.*;
+import pkg2dgame.GamePanel;
 
 public class OBJ_Projectile extends Projectile {
     GamePanel gp;
@@ -33,5 +33,17 @@ public class OBJ_Projectile extends Projectile {
         down2 = setup("/pics/projectiles/green/down2.png", gp.tileSize*2, gp.tileSize*2);
         left1 = setup("/pics/projectiles/green/left1.png", gp.tileSize*2, gp.tileSize*2);
         left2 = setup("/pics/projectiles/green/left2.png", gp.tileSize*2, gp.tileSize*2);
+    }
+
+    public boolean haveResource(Entity user){
+        boolean haveResource = false;
+        if(user.mana >= useCost){
+            haveResource = true;
+        }
+        return haveResource;
+    }
+    
+    public void subtractResource(Entity user){
+        user.mana -= useCost;
     }
 }

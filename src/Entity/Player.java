@@ -60,6 +60,8 @@ public class Player extends Entity {
         //player status
         maxLife = 6;
         life = maxLife;
+        maxMana = 4;
+        mana= maxMana;
         level = 1;
         atkPower = 1;
         defense = 1;
@@ -209,11 +211,11 @@ public class Player extends Entity {
             }
         }
 
-        if(gp.keyH.shotkeyPressed && !projectile.alive && shotCounter == 30){ // && projectile.haveResource(this) == true
+        if(gp.keyH.shotkeyPressed && !projectile.alive && shotCounter == 30 && projectile.haveResource(this) == true){ 
             //sets position, direction and user
             projectile.set(worldX, worldY, direction, true, this);
             
-            // projectile.subtractResource(this);
+            projectile.subtractResource(this);
 
             //add it to the list
             gp.projectileList.add(projectile);

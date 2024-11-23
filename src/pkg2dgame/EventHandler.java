@@ -1,13 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package pkg2dgame;
-
-/**
- *
- * @author austi
- */
 public class EventHandler {
     GamePanel gp;
     EventRect[][][] eventRect;
@@ -112,13 +103,11 @@ public class EventHandler {
 
         if(gp.keyH.enterPressed){
             gp.gameState = gameState;
-            gp.ui.currentDialogue = "You've been healed";
-            if(gp.player.life>=gp.player.maxLife){
-                gp.ui.currentDialogue = "You are fully healed";
-                return;
-            }
-            gp.player.life += 1;
-            canTouchEvent = false;
+            gp.player.attackCanceled = true;
+            gp.ui.currentDialogue = "You drank the water.\nYour life and mana have been recovered.";
+            gp.player.life = gp.player.maxLife;
+            gp.player.mana =  gp.player.maxMana;
+            gp.aSetter.setMonster();
         }
     }
 }
