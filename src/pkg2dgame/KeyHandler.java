@@ -4,6 +4,7 @@
  */
 package pkg2dgame;
 
+import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -78,16 +79,15 @@ public class KeyHandler implements KeyListener{
                         gp.ui.titleScreenState = 1;
                     }
                     else{
-                        gp.setupGame();
                         gp.player.setDefaultValues();
                         gp.saveLoad.save();
                         gp.saveLoad.setHasSave(true);
                         gp.gameState = gp.playState;
-                    }
-                }
+                    }                }
 
                 if(gp.ui.commandNum == 1){ // load
                     boolean isTrue = gp.saveLoad.getHasSave();
+
                         if (isTrue == true) {
                             gp.saveLoad.load();
                             gp.gameState = gp.playState;
@@ -118,8 +118,7 @@ public class KeyHandler implements KeyListener{
                 if(gp.ui.commandNum == 0){ // back
                     gp.ui.titleScreenState = 0;
                 }
-                if(gp.ui.commandNum == 1){ // new game
-                    gp.setupGame();
+                if(gp.ui.commandNum == 1){ // load
                     gp.player.setDefaultValues();
                     gp.saveLoad.save();
                     gp.saveLoad.setHasSave(true);
@@ -223,7 +222,7 @@ public class KeyHandler implements KeyListener{
             }
         }
 
-        if (code == KeyEvent.VK_ENTER) {
+        if(code == KeyEvent.VK_ENTER){
             gp.player.selectItem();
         }
     }

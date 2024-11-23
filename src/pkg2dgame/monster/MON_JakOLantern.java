@@ -1,18 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package pkg2dgame.monster;
 
 import Entity.Entity;
 import java.util.Random;
 import pkg2dgame.GamePanel;
 
-/**
- *
- * @author austi
- */
-public class MON_JakOLantern extends Entity {
+public class MON_JakOLantern extends Entity implements MON_Interface {
     GamePanel gp;
     public int invincibleCounter = 0;  // Counter to reset invincibility after a delay
 
@@ -21,10 +13,10 @@ public class MON_JakOLantern extends Entity {
         this.gp = gp;
         name = "JakOLantern";
         speed = 1;
-        maxLife = 10;
+        maxLife = 500;
         life = maxLife;
         invincible = false;  // Monster starts without invincibility
-        type = 2;
+        type = type_monster;
         atkPower = 2;
         defense = 2;
         exp = 3;
@@ -38,6 +30,7 @@ public class MON_JakOLantern extends Entity {
         getImage();
     }
 
+    @Override
     public void getImage() {
         up1 = setup("/pics/monsters/JaKOLantern/up1.png", gp.tileSize, gp.tileSize);
         up2 = setup("/pics/monsters/JaKOLantern/up2.png", gp.tileSize, gp.tileSize);
@@ -67,7 +60,11 @@ public class MON_JakOLantern extends Entity {
         collisionOn = false;
         gp.cChecker.checkTile(this);  // Check tile collision
         gp.cChecker.checkEntity(this, gp.npc);  // Check NPC collision
-        gp.cChecker.checkPlayer(this);  // Check collision with the player
+
+        boolean contactPlayer = gp.cChecker.checkPlayer(this);
+        if(this.type == 2 && contactPlayer){
+            damagePlayer(atkPower);
+        }
 
         // Only move if there is no collision
         if (!collisionOn) {
@@ -97,31 +94,69 @@ public class MON_JakOLantern extends Entity {
             }
             spriteCounter = 0;
         }
-    }
 
-    public void setAction() {
-        // Decide movement direction every 120 frames
-        actionLockCounter++;
-        if (actionLockCounter == 120) {
-            Random random = new Random();
-            int i = random.nextInt(100) + 1;
+        int xDistance = Math.abs(worldX - gp.player.worldX);
+        int yDistance = Math.abs(worldY - gp.player.worldY);
+        int tileDistance = (xDistance + yDistance)/gp.tileSize;
 
-            if (i <= 25) {
-                direction = "up";
-            } else if (i > 25 && i <= 50) {
-                direction = "down";
-            } else if (i > 50 && i <= 75) {
-                direction = "left";
-            } else {
-                direction = "right";
+        if(!onPath && tileDistance < 5){
+            int i = new Random().nextInt(100)+1;
+            if(i > 50){
+                onPath = true;
             }
-            actionLockCounter = 0;
+        }
+        if(onPath && tileDistance > 10){
+            onPath = false;
         }
     }
 
+
+    @Override
+    public void setAction() {
+        if (onPath) {
+//            //set goal Position
+//            int goalCol = 4;
+//            int goalRow = 11;
+
+            //set to follow player
+            int goalCol = (gp.player.worldX + gp.player.solidArea.x)/gp.tileSize;
+            int goalRow = (gp.player.worldY + gp.player.solidArea.y)/gp.tileSize;
+
+            searchPath(goalCol, goalRow);
+
+            int i = new Random().nextInt(200)+1;
+            if(i > 197 && projectile.alive == false && shotCounter == 30){
+                projectile.set(worldX, worldY, direction, true, this);
+                gp.projectileList.add(projectile);
+                shotCounter = 0;
+            }
+        }
+        else {
+            // Decide movement direction every 120 frames
+            actionLockCounter++;
+            if (actionLockCounter == 120) {
+                Random random = new Random();
+                int i = random.nextInt(100) + 1;
+
+                if (i <= 25) {
+                    direction = "up";
+                } else if (i > 25 && i <= 50) {
+                    direction = "down";
+                } else if (i > 50 && i <= 75) {
+                    direction = "left";
+                } else {
+                    direction = "right";
+                }
+                actionLockCounter = 0;
+            }
+        }
+    }
+
+    @Override
     public void damageReaction() {
         actionLockCounter = 0;
-        direction = gp.player.direction;
+        onPath = true;
+
     }
 }
 

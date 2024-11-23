@@ -12,7 +12,7 @@ import pkg2dgame.GamePanel;
  *
  * @author austi
  */
-public class MON_Jill extends Entity {
+public class MON_Jill extends Entity implements MON_Interface{
     GamePanel gp;
     public int invincibleCounter = 0;  // Counter to reset invincibility after a delay
 
@@ -24,7 +24,7 @@ public class MON_Jill extends Entity {
         maxLife = 500;
         life = maxLife;
         invincible = false;  // Monster starts without invincibility
-        type = 2;
+        type = type_monster;
         atkPower = 2;
         defense = 2;
         exp = 3;
