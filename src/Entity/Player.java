@@ -355,13 +355,13 @@ public class Player extends Entity {
         if(i != 999){
             String text;
             if(inventory.size() != maxInventorySize){
-                inventory.add(gp.obj[i]);
-                text = "Got a " + gp.obj[i].name;
+                inventory.add(gp.obj[gp.currentMap][i]);
+                text = "Got a " + gp.obj[gp.currentMap][i].name;
             } else {
                 text = "You cannot carry any more!";
             }
-            gp.ui.addMessage(text);
-            gp.obj[i] = null;
+            gp.ui.showMessage(text);
+            gp.obj[gp.currentMap][i] = null;
         }
     }
 
