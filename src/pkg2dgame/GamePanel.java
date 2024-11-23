@@ -192,6 +192,7 @@ public class GamePanel extends JPanel implements Runnable{
                     // If the monster is not alive (i.e., dead), check drops and remove it
                     if (!monster[currentMap][i].alive && monster[currentMap][i].dead) {
                         monster[currentMap][i].checkDrop();
+                        player.checkLevelUp();
                         monster[currentMap][i] = null;
                     }
                 }
