@@ -3,8 +3,8 @@ package object;
 import Entity.Entity;
 import pkg2dgame.GamePanel;
 
-public class BUFF_Carrot extends Entity{
-    public BUFF_Carrot(GamePanel gp){
+public class CON_Carrot extends Entity{
+    public CON_Carrot(GamePanel gp){
         super(gp);
 
         name = "Carrot";

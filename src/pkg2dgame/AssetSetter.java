@@ -4,7 +4,7 @@
  */
 package pkg2dgame;
 
-import object.OBJ_Circus;
+import object.*;
 import pkg2dgame.monster.*;
 import tile_interactive.IT_ChopTree;
 
@@ -37,13 +37,20 @@ public class AssetSetter {
     public void setObject(){
         int i = 0;
         int mapNum = 0;
-        gp.obj[mapNum][0] = new OBJ_Circus(gp);
-        setObjectTile(mapNum, i, 21, 21);
+
+        gp.obj[mapNum][i] = new OBJ_Key(gp);
+        setObjectTile(mapNum, i, 28, 39 );
         i++;
+
+//        gp.obj[mapNum][i] = new CON_Carrot(gp);
+//        setObjectTile(mapNum, i, 24, 39 );
+//        i++;
 //
-//        gp.obj[1] = new OBJ_Wheat(gp);
-//        gp.obj[1].worldX = 20 *gp.tileSize;
-//        gp.obj[1].worldY = 21 *gp.tileSize;
+//        gp.obj[mapNum][i] = new OBJ_Shield_Iron(gp);
+//        setObjectTile(mapNum, i, 26, 39 );
+//
+//        gp.obj[mapNum][i] = new OBJ_Coin(gp);
+//        setObjectTile(mapNum, i, 27, 39 );
 //
 //        gp.obj[2] = new OBJ_Door(gp);
 //        gp.obj[2].worldX = 26 * gp.tileSize;
@@ -67,33 +74,30 @@ public class AssetSetter {
         gp.monster[mapNum][i] = new MON_Sigma(gp);
         setMonsterTile(mapNum, i, 23, 23);
         i++;
-
-        // Map 2
-        mapNum = 1;
-
-        // Map 3
-        mapNum = 2;
-
         // Dungeon 1
-        mapNum = 3;
-        gp.monster[mapNum][i] = new MON_JakOLantern(gp);
-        setMonsterTile(mapNum, i, 23, 23);
+        mapNum = 2;
+        i = 0;
+
+        gp.monster[2][0] = new MON_JakOLantern(gp);
+        setMonsterTile(2, 0, 23, 23);
         i++;
-        gp.monster[mapNum][i] = new MON_KingJack(gp);
-        setMonsterTile(mapNum, i, 22, 23);
+        gp.monster[2][1] = new MON_KingJack(gp);
+        setMonsterTile(2, 1, 22, 23);
         i++;
-        gp.monster[mapNum][i] = new MON_PickleRick(gp);
-        setMonsterTile(mapNum, i, 21, 23);
+        gp.monster[2][2] = new MON_PickleRick(gp);
+        setMonsterTile(2, 2, 21, 23);
         i++;
-        gp.monster[mapNum][i] = new MON_Mogger(gp);
-        setMonsterTile(mapNum, i, 20, 23);
+        gp.monster[2][3] = new MON_Mogger(gp);
+        setMonsterTile(2, 3, 20, 23);
         i++;
-        gp.monster[mapNum][i] = new MON_Mewer(gp);
-        setMonsterTile(mapNum, i, 19, 23);
+        gp.monster[2][4] = new MON_Mewer(gp);
+        setMonsterTile(2, 4, 19, 23);
         i++;
-        gp.monster[mapNum][i] = new MON_Jill(gp);
-        setMonsterTile(mapNum, i, 19, 23);
+        gp.monster[2][5] = new MON_Jill(gp);
+        setMonsterTile(2, 5, 19, 23);
         i++;
+
+
     }
     public void setInteractiveTile(){
         int i = 0;

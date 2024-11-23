@@ -23,9 +23,8 @@ public class TileManager {
         getTileImage();
         loadMap("/pics/maps/world01.txt", 0);
         loadMap("/pics/maps/world02.txt",1);
-        loadMap("/pics/maps/dungeon01.txt",2);
-        loadMap("/pics/maps/dungeon02.txt",3);
-        loadMap("/pics/maps/dungeon03.txt",4);
+        loadMap("/pics/maps/dungeon01",2);
+        loadMap("/pics/maps/dungeon02",3);
     }
     
     public void setup(int index, String imagePath, boolean collision) {
@@ -93,9 +92,26 @@ public class TileManager {
                 worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
 
                 // Draw the tile
-                if(currentTile != null){
+                if(currentTile != null) {
                     g2.drawImage(currentTile.image, screenX, screenY, null);
+
+                    if(currentTile.collisionBox != null){
+                        g2.setColor(Color.red);
+                        g2.setStroke(new java.awt.BasicStroke(1));
+                        // Calculate the tile's collision box world position
+                        int collisionBoxX = screenX + currentTile.collisionBox.x;
+                        int collisionBoxY = screenY + currentTile.collisionBox.y;
+                        int collisionBoxWidth = currentTile.collisionBox.width;
+                        int collisionBoxHeight = currentTile.collisionBox.height;
+
+                        // Draw the tile's specific collision box
+                        g2.drawRect(collisionBoxX, collisionBoxY, collisionBoxWidth, collisionBoxHeight);
+                    }
+
                 }
+
+
+
 
 
                 // Draw the tile's specific collision box if it has collision

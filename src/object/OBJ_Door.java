@@ -20,7 +20,6 @@ public class OBJ_Door extends Entity{
         super(gp);
         name = "Door";
         down1 = setup("/pics/objects/door.png",gp.tileSize, gp.tileSize);
-        collision = true;
         
         solidArea.x = 0;
         solidArea.y = 0;

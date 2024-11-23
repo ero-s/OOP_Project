@@ -20,7 +20,13 @@ public class OBJ_Key extends Entity{
         super(gp);
         name = "Key";
         down1 = setup("/pics/objects/key.png",gp.tileSize/2, gp.tileSize/2);
-       
+        solidArea.x = 64;
+        solidArea.y = 64;
+        solidArea.width = 32;
+        solidArea.height = 16;
+        xOffset = 0;
+        yOffset = 0;
+        setCollisionArea(solidArea.x, solidArea.y, solidArea.width, solidArea.height, 0, 16);
         collision = true;
         description = "[" + name + "]\nIt opens a door.";
     }
@@ -42,5 +48,4 @@ public class OBJ_Key extends Entity{
             g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
         }
     }
-    
 }

@@ -6,6 +6,9 @@ package pkg2dgame.monster;
 
 import Entity.Entity;
 import java.util.Random;
+
+import object.CON_Carrot;
+import object.OBJ_Coin;
 import pkg2dgame.GamePanel;
 
 /**
@@ -28,6 +31,7 @@ public class MON_Sigma extends Entity {
         atkPower = 2;
         defense = 2;
         exp = 3;
+        alive = true;
 
         solidArea.x = 16;
         solidArea.y = 32;
@@ -129,6 +133,7 @@ public class MON_Sigma extends Entity {
             int goalRow = (gp.player.worldY + gp.player.solidArea.y)/gp.tileSize;
 
             searchPath(goalCol, goalRow);
+
         }
         else {
             // Decide movement direction every 120 frames
@@ -154,6 +159,18 @@ public class MON_Sigma extends Entity {
     public void damageReaction() {
         actionLockCounter = 0;
         onPath = true;
+
+    }
+
+    public void checkDrop() {
+        // CAST A DIE
+        int i = new Random().nextInt(100) + 1;
+        // SET THE MONSTER DROP
+        if (i <= 50) { // Includes '50'
+            dropItem(new OBJ_Coin(gp));
+        } else { // Includes '51 to 100'
+            dropItem(new CON_Carrot(gp));
+        }
 
     }
 }

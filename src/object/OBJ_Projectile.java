@@ -13,7 +13,7 @@ public class OBJ_Projectile extends Projectile {
         name = "Green Stuff";
         speed = 10;
         maxLife = 60;
-        atkPower = 100;
+        atkPower = 1000;
         useCost = 1;
         alive = false;
         //collision area of projectile
