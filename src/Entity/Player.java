@@ -90,6 +90,23 @@ public class Player extends Entity {
         inventory.add(new OBJ_Sword_Normal(gp));
         inventory.add(new OBJ_Shield_Wood(gp));
         inventory.add(new OBJ_Axe(gp));
+        inventory.add(new CON_Carrot(gp));
+        inventory.add(new CON_Carrot(gp));
+        inventory.add(new CON_Carrot(gp));
+        inventory.add(new CON_Carrot(gp));
+        inventory.add(new CON_Carrot(gp));
+        inventory.add(new CON_Carrot(gp));
+        inventory.add(new CON_Carrot(gp));
+        inventory.add(new CON_Carrot(gp));
+        inventory.add(new CON_Carrot(gp));
+        inventory.add(new CON_Carrot(gp));
+        inventory.add(new CON_Carrot(gp));
+        inventory.add(new CON_Carrot(gp));
+        inventory.add(new CON_Carrot(gp));
+        inventory.add(new CON_Carrot(gp));
+        inventory.add(new CON_Carrot(gp));
+        inventory.add(new CON_Carrot(gp));
+        inventory.add(new CON_Carrot(gp));
     }
     public int getAttack(){
         attackArea = currentWeapon.attackArea;
