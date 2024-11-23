@@ -9,18 +9,15 @@ package pkg2dgame;
  * @author austi
  */
 import Entity.Entity;
-
+import dialogue.StoryDialogue;
 import java.awt.*;
+import static java.awt.Font.TRUETYPE_FONT;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-
-import dialogue.StoryDialogue;
 import object.OBJ_Heart;
-
-import static java.awt.Font.TRUETYPE_FONT;
-//import java.awt.image.BufferedImage;
+import object.OBJ_ManaCrystal;
 
 public class UI {
 
@@ -28,7 +25,7 @@ public class UI {
     Graphics2D g2;
 	Font arial_40, arial_80b;
     Font maruMonica;
-	BufferedImage fullHeart, halfHeart, emptyHeart;
+	BufferedImage fullHeart, halfHeart, emptyHeart, fullMana, emptyMana;
 	public boolean messageOn = false;
 	public boolean gameFinished = false;
     public String currentDialogue = "";
@@ -52,9 +49,9 @@ public class UI {
         InputStream is = getClass().getResourceAsStream("/pics/fonts/MP16REG.ttf");
         try{
             maruMonica = Font.createFont(TRUETYPE_FONT, is);
-        }catch(FontFormatException e){
+        } catch(FontFormatException e){
             e.printStackTrace();
-        }catch(IOException e){
+        } catch(IOException e) {
             e.printStackTrace();
         }
 
@@ -66,9 +63,12 @@ public class UI {
                 fullHeart = heart.image;
                 halfHeart = heart.image2;
                 emptyHeart = heart.image3;
+                Entity mana = new OBJ_ManaCrystal(gp);
+                fullMana = mana.image;
+                emptyMana = mana.image2;
 
         storyDialogue = new StoryDialogue();
-                
+        
 	}
 
 	public void showMessage(String text) {
@@ -156,16 +156,16 @@ public class UI {
 
             // DRAW PLAYER'S ITEM
             for(int i = 0; i < gp.player.inventory.size(); i++){
-
-                // EQUIP CURSOR
-                if (gp.player.inventory.get(i) == gp.player.currentWeapon || gp.player.inventory.get(i) == gp.player.currentShield) {
-                    g2.setColor(new Color(240, 190, 90));
-                    g2.fillRoundRect(slotX, slotY, gp.tileSize/2, gp.tileSize/2, 10, 10);
-                }
-
+                
+                if(gp.player.inventory.get(i) == gp.player.currentWeapon ||
+                    gp.player.inventory.get(i) == gp.player.currentShield){
+                        g2.setColor(new Color(240,190,90));
+                        g2.fillRoundRect(slotX, slotY, gp.tileSize, gp.tileSize, 10, 10);
+                    }
+                
                 g2.drawImage(gp.player.inventory.get(i).down1, slotX, slotY,null);
                 slotX += slotSize; 
-                if(i == 5 || i == 9 || i == 14){
+                if(i == 4 || i == 9 || i == 14){
                     slotX = slotXStart;
                     slotY += slotSize;
                 }
@@ -188,23 +188,19 @@ public class UI {
 
             //description frame
 
-            int dFrameX = frameX + gp.tileSize/2;
+            int dFrameX = frameX;
             int dFrameY = frameY + frameHeight;
-            int dFrameWidth = frameWidth - gp.tileSize;
-            int dFrameHeight = gp.tileSize * 3/2;
+            int dFrameWidth = frameWidth;
+            int dFrameHeight = gp.tileSize;
 
             //draw description text
-            int textX = dFrameX + gp.tileSize;
-            int textY = dFrameY + gp.tileSize/2;
-
-
+            int textX = dFrameX + 20;
+            int textY = dFrameY + gp.tileSize;
+            g2.setFont(g2.getFont().deriveFont(28F));
 
             int itemIndex = getItemIndexOnSlot();
-
+            drawSubWindow(dFrameX, dFrameY, dFrameWidth, dFrameHeight);
             if(itemIndex < gp.player.inventory.size()){
-                drawBlackBox(dFrameX, dFrameY, dFrameWidth, dFrameHeight);
-                g2.setColor(Color.white);
-                g2.setFont(g2.getFont().deriveFont(28F));
                 for(String line : gp.player.inventory.get(itemIndex).description.split("\n")){
                     g2.drawString(line, textX, textY);
                     textY += 32;
@@ -227,7 +223,7 @@ public class UI {
             while(i < gp.player.maxLife/2){
                 g2.drawImage(emptyHeart, x, y,null);
                 i++;
-                x+=48;
+                x+=gp.tileSize;
             }
             
             //reset
@@ -241,9 +237,32 @@ public class UI {
                     g2.drawImage(fullHeart,x,y,null);
                 }
                 i++;
-                x+=48;
+                x+=gp.tileSize;
+            }
+
+            //draw max mana
+            x = gp.tileSize/2;
+            y = gp.tileSize*2;
+            i = 0;
+            while(i < gp.player.maxMana){
+                g2.drawImage(emptyMana, x, y, null);
+                i++;
+                x += 35;
+            }
+
+            //draw mana
+            x = gp.tileSize/2;
+            y = gp.tileSize*2;
+            i = 0;
+            while(i < gp.player.mana){
+                g2.drawImage(fullMana, x, y, null);
+                i++;
+                x += 35;
             }
         }
+
+
+        
         public void drawCarrot(int x, int y, int width, int height){
             BufferedImage carrot = Entity.setup("/pics/ui/carrot.png", gp.tileSize, gp.tileSize);
             g2.drawImage(carrot,x,y,width, height, null);
@@ -291,6 +310,9 @@ public class UI {
                     if(gp.keyH.enterPressed){
                         gp.player.setDefaultValues();
                         gp.saveLoad.save();
+                        // add for the narration
+
+
                     }
                 }
 
@@ -317,7 +339,7 @@ public class UI {
                 }
             }
               
-//            save and load mechanic
+//            save and load mechanic [ implemented ]
             else if(titleScreenState == 1) {
                 drawLoadExist();
             }
@@ -327,6 +349,7 @@ public class UI {
             
         }
 
+        // this will supposedly show the narration screen
     private void startNewGame() {
         // Set the game state to dialogue
         gp.gameState = gp.dialogueState;
@@ -418,6 +441,7 @@ public class UI {
                 if(gp.keyH.enterPressed){
                     gp.player.setDefaultValues();
                     gp.saveLoad.save();
+                    drawNarrationDialogueScreen();
                     startNewGame();
                     commandNum = 0;
                 }
@@ -502,7 +526,7 @@ public class UI {
             int y = gp.tileSize * 21 /4;
             int width = gp.screenWidth - x*2;
             int height = gp.tileSize * 2;
-            drawBlackBox(x ,y, width, height);
+            drawSubWindow(x ,y, width, height);
             
             g2.setFont(g2.getFont().deriveFont(Font.PLAIN,32f));
             x += gp.tileSize /2;
@@ -861,38 +885,42 @@ public class UI {
             //display window
             final int frameX = gp.tileSize/2;
             final int frameY = gp.tileSize;
-            final int frameWidth = gp.tileSize *5;
-            final int frameHeight = gp.tileSize *7;
+            final int frameWidth = gp.tileSize *4;
+            final int frameHeight = gp.tileSize *5;
             drawSubWindow(frameX, frameY, frameWidth, frameHeight);
 
             //display text
             g2.setColor(Color.white);
             g2.setFont(g2.getFont().deriveFont(32f));
-            int textX = frameX + 120;
-            int textY = frameY + gp.tileSize* 3/2;
+            int textX = frameX + 80;
+            int textY = frameY + gp.tileSize/2+ 48;
             final int lineHeight = 48;
 
             //labels
-            g2.drawString("Level: ",textX,textY);
+            g2.drawString("Level ",textX,textY);
             textY +=lineHeight;
-            g2.drawString("Life: ",textX,textY);
+            g2.drawString("Life ",textX,textY);
             textY +=lineHeight;
-            g2.drawString("Attack Power: ",textX,textY);
+            g2.drawString("Mana ",textX,textY);
             textY +=lineHeight;
-            g2.drawString("Defense: ",textX,textY);
+            g2.drawString("Attack Power ",textX,textY);
             textY +=lineHeight;
-            g2.drawString("Exp: ",textX,textY);
+            g2.drawString("Defense ",textX,textY);
             textY +=lineHeight;
-            g2.drawString("Next Level: ",textX,textY);
+            g2.drawString("Exp ",textX,textY);
             textY +=lineHeight;
-            g2.drawString("Coin: ",textX,textY);
+            g2.drawString("Next Level ",textX,textY);
             textY +=lineHeight;
-            g2.drawString("Weapon: ",textX,textY);
+            g2.drawString("Coin ",textX,textY);
+            textY +=lineHeight+10;
+            g2.drawString("Weapon ",textX,textY);
+            textY +=lineHeight+15;
+            g2.drawString("Shield ",textX,textY);
             textY +=lineHeight;
 
             //values
-            int tailX = (frameX + frameWidth) - 120;
-            textY = frameY + gp.tileSize + 48;
+            int tailX = (frameX + frameWidth) - 80;
+            textY = frameY + gp.tileSize/2 + 48;
             String value;
 
             //level
@@ -902,7 +930,13 @@ public class UI {
             textY +=lineHeight;
 
             //life
-            value = String.valueOf(gp.player.maxLife);
+            value = String.valueOf(gp.player.life + "/" + gp.player.maxLife);
+            textX = getXForAlignToRight(value, tailX);
+            g2.drawString(value,textX,textY);
+            textY +=lineHeight;
+
+            //mana
+            value = String.valueOf(gp.player.mana + "/" + gp.player.maxMana);
             textX = getXForAlignToRight(value, tailX);
             g2.drawString(value,textX,textY);
             textY +=lineHeight;
@@ -938,11 +972,9 @@ public class UI {
             textY +=lineHeight;
 
             //weapon
-            g2.drawImage(gp.player.currentWeapon.down1, textX-16, textY-32, null);
-            textY +=lineHeight;
-            g2.drawImage(gp.player.currentShield.down1, textX-16, textY-32, null);
+            g2.drawImage(gp.player.currentWeapon.down1, tailX - gp.tileSize, textY-24, null);
             textY += gp.tileSize;
-
+            g2.drawImage(gp.player.currentShield.down1, tailX - gp.tileSize, textY-24, null);
         }
 
         
@@ -968,16 +1000,5 @@ public class UI {
             int length = (int)g2.getFontMetrics().getStringBounds(text,g2).getWidth();
             int x = tailX - length/2;
             return x;
-        }
-
-        public void drawBlackBox(int x, int y, int width, int height){
-            Color c = new Color(0, 0, 0, 210);
-            g2.setColor(c);
-            g2.fillRoundRect(x, y, width, height, 35, 35);
-
-            c = new Color(255, 255, 255);
-            g2.setColor(c);
-            g2.setStroke(new BasicStroke(5));
-            g2.drawRoundRect(x + 5, y + 5, width - 10, height - 10, 25, 25);
         }
 }

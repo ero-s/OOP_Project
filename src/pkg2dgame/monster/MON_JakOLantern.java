@@ -1,18 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package pkg2dgame.monster;
 
 import Entity.Entity;
 import java.util.Random;
 import pkg2dgame.GamePanel;
 
-/**
- *
- * @author austi
- */
-public class MON_JakOLantern extends Entity {
+public class MON_JakOLantern extends Entity implements MON_Interface {
     GamePanel gp;
     public int invincibleCounter = 0;  // Counter to reset invincibility after a delay
 
@@ -38,6 +30,7 @@ public class MON_JakOLantern extends Entity {
         getImage();
     }
 
+    @Override
     public void getImage() {
         up1 = setup("/pics/monsters/JaKOLantern/up1.png", gp.tileSize, gp.tileSize);
         up2 = setup("/pics/monsters/JaKOLantern/up2.png", gp.tileSize, gp.tileSize);
@@ -118,6 +111,7 @@ public class MON_JakOLantern extends Entity {
     }
 
 
+    @Override
     public void setAction() {
         if (onPath) {
 //            //set goal Position
@@ -158,6 +152,7 @@ public class MON_JakOLantern extends Entity {
         }
     }
 
+    @Override
     public void damageReaction() {
         actionLockCounter = 0;
         onPath = true;
