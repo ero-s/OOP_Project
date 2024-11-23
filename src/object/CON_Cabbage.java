@@ -3,19 +3,18 @@ package object;
 import Entity.Entity;
 import pkg2dgame.GamePanel;
 
-public class CON_Carrot extends Entity{
+public class CON_Cabbage extends Entity {
 
     GamePanel gp;
-    public CON_Carrot(GamePanel gp){
+    public CON_Cabbage(GamePanel gp){
         super(gp);
-
         this.gp = gp;
-        type = type_consumable;
-        name = "Carrot";
-        down1 = setup("/pics/objects/carrot_buff.png",gp.tileSize/2, gp.tileSize/2);
-        description = "[" + name + "]\nrestores health \nby "+value+".";
-        defenseValue = 3;
+
+        name = "Cabbage";
         value = 2;
+        type = type_consumable;
+        down1 = setup("/pics/objects/cabbage_buff.png",gp.tileSize/2, gp.tileSize/2);
+        description = "[" + name + "]\n restores "+value+" mana.";
         collision = true;
         solidArea.x = 64;
         solidArea.y = 64;
@@ -29,10 +28,10 @@ public class CON_Carrot extends Entity{
     public void use(Entity entity) {
         gp.gameState = gp.dialogueState;
         gp.ui.currentDialogue = "You ate the " + name + "\n"
-                + "Your life has been recovered by " + value + ".";
-        entity.life += value;
-        if(gp.player.life > gp.player.maxLife){
-            gp.player.life = gp.player. maxLife;
+                + "Your mana has been recovered by " + value + ".";
+        entity.mana += value;
+        if(gp.player.mana > gp.player.maxMana){
+            gp.player.mana = gp.player. maxMana;
         }
 //        gp.playSE(value);
     }

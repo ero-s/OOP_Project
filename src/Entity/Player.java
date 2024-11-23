@@ -7,20 +7,23 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import object.OBJ_Key;
-import object.OBJ_Projectile;
-import object.OBJ_Shield_Wood;
-import object.OBJ_Sword_Normal;
+import object.*;
 import pkg2dgame.GamePanel;
 import pkg2dgame.KeyHandler;
 
 public class Player extends Entity {
+    public int maxMana;
+    public boolean attackCanceled;
     KeyHandler keyH;
     
     public final int screenX, screenY;
+    private int projectileCooldown = 300; // Cooldown duration
+    private int cooldownTimer = 0; // Timer to track cooldown
+    private boolean cooldownMessageShown = false;
     int standCounter = 0;
     public ArrayList <Entity> inventory = new ArrayList<Entity>();
     public final int maxInventorySize = 20;
+    public boolean projectileUsed = false;
 
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
 
@@ -39,9 +42,9 @@ public class Player extends Entity {
         solidArea.width = 24;
         solidArea.height = 12;
 
-        // attack area removed - equip and use items #28
-        // attackArea.width = 32;
-        // attackArea.height = 32;
+        // can now be changed with items such as current sword
+//        attackArea.width = 32;
+//        attackArea.height = 32;
         
         setDefaultValues();
         getPlayerImage();
@@ -60,8 +63,6 @@ public class Player extends Entity {
         //player status
         maxLife = 6;
         life = maxLife;
-        maxMana = 4;
-        mana= maxMana;
         level = 1;
         atkPower = 1;
         defense = 1;
@@ -69,17 +70,18 @@ public class Player extends Entity {
         projectile = new OBJ_Projectile(gp);
         nextLevelExp = 5;
         coin = 0;
-        currentWeapon = new OBJ_Sword_Normal(gp);
-        currentShield = new OBJ_Shield_Wood(gp);
+        currentWeapon = new Blank(gp);
+        currentShield = new Blank(gp);
         attack = getAttack();
         defPower = getDefense();
+        maxMana = 4;
+        mana = maxMana;
     }
 
     public void setItems(){
-        inventory.add(currentWeapon);
-        inventory.add(currentShield);
-        inventory.add(new OBJ_Key(gp));
-        inventory.add(new OBJ_Key(gp));
+        inventory.add(new OBJ_Sword_Normal(gp));
+        inventory.add(new OBJ_Shield_Wood(gp));
+        inventory.add(new OBJ_Axe(gp));
     }
     public int getAttack(){
         attackArea = currentWeapon.attackArea;
@@ -138,43 +140,43 @@ public class Player extends Entity {
         else if(keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed || keyH.enterPressed){
             if (keyH.upPressed) {
                 direction = "up";
-                
+
             }
             else if (keyH.leftPressed) {
                 direction = "left";
-                
+
             }
             else if (keyH.downPressed) {
                 direction = "down"; // Fix: should set direction to "down"
-                
+
             }
             else if (keyH.rightPressed) {
                 direction = "right";
-                
+
             }
-            
+
             //checks tile collsion
             collisionOn = false;
             gp.cChecker.checkTile(this);
-            
+
             //check obj collision
             int objIndex = gp.cChecker.checkObject(this, true);
-            pickUpObject(objIndex);
-            
+            pickUpObject(gp.currentMap, objIndex);
+
             //check npc collision
             int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
             interactNPC(npcIndex);
-            
+
             //check monster collision
             int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
             contactMonster(monsterIndex);
 
             //check iTile collision
             gp.cChecker.checkEntity(this, gp.iTile);
-            
+
             //check event
             gp.eHandler.checkEvent();
-            
+
             //if collision is false, player can move
             if(!collisionOn && !keyH.enterPressed){
                 switch(direction){
@@ -194,11 +196,11 @@ public class Player extends Entity {
                         worldX += speed;
                         break;
                     }
-                    
+
                 }
-            }  
+            }
             gp.keyH.enterPressed = false;
-            
+
             spriteCounter++;
             if(spriteCounter > 12){
                 if(spriteNum == 1){
@@ -211,10 +213,10 @@ public class Player extends Entity {
             }
         }
 
-        if(gp.keyH.shotkeyPressed && !projectile.alive && shotCounter == 30 && projectile.haveResource(this) == true){ 
+        if(gp.keyH.shotkeyPressed && !projectile.alive && shotCounter == 30 && projectile.haveResource(this)){
             //sets position, direction and user
             projectile.set(worldX, worldY, direction, true, this);
-            
+
             projectile.subtractResource(this);
 
             //add it to the list
@@ -271,9 +273,8 @@ public class Player extends Entity {
                     gp.player.exp += gp.monster[gp.currentMap][i].exp;
                     gp.ui.showMessage(gp.monster[gp.currentMap][i].name + " killed!");
                     gp.ui.showMessage(gp.monster[gp.currentMap][i].exp + " exp gained!");
-                    checkLevelUp();
                     gp.monster[gp.currentMap][i].alive = false;
-                    gp.monster[gp.currentMap][i] = null;
+                    gp.monster[gp.currentMap][i].dead = true;
                     System.out.println("Monster defeated!");
                 }
             }
@@ -286,6 +287,7 @@ public class Player extends Entity {
             level++;
             nextLevelExp *= 2;
             maxLife += 2;
+            maxMana += 2;
             atkPower +=1;
             defense +=1;
             life = maxLife;
@@ -295,7 +297,31 @@ public class Player extends Entity {
                                     +"You feel stronger!";
         }
     }
+    public void pickUpObject(int mapNum, int i){
+        if (i != 999) {
 
+
+            if(gp.obj[mapNum][i].type == type_pickupOnly){
+                gp.obj[mapNum][i].use(this);
+                gp.obj[mapNum][i] = null;
+            }
+            else{
+                String text;
+                if (inventory.size() != maxInventorySize) {
+                    inventory.add(gp.obj[mapNum][i]);
+                    gp.playSE(1);
+                    text = "Got a " + gp.obj[mapNum][i].name + "!";
+                } else {
+                    text = "You cannot carry any more!";
+                }
+
+                gp.ui.showMessage(text);
+                gp.obj[mapNum][i] = null;
+            }
+
+
+        }
+    }
     public void attack() {
         spriteCounter++;
 
@@ -353,20 +379,6 @@ public class Player extends Entity {
         }
     }
 
-    public void pickUpObject(int i){
-        if(i != 999){
-            String text;
-            if(inventory.size() != maxInventorySize){
-                inventory.add(gp.obj[gp.currentMap][i]);
-                text = "Got a " + gp.obj[gp.currentMap][i].name;
-            } else {
-                text = "You cannot carry any more!";
-            }
-            gp.ui.showMessage(text);
-            gp.obj[gp.currentMap][i] = null;
-        }
-    }
-
     public void interactNPC(int i){
         if(gp.keyH.enterPressed){
             if(i != 999){
@@ -375,21 +387,24 @@ public class Player extends Entity {
             }
         }
     }
-
-    public void selectItem(){
+    public void selectItem() {
         int itemIndex = gp.ui.getItemIndexOnSlot();
-        if(itemIndex < inventory.size()){
+
+        if (itemIndex < inventory.size()) {
             Entity selectedItem = inventory.get(itemIndex);
 
-            if(selectedItem.type == type_sword || selectedItem.type == type_axe){
+            if (selectedItem.type == type_sword || selectedItem.type == type_axe) {
                 currentWeapon = selectedItem;
                 attack = getAttack();
             }
-            if(selectedItem.type == type_shield){
+
+            if (selectedItem.type == type_shield) {
                 currentShield = selectedItem;
-                defPower = getDefense();
+                defense = getDefense();
             }
-            if(selectedItem.type == type_consumable){
+
+            if (selectedItem.type == type_consumable) {
+                // later
                 selectedItem.use(this);
                 inventory.remove(itemIndex);
             }
