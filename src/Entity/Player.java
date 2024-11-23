@@ -42,14 +42,22 @@ public class Player extends Entity {
         solidArea.width = 24;
         solidArea.height = 12;
 
+        mapTransArea.x = -8;
+        mapTransArea.y = -8;
+        mapTransAreaDefaultX = mapTransArea.x;
+        mapTransAreaDefaultY = mapTransArea.y;
+        mapTransArea.width = 120;
+        mapTransArea.height = 120;
+
         // can now be changed with items such as current sword
 //        attackArea.width = 32;
 //        attackArea.height = 32;
         
         setDefaultValues();
+        setItems();
         getPlayerImage();
         getPlayerAttackImage();
-        setItems();
+
 
     }
     
@@ -70,8 +78,8 @@ public class Player extends Entity {
         projectile = new OBJ_Projectile(gp);
         nextLevelExp = 5;
         coin = 0;
-        currentWeapon = new Blank(gp);
-        currentShield = new Blank(gp);
+        currentWeapon = new OBJ_Sword_Normal(gp);
+        currentShield = new OBJ_Shield_Wood(gp);
         attack = getAttack();
         defPower = getDefense();
         maxMana = 4;
@@ -291,10 +299,10 @@ public class Player extends Entity {
             atkPower +=1;
             defense +=1;
             life = maxLife;
+            mana = maxMana;
 
             gp.gameState = gp.dialogueState;
-            gp.ui.currentDialogue = "You are level "+level+" now!\n"
-                                    +"You feel stronger!";
+            gp.ui.currentDialogue = "You are level "+level+" now!\n" +"You feel stronger!";
         }
     }
     public void pickUpObject(int mapNum, int i){
@@ -404,7 +412,6 @@ public class Player extends Entity {
             }
 
             if (selectedItem.type == type_consumable) {
-                // later
                 selectedItem.use(this);
                 inventory.remove(itemIndex);
             }
@@ -466,6 +473,8 @@ public class Player extends Entity {
         g2.drawImage(image, tempScreenX, tempScreenY, null);
         g2.setColor(Color.red);
         g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+        g2.setColor(Color.green);
+        g2.drawRect(screenX + mapTransArea.x, screenY + mapTransArea.y, mapTransArea.width, mapTransArea.height);
 
         //reset alpha
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,1f));
