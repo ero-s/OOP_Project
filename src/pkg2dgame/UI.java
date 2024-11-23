@@ -52,9 +52,9 @@ public class UI {
         InputStream is = getClass().getResourceAsStream("/pics/fonts/MP16REG.ttf");
         try{
             maruMonica = Font.createFont(TRUETYPE_FONT, is);
-        }catch(FontFormatException e){
+        } catch(FontFormatException e){
             e.printStackTrace();
-        }catch(IOException e){
+        } catch(IOException e) {
             e.printStackTrace();
         }
 
@@ -156,6 +156,13 @@ public class UI {
 
             // DRAW PLAYER'S ITEM
             for(int i = 0; i < gp.player.inventory.size(); i++){
+                
+                if(gp.player.inventory.get(i) == gp.player.currentWeapon ||
+                    gp.player.inventory.get(i) == gp.player.currentShield){
+                        g2.setColor(new Color(240,190,90));
+                        g2.fillRoundRect(slotX, slotY, gp.tileSize, gp.tileSize, 10, 10);
+                    }
+                
                 g2.drawImage(gp.player.inventory.get(i).down1, slotX, slotY,null);
                 slotX += slotSize; 
                 if(i == 4 || i == 9 || i == 14){
@@ -181,21 +188,18 @@ public class UI {
 
             //description frame
 
-            int dFrameX = frameX + gp.tileSize/2;
+            int dFrameX = frameX;
             int dFrameY = frameY + frameHeight;
-            int dFrameWidth = frameWidth - gp.tileSize;
-            int dFrameHeight = gp.tileSize * 3/2;
-            drawBlackBox(dFrameX, dFrameY, dFrameWidth, dFrameHeight);
+            int dFrameWidth = frameWidth;
+            int dFrameHeight = gp.tileSize;
 
             //draw description text
-            int textX = dFrameX + gp.tileSize;
-            int textY = dFrameY + gp.tileSize/2;
-
-            g2.setColor(Color.white);
+            int textX = dFrameX + 20;
+            int textY = dFrameY + gp.tileSize;
             g2.setFont(g2.getFont().deriveFont(28F));
 
             int itemIndex = getItemIndexOnSlot();
-
+            drawSubWindow(dFrameX, dFrameY, dFrameWidth, dFrameHeight);
             if(itemIndex < gp.player.inventory.size()){
                 for(String line : gp.player.inventory.get(itemIndex).description.split("\n")){
                     g2.drawString(line, textX, textY);
@@ -283,6 +287,9 @@ public class UI {
                     if(gp.keyH.enterPressed){
                         gp.player.setDefaultValues();
                         gp.saveLoad.save();
+                        // add for the narration
+
+
                     }
                 }
 
@@ -309,7 +316,7 @@ public class UI {
                 }
             }
               
-//            save and load mechanic
+//            save and load mechanic [ implemented ]
             else if(titleScreenState == 1) {
                 drawLoadExist();
             }
@@ -319,6 +326,7 @@ public class UI {
             
         }
 
+        // this will supposedly show the narration screen
     private void startNewGame() {
         // Set the game state to dialogue
         gp.gameState = gp.dialogueState;
@@ -410,6 +418,7 @@ public class UI {
                 if(gp.keyH.enterPressed){
                     gp.player.setDefaultValues();
                     gp.saveLoad.save();
+                    drawNarrationDialogueScreen();
                     startNewGame();
                     commandNum = 0;
                 }
@@ -853,15 +862,15 @@ public class UI {
             //display window
             final int frameX = gp.tileSize/2;
             final int frameY = gp.tileSize;
-            final int frameWidth = gp.tileSize *5;
-            final int frameHeight = gp.tileSize *7;
+            final int frameWidth = gp.tileSize *4;
+            final int frameHeight = gp.tileSize *5;
             drawSubWindow(frameX, frameY, frameWidth, frameHeight);
 
             //display text
             g2.setColor(Color.white);
             g2.setFont(g2.getFont().deriveFont(32f));
-            int textX = frameX + 120;
-            int textY = frameY + gp.tileSize* 3/2;
+            int textX = frameX + 80;
+            int textY = frameY + gp.tileSize/2+ 48;
             final int lineHeight = 48;
 
             //labels
@@ -881,10 +890,12 @@ public class UI {
             textY +=lineHeight;
             g2.drawString("Weapon: ",textX,textY);
             textY +=lineHeight;
+            g2.drawString("Shield: ",textX,textY);
+            textY +=lineHeight;
 
             //values
-            int tailX = (frameX + frameWidth) - 120;
-            textY = frameY + gp.tileSize + 48;
+            int tailX = (frameX + frameWidth) - 80;
+            textY = frameY + gp.tileSize/2 + 48;
             String value;
 
             //level
@@ -960,11 +971,5 @@ public class UI {
             int length = (int)g2.getFontMetrics().getStringBounds(text,g2).getWidth();
             int x = tailX - length/2;
             return x;
-        }
-
-        public void drawBlackBox(int x, int y, int width, int height){
-            g2.drawRect(x, y, width, height);
-            g2.setColor(new Color(0,0,0,200));
-            g2.fillRect(x,y,width,height);
         }
 }

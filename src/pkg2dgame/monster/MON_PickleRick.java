@@ -6,8 +6,6 @@ package pkg2dgame.monster;
 
 import Entity.Entity;
 import java.util.Random;
-
-import object.OBJ_Projectile;
 import pkg2dgame.GamePanel;
 
 /**
@@ -23,14 +21,13 @@ public class MON_PickleRick extends Entity {
         this.gp = gp;
         name = "PickleRick";
         speed = 1;
-        maxLife = 10;
+        maxLife = 500;
         life = maxLife;
         invincible = false;  // Monster starts without invincibility
-        type = 2;
+        type = type_monster;
         atkPower = 2;
         defense = 2;
         exp = 3;
-        projectile = new OBJ_Projectile(gp);
 
         solidArea.x = 16;
         solidArea.y = 32;
@@ -70,7 +67,6 @@ public class MON_PickleRick extends Entity {
         collisionOn = false;
         gp.cChecker.checkTile(this);  // Check tile collision
         gp.cChecker.checkEntity(this, gp.npc);  // Check NPC collision
-        gp.cChecker.checkPlayer(this);  // Check collision with the player
 
         boolean contactPlayer = gp.cChecker.checkPlayer(this);
         if(this.type == 2 && contactPlayer){
@@ -104,11 +100,13 @@ public class MON_PickleRick extends Entity {
                 spriteNum = 1;
             }
             spriteCounter = 0;
-        } int xDistance = Math.abs(worldX - gp.player.worldX);
+        }
+
+        int xDistance = Math.abs(worldX - gp.player.worldX);
         int yDistance = Math.abs(worldY - gp.player.worldY);
         int tileDistance = (xDistance + yDistance)/gp.tileSize;
 
-        if(!onPath && tileDistance < 5 && shotCounter == 30){
+        if(!onPath && tileDistance < 5){
             int i = new Random().nextInt(100)+1;
             if(i > 50){
                 onPath = true;
@@ -118,6 +116,8 @@ public class MON_PickleRick extends Entity {
             onPath = false;
         }
     }
+
+
     public void setAction() {
         if (onPath) {
 //            //set goal Position
@@ -130,12 +130,12 @@ public class MON_PickleRick extends Entity {
 
             searchPath(goalCol, goalRow);
 
-            int i = new Random().nextInt(200) + 1;
-            if (i > 99 && !projectile.alive ) {
+            int i = new Random().nextInt(200)+1;
+            if(i > 197 && projectile.alive == false && shotCounter == 30){
                 projectile.set(worldX, worldY, direction, true, this);
                 gp.projectileList.add(projectile);
+                shotCounter = 0;
             }
-
         }
         else {
             // Decide movement direction every 120 frames
@@ -156,8 +156,6 @@ public class MON_PickleRick extends Entity {
                 actionLockCounter = 0;
             }
         }
-
-
     }
 
     public void damageReaction() {
