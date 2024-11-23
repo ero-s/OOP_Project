@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import dialogue.StoryDialogue;
 import object.OBJ_Heart;
 
 import static java.awt.Font.TRUETYPE_FONT;
@@ -40,6 +41,8 @@ public class UI {
     ArrayList<String> message = new ArrayList<>();
     ArrayList<Integer> messageCounter = new ArrayList<>();
 
+    private StoryDialogue storyDialogue;
+
 //	double playTime;
 //	DecimalFormat dFormat = new DecimalFormat("#0.00");
 
@@ -49,9 +52,9 @@ public class UI {
         InputStream is = getClass().getResourceAsStream("/pics/fonts/MP16REG.ttf");
         try{
             maruMonica = Font.createFont(TRUETYPE_FONT, is);
-        }catch(FontFormatException e){
+        } catch(FontFormatException e){
             e.printStackTrace();
-        }catch(IOException e){
+        } catch(IOException e) {
             e.printStackTrace();
         }
 
@@ -63,6 +66,8 @@ public class UI {
                 fullHeart = heart.image;
                 halfHeart = heart.image2;
                 emptyHeart = heart.image3;
+
+        storyDialogue = new StoryDialogue();
                 
 	}
 
@@ -109,6 +114,10 @@ public class UI {
         if(gp.gameState == gp.gameOverState){
             drawGameOverScreen();
         }
+
+        //narration in new game
+
+
     }
     public void drawMessage(){
         int messageX = gp.tileSize/2;
@@ -278,7 +287,9 @@ public class UI {
                     if(gp.keyH.enterPressed){
                         gp.player.setDefaultValues();
                         gp.saveLoad.save();
-                        //gp.saveLoad.setHasSave(true);
+                        // add for the narration
+
+
                     }
                 }
 
@@ -305,7 +316,7 @@ public class UI {
                 }
             }
               
-//            save and load mechanic
+//            save and load mechanic [ implemented ]
             else if(titleScreenState == 1) {
                 drawLoadExist();
             }
@@ -314,6 +325,18 @@ public class UI {
             }
             
         }
+
+        // this will supposedly show the narration screen
+    private void startNewGame() {
+        // Set the game state to dialogue
+        gp.gameState = gp.dialogueState;
+
+        // Load the dialogues in StoryDialogue
+        storyDialogue.loadDialogues();
+        //drawNarrationDialogueScreen(); // Load the initial dialogues
+        storyDialogue.display(); // Display the first dialogue
+    }
+
     public void drawNoLoad(){
         commandNum = 0;
 
@@ -395,10 +418,39 @@ public class UI {
                 if(gp.keyH.enterPressed){
                     gp.player.setDefaultValues();
                     gp.saveLoad.save();
+                    drawNarrationDialogueScreen();
+                    startNewGame();
                     commandNum = 0;
                 }
             }
         }
+
+
+        // the first part will show the dialogue [ not done ]
+    public void drawNarrationDialogueScreen() {
+        // Define the dimensions and position for the dialogue window
+        int x = gp.tileSize / 2; // X position
+        int y = gp.tileSize * 21 / 4; // Y position
+        int width = gp.screenWidth - x * 2; // Width of the dialogue box
+        int height = gp.tileSize * 2; // Height of the dialogue box
+
+        // Draw the dialogue window background
+        drawSubWindow(x, y, width, height);
+
+        // Set the font and color for the dialogue text
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 32f));
+        g2.setColor(Color.white);
+
+        // Calculate the starting position for the text
+        x += gp.tileSize / 2; // Add some padding to the left
+        y += gp.tileSize / 2; // Add some padding to the top
+
+        // Split the current dialogue into lines and draw each line
+        for (String line : currentDialogue.split("\n")) {
+            g2.drawString(line, x, y); // Draw the current line
+            y += 40; // Move down for the next line
+        }
+    }
 
         public void drawGameOverScreen() {
             g2.setColor(new Color(0,0,0,200));
