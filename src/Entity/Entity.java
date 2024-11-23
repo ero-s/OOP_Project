@@ -49,20 +49,26 @@ public class Entity {
     public int projectileCounter = 0;
     public int shotCounter = 0;
     int hpBarCounter = 0;
-    public int cooldown = 0;
 
     //character attributes this
     public int maxLife;
     public int life;
     public String name;
-    public int level, atkPower, defense, exp, nextLevelExp, coin, mana, useCost;
+    
+    public int level, atkPower, defense, exp, nextLevelExp, coin, mana, maxMana, useCost, ammo;
     public Projectile projectile;
     public Entity currentWeapon;
     public Entity currentShield;
     public int attack, defPower;
 
-    // TYPE
-    public int type;
+    //item attributes
+    public int attackValue;
+    public int defenseValue;
+    public String description = "";
+
+
+    //type
+    public int type; //type of entity 1: npc, 2:monster
     public final int type_player = 0;
     public final int type_npc = 1;
     public final int type_monster = 2;
@@ -70,31 +76,12 @@ public class Entity {
     public final int type_axe = 4;
     public final int type_shield = 5;
     public final int type_consumable = 6;
-    public final int type_pickupOnly = 7;
-
-    //item attributes
-    public int attackValue;
-    public int defenseValue;
-    public String description = "";
-    public int value;
 
     public Entity(GamePanel gp){
         this.gp = gp;
     }
     public void damageReaction(){}
     public void setAction(){}
-    public void use(Entity entity){}
-    public void checkDrop(){}
-    public void dropItem(Entity droppedItem) {
-        for (int i = 0; i < gp.obj[gp.currentMap].length; i++) {
-            if (gp.obj[gp.currentMap][i] == null) {
-                gp.obj[gp.currentMap][i] = droppedItem;
-                gp.obj[gp.currentMap][i].worldX = worldX; // the dead monster's worldX
-                gp.obj[gp.currentMap][i].worldY = worldY;
-                break;
-            }
-        }
-    }
     public void speak(){
         if(dialogues[dialogueIndex] == null){
             dialogueIndex = 0;
@@ -117,6 +104,8 @@ public class Entity {
                 break;
         }
     }
+
+    public void use(Entity entity){}
     public void checkCollision(){
         collisionOn = false;
         gp.cChecker.checkTile(this);
@@ -168,7 +157,9 @@ public class Entity {
                 }
                 spriteCounter = 0;
             }
+
     }
+
     public void damagePlayer(int atkPower){
         if(!gp.player.invincible){
             //damage player
@@ -222,7 +213,7 @@ public class Entity {
                     }
                 }
 
-                if(invincible){
+                if(invincible == true){
                     hpBarOn = true;
                     hpBarCounter = 0;
                     changeAlpha(g2,0.4f);
