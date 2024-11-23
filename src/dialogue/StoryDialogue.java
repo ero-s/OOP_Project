@@ -18,17 +18,26 @@ public class StoryDialogue implements Dialogue {
         dialogues = new ArrayList<>();
         currentIndex = 0;
 
-        // text dialogues details
-        //textArea = new JTextArea();
-        //textArea.setEditable(false);
-        //textArea.setLineWrap(true);
-        //textArea.setWrapStyleWord(true);
-        //textArea.setFont(new Font("Arial", Font.PLAIN, 16));
-        //add(new JScrollPane(textArea), BorderLayout.CENTER);
+        // text dialogues details dont include  JFrame
+//        JFrame frame = new JFrame("Story Dialogue");
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        frame.setLayout(new BorderLayout());
 
+        textArea = new JTextArea();
+        textArea.setEditable(false);
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        textArea.setFont(new Font("Arial", Font.PLAIN, 16));
+        //frame.add(new JScrollPane(textArea), BorderLayout.CENTER);
         // next button
         nextButton = new JButton("Next");
         nextButton.addActionListener(new NextButtonListener());
+
+        //frame.add(nextButton, BorderLayout.SOUTH);
+
+        //frame.setSize(400, 300); // Set size as needed
+        //frame.setVisible(true); // Show the frame
+
 
 
         loadDialogues();
