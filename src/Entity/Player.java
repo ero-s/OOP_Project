@@ -293,22 +293,7 @@ public class Player extends Entity {
                                     +"You feel stronger!";
         }
     }
-    public void pickUpObject(int i){
-        if(i != 999){
-//            String objName = gp.obj[i].name;
-//            switch(objName){
-//                case "Door":{
-//                    if(hasKey > 0){
-//                         gp.obj[i] = null;
-//                         
-//                    }
-//                   
-//                    break;
-//                    
-//                }
-//            }
-        }
-    }
+
     public void attack() {
         spriteCounter++;
 
