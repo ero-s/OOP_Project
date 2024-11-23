@@ -31,6 +31,7 @@ public class MON_PickleRick extends Entity {
         defense = 2;
         exp = 3;
         projectile = new OBJ_Projectile(gp);
+        alive = true;
 
         solidArea.x = 16;
         solidArea.y = 32;
@@ -156,14 +157,10 @@ public class MON_PickleRick extends Entity {
                 actionLockCounter = 0;
             }
         }
-
-
     }
-
     public void damageReaction() {
         actionLockCounter = 0;
         onPath = true;
-
     }
 }
 

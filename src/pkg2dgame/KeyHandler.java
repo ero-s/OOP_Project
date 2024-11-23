@@ -78,15 +78,16 @@ public class KeyHandler implements KeyListener{
                         gp.ui.titleScreenState = 1;
                     }
                     else{
+                        gp.setupGame();
                         gp.player.setDefaultValues();
                         gp.saveLoad.save();
                         gp.saveLoad.setHasSave(true);
                         gp.gameState = gp.playState;
-                    }                }
+                    }
+                }
 
                 if(gp.ui.commandNum == 1){ // load
                     boolean isTrue = gp.saveLoad.getHasSave();
-
                         if (isTrue == true) {
                             gp.saveLoad.load();
                             gp.gameState = gp.playState;
@@ -117,7 +118,8 @@ public class KeyHandler implements KeyListener{
                 if(gp.ui.commandNum == 0){ // back
                     gp.ui.titleScreenState = 0;
                 }
-                if(gp.ui.commandNum == 1){ // load
+                if(gp.ui.commandNum == 1){ // new game
+                    gp.setupGame();
                     gp.player.setDefaultValues();
                     gp.saveLoad.save();
                     gp.saveLoad.setHasSave(true);
@@ -219,6 +221,10 @@ public class KeyHandler implements KeyListener{
                 gp.ui.slotCol++;
                 gp.playSE(1);
             }
+        }
+
+        if (code == KeyEvent.VK_ENTER) {
+            gp.player.selectItem();
         }
     }
     public void gameOverState(int code){

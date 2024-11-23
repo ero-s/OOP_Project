@@ -156,9 +156,16 @@ public class UI {
 
             // DRAW PLAYER'S ITEM
             for(int i = 0; i < gp.player.inventory.size(); i++){
+
+                // EQUIP CURSOR
+                if (gp.player.inventory.get(i) == gp.player.currentWeapon || gp.player.inventory.get(i) == gp.player.currentShield) {
+                    g2.setColor(new Color(240, 190, 90));
+                    g2.fillRoundRect(slotX, slotY, gp.tileSize/2, gp.tileSize/2, 10, 10);
+                }
+
                 g2.drawImage(gp.player.inventory.get(i).down1, slotX, slotY,null);
                 slotX += slotSize; 
-                if(i == 4 || i == 9 || i == 14){
+                if(i == 5 || i == 9 || i == 14){
                     slotX = slotXStart;
                     slotY += slotSize;
                 }
@@ -185,18 +192,19 @@ public class UI {
             int dFrameY = frameY + frameHeight;
             int dFrameWidth = frameWidth - gp.tileSize;
             int dFrameHeight = gp.tileSize * 3/2;
-            drawBlackBox(dFrameX, dFrameY, dFrameWidth, dFrameHeight);
 
             //draw description text
             int textX = dFrameX + gp.tileSize;
             int textY = dFrameY + gp.tileSize/2;
 
-            g2.setColor(Color.white);
-            g2.setFont(g2.getFont().deriveFont(28F));
+
 
             int itemIndex = getItemIndexOnSlot();
 
             if(itemIndex < gp.player.inventory.size()){
+                drawBlackBox(dFrameX, dFrameY, dFrameWidth, dFrameHeight);
+                g2.setColor(Color.white);
+                g2.setFont(g2.getFont().deriveFont(28F));
                 for(String line : gp.player.inventory.get(itemIndex).description.split("\n")){
                     g2.drawString(line, textX, textY);
                     textY += 32;
@@ -219,7 +227,7 @@ public class UI {
             while(i < gp.player.maxLife/2){
                 g2.drawImage(emptyHeart, x, y,null);
                 i++;
-                x+=gp.tileSize;
+                x+=48;
             }
             
             //reset
@@ -233,7 +241,7 @@ public class UI {
                     g2.drawImage(fullHeart,x,y,null);
                 }
                 i++;
-                x+=gp.tileSize;
+                x+=48;
             }
         }
         public void drawCarrot(int x, int y, int width, int height){
@@ -494,7 +502,7 @@ public class UI {
             int y = gp.tileSize * 21 /4;
             int width = gp.screenWidth - x*2;
             int height = gp.tileSize * 2;
-            drawSubWindow(x ,y, width, height);
+            drawBlackBox(x ,y, width, height);
             
             g2.setFont(g2.getFont().deriveFont(Font.PLAIN,32f));
             x += gp.tileSize /2;
@@ -930,9 +938,9 @@ public class UI {
             textY +=lineHeight;
 
             //weapon
-            g2.drawImage(gp.player.currentWeapon.down1, tailX - gp.tileSize, textY, null);
-            textY += gp.tileSize;
-            g2.drawImage(gp.player.currentShield.down1, tailX - gp.tileSize, textY, null);
+            g2.drawImage(gp.player.currentWeapon.down1, textX-16, textY-32, null);
+            textY +=lineHeight;
+            g2.drawImage(gp.player.currentShield.down1, textX-16, textY-32, null);
             textY += gp.tileSize;
 
         }
@@ -963,8 +971,13 @@ public class UI {
         }
 
         public void drawBlackBox(int x, int y, int width, int height){
-            g2.drawRect(x, y, width, height);
-            g2.setColor(new Color(0,0,0,200));
-            g2.fillRect(x,y,width,height);
+            Color c = new Color(0, 0, 0, 210);
+            g2.setColor(c);
+            g2.fillRoundRect(x, y, width, height, 35, 35);
+
+            c = new Color(255, 255, 255);
+            g2.setColor(c);
+            g2.setStroke(new BasicStroke(5));
+            g2.drawRoundRect(x + 5, y + 5, width - 10, height - 10, 25, 25);
         }
 }

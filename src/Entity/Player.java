@@ -7,10 +7,7 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import object.OBJ_Key;
-import object.OBJ_Projectile;
-import object.OBJ_Shield_Wood;
-import object.OBJ_Sword_Normal;
+import object.*;
 import pkg2dgame.GamePanel;
 import pkg2dgame.KeyHandler;
 
@@ -18,9 +15,13 @@ public class Player extends Entity {
     KeyHandler keyH;
     
     public final int screenX, screenY;
+    private int projectileCooldown = 300; // Cooldown duration
+    private int cooldownTimer = 0; // Timer to track cooldown
+    private boolean cooldownMessageShown = false;
     int standCounter = 0;
     public ArrayList <Entity> inventory = new ArrayList<Entity>();
     public final int maxInventorySize = 20;
+    public boolean projectileUsed = false;
 
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
 
@@ -39,8 +40,9 @@ public class Player extends Entity {
         solidArea.width = 24;
         solidArea.height = 12;
 
-        attackArea.width = 32;
-        attackArea.height = 32;
+        // can now be changed with items such as current sword
+//        attackArea.width = 32;
+//        attackArea.height = 32;
         
         setDefaultValues();
         getPlayerImage();
@@ -66,19 +68,19 @@ public class Player extends Entity {
         projectile = new OBJ_Projectile(gp);
         nextLevelExp = 5;
         coin = 0;
-        currentWeapon = new OBJ_Sword_Normal(gp);
-        currentShield = new OBJ_Shield_Wood(gp);
+        currentWeapon = new Blank(gp);
+        currentShield = new Blank(gp);
         attack = getAttack();
         defPower = getDefense();
     }
 
     public void setItems(){
-        inventory.add(currentWeapon);
-        inventory.add(currentShield);
-        inventory.add(new OBJ_Key(gp));
-        inventory.add(new OBJ_Key(gp));
+        inventory.add(new OBJ_Sword_Normal(gp));
+        inventory.add(new OBJ_Shield_Wood(gp));
+        inventory.add(new OBJ_Axe(gp));
     }
     public int getAttack(){
+        attackArea = currentWeapon.attackArea;
         return attack = atkPower * currentWeapon.attackValue;
     }
 
@@ -155,7 +157,7 @@ public class Player extends Entity {
             
             //check obj collision
             int objIndex = gp.cChecker.checkObject(this, true);
-            pickUpObject(objIndex);
+            pickUpObject(gp.currentMap, objIndex);
             
             //check npc collision
             int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
@@ -207,17 +209,41 @@ public class Player extends Entity {
             }
         }
 
-        if(gp.keyH.shotkeyPressed && !projectile.alive && shotCounter == 30){ // && projectile.haveResource(this) == true
-            //sets position, direction and user
-            projectile.set(worldX, worldY, direction, true, this);
-            
-            // projectile.subtractResource(this);
+        if (cooldownTimer > 0) {
+            projectileUsed = false;
+            cooldownTimer--;
+        }
 
-            //add it to the list
+// If the cooldown is active and the shot key is pressed
+        if (gp.keyH.shotkeyPressed && cooldownTimer > 0) {
+            // Only show the message if it hasn't been displayed yet
+            if (!cooldownMessageShown) {
+                String text = projectile.name + " is on cooldown for " + (cooldownTimer / 60) + " seconds.";
+                gp.ui.showMessage(text);
+                cooldownMessageShown = true; // Set the flag to true after showing the message
+            }
+        } else if (gp.keyH.shotkeyPressed && cooldownTimer == 0 && !projectile.alive) {
+            // Reset the flag when the projectile is used successfully
+            cooldownMessageShown = false;
+
+            // Sets position, direction, and user for the projectile
+            projectile.set(worldX, worldY, direction, true, this);
+
+            // Add the projectile to the list
             gp.projectileList.add(projectile);
 
-            shotCounter = 0;
-            // gp.playSe(10);
+            // Reset the cooldown timer
+            cooldownTimer = projectileCooldown;
+            projectileUsed = true;
+        }
+
+        // Update the cooldown timer if active
+        if (cooldownTimer > 0) {
+            cooldownTimer--;
+            if (cooldownTimer == 0) {
+                // Reset the flag when the cooldown finishes
+                cooldownMessageShown = false;
+            }
         }
 
         //invincible time for player
@@ -269,7 +295,7 @@ public class Player extends Entity {
                     gp.ui.showMessage(gp.monster[gp.currentMap][i].exp + " exp gained!");
                     checkLevelUp();
                     gp.monster[gp.currentMap][i].alive = false;
-                    gp.monster[gp.currentMap][i] = null;
+                    gp.monster[gp.currentMap][i].dead = true;
                     System.out.println("Monster defeated!");
                 }
             }
@@ -291,20 +317,29 @@ public class Player extends Entity {
                                     +"You feel stronger!";
         }
     }
-    public void pickUpObject(int i){
-        if(i != 999){
-//            String objName = gp.obj[i].name;
-//            switch(objName){
-//                case "Door":{
-//                    if(hasKey > 0){
-//                         gp.obj[i] = null;
-//                         
-//                    }
-//                   
-//                    break;
-//                    
-//                }
-//            }
+    public void pickUpObject(int mapNum, int i){
+        if (i != 999) {
+
+
+            if(gp.obj[mapNum][i].type == type_pickupOnly){
+                gp.obj[mapNum][i].use(this);
+                gp.obj[mapNum][i] = null;
+            }
+            else{
+                String text;
+                if (inventory.size() != maxInventorySize) {
+                    inventory.add(gp.obj[mapNum][i]);
+                    gp.playSE(1);
+                    text = "Got a " + gp.obj[mapNum][i].name + "!";
+                } else {
+                    text = "You cannot carry any more!";
+                }
+
+                gp.ui.showMessage(text);
+                gp.obj[mapNum][i] = null;
+            }
+
+
         }
     }
     public void attack() {
@@ -369,6 +404,29 @@ public class Player extends Entity {
             if(i != 999){
                 gp.gameState = gp.dialogueState;
                 gp.npc[gp.currentMap][i].speak();
+            }
+        }
+    }
+    public void selectItem() {
+        int itemIndex = gp.ui.getItemIndexOnSlot();
+
+        if (itemIndex < inventory.size()) {
+            Entity selectedItem = inventory.get(itemIndex);
+
+            if (selectedItem.type == type_sword || selectedItem.type == type_axe) {
+                currentWeapon = selectedItem;
+                attack = getAttack();
+            }
+
+            if (selectedItem.type == type_shield) {
+                currentShield = selectedItem;
+                defense = getDefense();
+            }
+
+            if (selectedItem.type == type_consumable) {
+                // later
+                selectedItem.use(this);
+                inventory.remove(itemIndex);
             }
         }
     }

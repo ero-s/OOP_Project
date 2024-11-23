@@ -4,12 +4,15 @@ import pkg2dgame.GamePanel;
 
 public class Projectile extends Entity{
     Entity user;
+    public int projectileCooldown = 300; // Cooldown duration
+    public int cooldownTimer = 0; // Timer to track cooldown
+    public boolean used = false;
     public Projectile(GamePanel gp){
         super(gp);
 
     }
     public void set(int worldX, int worldY, String direction, boolean alive, Entity user){
-
+        this.cooldown = 5 * 60;
         this.worldX = worldX;
         this.worldY = worldY;
         this.direction = direction;

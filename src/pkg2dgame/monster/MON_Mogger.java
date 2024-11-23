@@ -28,6 +28,7 @@ public class MON_Mogger extends Entity {
         atkPower = 2;
         defense = 2;
         exp = 3;
+        alive = true;
 
         solidArea.x = 16;
         solidArea.y = 32;

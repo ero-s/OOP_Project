@@ -39,14 +39,14 @@ public class MON_JakOLantern extends Entity {
     }
 
     public void getImage() {
-        up1 = setup("/pics/monsters/JakOLantern/up1.png", gp.tileSize, gp.tileSize);
-        up2 = setup("/pics/monsters/JakOLantern/up2.png", gp.tileSize, gp.tileSize);
-        left1 = setup("/pics/monsters/JakOLantern/left1.png", gp.tileSize, gp.tileSize);
-        left2 = setup("/pics/monsters/JakOLantern/left2.png", gp.tileSize, gp.tileSize);
-        right1 = setup("/pics/monsters/JakOLantern/right1.png", gp.tileSize, gp.tileSize);
-        right2 = setup("/pics/monsters/JakOLantern/right2.png", gp.tileSize, gp.tileSize);
-        down1 = setup("/pics/monsters/JakOLantern/down1.png", gp.tileSize, gp.tileSize);
-        down2 = setup("/pics/monsters/JakOLantern/down2.png", gp.tileSize, gp.tileSize);
+        up1 = setup("/pics/monsters/JaKOLantern/up1.png", gp.tileSize, gp.tileSize);
+        up2 = setup("/pics/monsters/JaKOLantern/up2.png", gp.tileSize, gp.tileSize);
+        left1 = setup("/pics/monsters/JaKOLantern/left1.png", gp.tileSize, gp.tileSize);
+        left2 = setup("/pics/monsters/JaKOLantern/left2.png", gp.tileSize, gp.tileSize);
+        right1 = setup("/pics/monsters/JaKOLantern/right1.png", gp.tileSize, gp.tileSize);
+        right2 = setup("/pics/monsters/JaKOLantern/right2.png", gp.tileSize, gp.tileSize);
+        down1 = setup("/pics/monsters/JaKOLantern/down1.png", gp.tileSize, gp.tileSize);
+        down2 = setup("/pics/monsters/JaKOLantern/down2.png", gp.tileSize, gp.tileSize);
     }
 
     @Override
