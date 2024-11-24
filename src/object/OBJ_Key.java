@@ -28,6 +28,7 @@ public class OBJ_Key extends Entity{
         yOffset = 0;
         setCollisionArea(solidArea.x, solidArea.y, solidArea.width, solidArea.height, 0, 16);
         collision = true;
+        stackable = true;
         description = "[" + name + "]\nIt opens a door.";
     }
     
