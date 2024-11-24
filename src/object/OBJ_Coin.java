@@ -3,6 +3,8 @@ package object;
 import Entity.Entity;
 import pkg2dgame.GamePanel;
 
+import java.awt.image.BufferedImage;
+
 public class OBJ_Coin extends Entity {
     GamePanel gp;
 

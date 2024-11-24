@@ -9,6 +9,7 @@ public class NPC_Merchant extends Entity{
         super(gp);
         direction = "down";
         speed = 0;
+        setCollisionArea(16,16,32,32,32,32);
         getImage();
         setDialogue();
         setItems();
@@ -41,10 +42,7 @@ public class NPC_Merchant extends Entity{
 
     public void setItems(){
         inventory.add(new CON_Cabbage(gp));
-        inventory.add(new CON_Cabbage(gp));
-        inventory.add(new CON_Cabbage(gp));
         inventory.add(new CON_Carrot(gp));
-        inventory.add(new CON_Carrot(gp));
-        inventory.add(new CON_Carrot(gp));
+
     }
 }

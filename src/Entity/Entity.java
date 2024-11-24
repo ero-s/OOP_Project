@@ -64,6 +64,7 @@ public class Entity {
     public Entity currentWeapon;
     public Entity currentShield;
     public int attack, defPower;
+    public int price;
 
     // TYPE
     public int type;
@@ -281,6 +282,10 @@ public class Entity {
                 // Draw the character’s image
                 g2.drawImage(image, screenX, screenY, null);
 
+                if(onPath){
+                    layPath(this, g2);
+                }
+
                 // Draw the collision box
                 g2.setColor(Color.red);
                 int collisionBoxX = screenX + this.solidAreaDefaultX;
@@ -289,6 +294,20 @@ public class Entity {
 
                 // Reset opacity after each draw to avoid affecting other elements
                 resetAlpha(g2);
+            }
+        }
+    }
+
+    public void layPath(Entity entity, Graphics2D g2){
+        g2.setColor(new Color(255,0,0,70));
+
+        for(int i = 0; i < gp.pFinder.pathList.size(); i++){
+            if(alive && !dead){
+                int worldX = gp.pFinder.pathList.get(i).col * gp.tileSize;
+                int worldY = gp.pFinder.pathList.get(i).row * gp.tileSize;
+                int screenX = worldX - gp.player.worldX + gp.player.screenX;
+                int screenY = worldY - gp.player.worldY + gp.player.screenY;
+                g2.fillRect(screenX, screenY, gp.tileSize, gp.tileSize);
             }
         }
     }

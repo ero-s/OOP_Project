@@ -54,6 +54,9 @@ public class KeyHandler implements KeyListener{
         else if(gp.gameState == gp.optionState){
             optionState(code);
         }
+        else if (gp.gameState == gp.tradeState){
+            tradeState(code);
+        }
         //gameOverState
         else if(gp.gameState == gp.gameOverState){
             gameOverState(code);
@@ -83,8 +86,10 @@ public class KeyHandler implements KeyListener{
                         gp.player.setDefaultValues();
                         gp.saveLoad.save();
                         gp.saveLoad.setHasSave(false);
+                        // gp.gameState = gp.cutsceneState
                         gp.gameState = gp.playState;
-                    }                }
+                    }
+                }
 
                 if(gp.ui.commandNum == 1){ // load
                     boolean isTrue = gp.saveLoad.getHasSave();
@@ -124,6 +129,7 @@ public class KeyHandler implements KeyListener{
                     gp.player.setDefaultValues();
                     gp.saveLoad.save();
                     gp.saveLoad.setHasSave(false);
+                    // gp.gameState = gp.cutsceneState
                     gp.gameState = gp.playState;
                     gp.ui.titleScreenState = 0;
                 }
@@ -203,10 +209,13 @@ public class KeyHandler implements KeyListener{
     }
 
     public void tradeState(int code){
+        if (gp.ui.commandNum < 0) {
+            gp.ui.commandNum = 0;
+        }
+
         if(code == KeyEvent.VK_ENTER){
             enterPressed = true;
         }
-
         if(gp.ui.subState == 0){
             if(code == KeyEvent.VK_W){
                 gp.ui.commandNum--;
@@ -224,6 +233,12 @@ public class KeyHandler implements KeyListener{
 
         if(gp.ui.subState == 1){
             npcInventory(code);
+            if(code == KeyEvent.VK_ESCAPE){
+                gp.ui.subState = 0;
+            }
+        }
+        if(gp.ui.subState == 2){
+            playerInventory(code);
             if(code == KeyEvent.VK_ESCAPE){
                 gp.ui.subState = 0;
             }

@@ -160,7 +160,6 @@ public class MON_Sigma extends Entity implements MON_Interface{
     public void damageReaction() {
         actionLockCounter = 0;
         onPath = true;
-
     }
 
     public void checkDrop() {

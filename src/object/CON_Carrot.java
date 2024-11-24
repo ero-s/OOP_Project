@@ -16,6 +16,7 @@ public class CON_Carrot extends Entity{
         down1 = setup("/pics/objects/carrot_buff.png",gp.tileSize/2, gp.tileSize/2);
         description = "[" + name + "]\nrestores health \nby "+value+".";
         defenseValue = 3;
+        price = 2;
         collision = true;
         solidArea.x = 64;
         solidArea.y = 64;

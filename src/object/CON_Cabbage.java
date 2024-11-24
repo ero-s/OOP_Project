@@ -16,6 +16,7 @@ public class CON_Cabbage extends Entity {
         down1 = setup("/pics/objects/cabbage_buff.png",gp.tileSize/2, gp.tileSize/2);
         description = "[" + name + "]\n restores "+value+" mana.";
         collision = true;
+        price = 2;
         solidArea.x = 64;
         solidArea.y = 64;
         solidArea.width = 32;
