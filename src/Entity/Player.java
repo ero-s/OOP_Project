@@ -102,15 +102,6 @@ public class Player extends Entity {
         worldY = gp.tileSize * 41;
         direction = "down";
     }
-
-// //      To be continued// gotta consult them first
-//     public void setItems(){
-//         inventory.add(currentWeapon);
-//         inventory.add(currentShield);
-//         inventory.add(new OBJ_Key(gp));
-//         inventory.add(new OBJ_Key(gp));
-//     }
-
     public void restoreLife(){
         life = maxLife;
         invincible = false;
@@ -304,6 +295,23 @@ public class Player extends Entity {
             System.out.println("Missed the monster (no collision)");
         }
     }
+
+    public void damageInteractiveTile(int i){
+        if (i != 999 && gp.iTile[gp.currentMap][i].destructible && gp.iTile[gp.currentMap][i].isCorrectItem(this) == true && gp.iTile[gp.currentMap][i].invincible == false){ //
+            gp.iTile[gp.currentMap][i].playSE();
+
+            // generate particle
+            generateParticle(gp.iTile[gp.currentMap][i],gp.iTile[gp.currentMap][i]);
+            // for tile needing certain amount of hits to destroy
+            gp.iTile[gp.currentMap][i].life--;
+            gp.iTile[gp.currentMap][i].invincible = true;
+
+            if(gp.iTile[gp.currentMap][i].life == 0){
+                gp.iTile[gp.currentMap][i] = gp.iTile[gp.currentMap][i].getDestroyedForm();
+            }
+        }
+    }
+
     public void checkLevelUp(){
         if(exp >= nextLevelExp){
             level++;
@@ -379,6 +387,9 @@ public class Player extends Entity {
             // Check monster collision
             int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
             damageMonster(monsterIndex, atkPower);
+
+            int iTileIndex = gp.cChecker.checkEntity(this, gp.iTile);
+            damageInteractiveTile(iTileIndex);
 
             // Restore original position
             worldX = currentWorldX;
