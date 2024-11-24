@@ -60,7 +60,6 @@ public class Player extends Entity {
 
 
     }
-    
     public void setDefaultValues() {
         gp.currentMap = 0;
         worldX = gp.tileSize * 29;
@@ -85,38 +84,18 @@ public class Player extends Entity {
         maxMana = 4;
         mana = maxMana;
     }
-
     public void setItems(){
         inventory.add(new OBJ_Sword_Normal(gp));
         inventory.add(new OBJ_Shield_Wood(gp));
         inventory.add(new OBJ_Axe(gp));
-        inventory.add(new CON_Carrot(gp));
-        inventory.add(new CON_Carrot(gp));
-        inventory.add(new CON_Carrot(gp));
-        inventory.add(new CON_Carrot(gp));
-        inventory.add(new CON_Carrot(gp));
-        inventory.add(new CON_Carrot(gp));
-        inventory.add(new CON_Carrot(gp));
-        inventory.add(new CON_Carrot(gp));
-        inventory.add(new CON_Carrot(gp));
-        inventory.add(new CON_Carrot(gp));
-        inventory.add(new CON_Carrot(gp));
-        inventory.add(new CON_Carrot(gp));
-        inventory.add(new CON_Carrot(gp));
-        inventory.add(new CON_Carrot(gp));
-        inventory.add(new CON_Carrot(gp));
-        inventory.add(new CON_Carrot(gp));
-        inventory.add(new CON_Carrot(gp));
     }
     public int getAttack(){
         attackArea = currentWeapon.attackArea;
         return attack = atkPower * currentWeapon.attackValue;
     }
-
     public int getDefense(){
         return defPower = defense * currentShield.defenseValue;
     }
-
     public void setDefaultPositions(){
         gp.currentMap = 0;
         worldX = gp.tileSize * 29;
@@ -147,8 +126,31 @@ public class Player extends Entity {
         down1 = setup("/pics/player/Hakobe/Walk front-1.png", gp.tileSize, gp.tileSize);
         down2 = setup("/pics/player/Hakobe/Walk front-2.png", gp.tileSize, gp.tileSize);
     }
-    public void getPlayerAttackImage() {
 
+    public Player(GamePanel gp, int maxMana, boolean attackCanceled, KeyHandler keyH, int screenX, int screenY, int projectileCooldown, int cooldownTimer, boolean cooldownMessageShown, int standCounter, ArrayList<Entity> inventory, boolean projectileUsed, BufferedImage up1, BufferedImage up2, BufferedImage down1, BufferedImage down2, BufferedImage left1, BufferedImage left2, BufferedImage right1, BufferedImage right2) {
+        super(gp);
+        this.maxMana = maxMana;
+        this.attackCanceled = attackCanceled;
+        this.keyH = keyH;
+        this.screenX = screenX;
+        this.screenY = screenY;
+        this.projectileCooldown = projectileCooldown;
+        this.cooldownTimer = cooldownTimer;
+        this.cooldownMessageShown = cooldownMessageShown;
+        this.standCounter = standCounter;
+        this.inventory = inventory;
+        this.projectileUsed = projectileUsed;
+        this.up1 = up1;
+        this.up2 = up2;
+        this.down1 = down1;
+        this.down2 = down2;
+        this.left1 = left1;
+        this.left2 = left2;
+        this.right1 = right1;
+        this.right2 = right2;
+    }
+
+    public void getPlayerAttackImage() {
         attackUp1 = setup("/pics/player/AttackHakobe/up2.png", gp.tileSize, gp.tileSize*2);
         attackUp2 = setup("/pics/player/AttackHakobe/up1.png", gp.tileSize, gp.tileSize*2);
         attackLeft1 = setup("/pics/player/AttackHakobe/left1.png", gp.tileSize*2, gp.tileSize);
@@ -275,7 +277,6 @@ public class Player extends Entity {
         }
     }
     public void damageMonster(int i, int atkPower) {
-
         if (i != 999) {
             System.out.println("Monster hit detected at index: " + i);
             System.out.println("Monster life before damage: " + gp.monster[gp.currentMap][i].life);
@@ -320,27 +321,21 @@ public class Player extends Entity {
     }
     public void pickUpObject(int mapNum, int i){
         if (i != 999) {
-
-
             if(gp.obj[mapNum][i].type == type_pickupOnly){
                 gp.obj[mapNum][i].use(this);
                 gp.obj[mapNum][i] = null;
             }
             else{
                 String text;
-                if (inventory.size() != maxInventorySize) {
-                    inventory.add(gp.obj[mapNum][i]);
+                if (canObtainItem(gp.obj[gp.currentMap][i])) {
                     gp.playSE(1);
                     text = "Got a " + gp.obj[mapNum][i].name + "!";
                 } else {
                     text = "You cannot carry any more!";
                 }
-
                 gp.ui.showMessage(text);
                 gp.obj[mapNum][i] = null;
             }
-
-
         }
     }
     public void attack() {
@@ -399,7 +394,6 @@ public class Player extends Entity {
             gp.keyH.jPressed = false; // Reset attack key press
         }
     }
-
     public void interactNPC(int i){
         if(gp.keyH.enterPressed){
             if(i != 999){
@@ -429,6 +423,41 @@ public class Player extends Entity {
                 inventory.remove(itemIndex);
             }
         }
+    }
+    public int searchItemInInventory(String itemName) {
+        int itemIndex = 999;
+
+        for (int i = 0; i < inventory.size(); i++) {
+            if (inventory.get(i).name.equals(itemName)) {
+                itemIndex = i;
+                break;
+            }
+        }
+
+        return itemIndex;
+    }
+    public boolean canObtainItem(Entity item) {
+        boolean canObtain = false;
+
+        // CHECK IF STACKABLE
+        if (item.stackable) {
+            int index = searchItemInInventory(item.name);
+            if (index != 999) {
+                inventory.get(index).amount++;
+                canObtain = true;
+            } else { // New item so need to check vacancy
+                if (inventory.size() != maxInventorySize) {
+                    inventory.add(item);
+                    canObtain = true;
+                }
+            }
+        } else { // NOT STACKABLE so check vacancy
+            if (inventory.size() != maxInventorySize) {
+                inventory.add(item);
+                canObtain = true;
+            }
+        }
+        return canObtain;
     }
     public void draw(Graphics2D g2) {
         BufferedImage image = null;

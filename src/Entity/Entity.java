@@ -80,6 +80,8 @@ public class Entity {
     public int defenseValue;
     public String description = "";
     public int value;
+    public boolean stackable = false;
+    public int amount = 1;
 
     public Entity(GamePanel gp){
         this.gp = gp;
