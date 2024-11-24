@@ -1,13 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package pkg2dgame;
 
-/**
- *
- * @author austi
- */
 import Entity.Entity;
 import Entity.Player;
 
@@ -83,6 +75,7 @@ public class GamePanel extends JPanel implements Runnable{
     public Entity npc[][] = new Entity[maxMap][100];
     public Entity monster[][] = new Entity[maxMap][100];
     public InteractiveTile iTile[][] = new InteractiveTile[maxMap][100];
+    public ArrayList<Entity> particleList = new ArrayList<Entity>();
     public ArrayList<Entity> entityList = new ArrayList<>();
     public ArrayList<Entity> projectileList = new ArrayList<>();
     
@@ -208,7 +201,18 @@ public class GamePanel extends JPanel implements Runnable{
                         projectileList.remove(i);
                     }
                 }
-                
+            }
+
+            for(int i = 0; i < particleList.size(); i++){
+                if(particleList.get(i) != null){
+                    if(particleList.get(i).alive){
+                        particleList.get(i).update();
+                    }
+                    if(!particleList.get(i).alive){
+                        particleList.remove(i);
+                    }
+                }
+
             }
             for(int i = 0; i < iTile[1].length; i++){
                 if(iTile[currentMap][i] != null){
@@ -261,6 +265,13 @@ public class GamePanel extends JPanel implements Runnable{
                 }
             }
 
+            // Add particles to 'projectileList'
+            for (int i = 0; i < particleList.size(); i++) {
+                if (particleList.get(i) != null) {
+                    entityList.add(particleList.get(i));
+                }
+            }
+
             // Add interactive tiles to `entityList`
             for (int i = 0; i < iTile[1].length; i++) {
                 if (iTile[currentMap][i] != null) {
@@ -288,7 +299,6 @@ public class GamePanel extends JPanel implements Runnable{
             ui.draw((Graphics2D) g2);
         }
     }
-
     public void drawToScreen(){
         Graphics g = getGraphics();
         g.drawImage(tempScreen, 0, 0, screenWidth2, screenHeight2, null);

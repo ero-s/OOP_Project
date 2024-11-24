@@ -73,6 +73,7 @@ public class Projectile extends Entity{
             // If a monster is hit, deal damage and deactivate the projectile
             if (monsterIndex != 999) {
                 gp.player.damageMonster(monsterIndex, atkPower);
+                generateParticle(user.projectile, gp.monster[gp.currentMap][monsterIndex]);
                 alive = false;
                 return;
             }
@@ -84,6 +85,7 @@ public class Projectile extends Entity{
             // If a monster is hit, deal damage and deactivate the projectile
             if (!gp.player.invincible && contactPlayer) {
                 damagePlayer(atkPower);
+                generateParticle(user.projectile, gp.player);
                 alive = false;
                 return;
             }
