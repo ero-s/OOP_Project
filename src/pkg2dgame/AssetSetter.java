@@ -108,8 +108,9 @@ public class AssetSetter {
     public void setInteractiveTile(){
         int i = 0;
         int mapNum = 0;
-        gp.iTile[mapNum][i] = new IT_ChopTree(gp,32,41);i++;
-
+        gp.iTile[mapNum][i] = new IT_ChopTree(gp,31,32);i++;
+        gp.iTile[mapNum][i] = new IT_ChopTree(gp,32, 32);i++;
+        gp.iTile[mapNum][i] = new IT_ChopTree(gp,33,32);i++;
         //mapNum = mapIndex
     }
 }
