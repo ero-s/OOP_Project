@@ -165,19 +165,15 @@ public class Player extends Entity {
         else if(keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed || keyH.enterPressed){
             if (keyH.upPressed) {
                 direction = "up";
-
             }
             else if (keyH.leftPressed) {
                 direction = "left";
-
             }
             else if (keyH.downPressed) {
                 direction = "down"; // Fix: should set direction to "down"
-
             }
             else if (keyH.rightPressed) {
                 direction = "right";
-
             }
 
             //checks tile collsion
