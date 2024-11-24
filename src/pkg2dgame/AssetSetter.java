@@ -62,8 +62,8 @@ public class AssetSetter {
         int i = 0;
         int mapNum = 0;
         gp.npc[mapNum][i] = new NPC_Merchant(gp);
-        gp.npc[mapNum][0].worldX = 32 * gp.tileSize;
-        gp.npc[mapNum][0].worldY = 32 * gp.tileSize;
+        gp.npc[mapNum][i].worldX = 32 * gp.tileSize;
+        gp.npc[mapNum][i].worldY = 32 * gp.tileSize;
         i++;
 
         // gp.npc[0] = new Andres(gp);

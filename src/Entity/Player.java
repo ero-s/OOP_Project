@@ -60,7 +60,7 @@ public class Player extends Entity {
     }
     public void setDefaultValues() {
         gp.currentMap = 0;
-        worldX = gp.tileSize * 29;
+        worldX = gp.tileSize * 36;
         worldY = gp.tileSize * 41;
         speed = 6;
         direction = "down";
@@ -412,7 +412,7 @@ public class Player extends Entity {
         }
     }
     public void selectItem() {
-        int itemIndex = gp.ui.getItemIndexOnSlot();
+        int itemIndex = gp.ui.getItemIndexOnSlot(gp.ui.playerSlotCol, gp.ui.playerSlotRow);
 
         if (itemIndex < inventory.size()) {
             Entity selectedItem = inventory.get(itemIndex);

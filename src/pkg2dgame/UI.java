@@ -31,7 +31,7 @@ public class UI {
     public int counter = 0;
     public int commandNum = 0;
     public int titleScreenState = 0;
-    public int quitgameState = 0;
+    public int quitGameState = 0;
     public int playerSlotCol = 0;
     public int playerSlotRow = 0;
     public int npcSlotCol = 0;
@@ -108,8 +108,8 @@ public class UI {
     public void trade_select(){
         drawDialogueScreen();
 
-        //draw windoe
-        int x = gp.tileSize * 15;
+        //draw window
+        int x = gp.tileSize * 5;
         int y = gp.tileSize * 4;
         int width = gp.tileSize * 3;
         int height = (int)(gp.tileSize * 3.5);
@@ -147,7 +147,11 @@ public class UI {
         }
     }
     public void trade_buy(){
+        //player inventory
+        drawInventory(gp.player, false);
 
+        //npc inventory
+        drawInventory(npc, true);
     }
     public void trade_sell(){}
     public void draw(Graphics2D g2) {
@@ -185,7 +189,7 @@ public class UI {
         }
 
         //trade state
-        if (gp.gameState == gp.characterState) {
+        if (gp.gameState == gp.tradeState) {
             drawTradeScreen();
         }
         //option
@@ -298,7 +302,7 @@ public class UI {
             int textX = dFrameX + gp.tileSize;
             int textY = dFrameY + gp.tileSize / 2;
 
-            int itemIndex = getItemIndexOnSlot();
+            int itemIndex = getItemIndexOnSlot(slotCol, slotRow);
 
             if (itemIndex < entity.inventory.size()) {
                 drawBlackBox(dFrameX, dFrameY, dFrameWidth, dFrameHeight);
@@ -311,7 +315,7 @@ public class UI {
             }
         }
     }
-    public int getItemIndexOnSlot(){
+    public int getItemIndexOnSlot(int slotCol, int slotRow){
         int itemIndex = slotCol + (slotRow*5);
         return itemIndex;
     }

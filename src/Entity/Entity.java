@@ -77,7 +77,7 @@ public class Entity {
     public final int type_pickupOnly = 7;
 
     //item attributes
-    public ArrayList<Entity> inventory = new ArrayList<Entity>();
+    public ArrayList<Entity> inventory = new ArrayList<>();
     public final int maxInventorySize = 20;
     public int attackValue;
     public int defenseValue;
@@ -204,7 +204,7 @@ public class Entity {
         }
 
         spriteCounter++;
-        if(spriteCounter > 12){
+        if(spriteCounter > 24){
             if(spriteNum == 1){
                 spriteNum = 2;
             }
