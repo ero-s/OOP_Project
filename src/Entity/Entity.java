@@ -3,6 +3,7 @@ package Entity;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 import javax.imageio.ImageIO;
 import pkg2dgame.GamePanel;
@@ -76,6 +77,8 @@ public class Entity {
     public final int type_pickupOnly = 7;
 
     //item attributes
+    public ArrayList<Entity> inventory = new ArrayList<Entity>();
+    public final int maxInventorySize = 20;
     public int attackValue;
     public int defenseValue;
     public String description = "";

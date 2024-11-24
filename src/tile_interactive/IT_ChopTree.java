@@ -37,7 +37,7 @@ public class IT_ChopTree extends InteractiveTile {
     }
 
     public InteractiveTile getDestroyedForm(){
-        InteractiveTile tile = new IT_Trunk(gp, worldX/gp.tileSize, worldY/gp.tileSize);
+        InteractiveTile tile = new IT_Trunk(gp, worldX, worldY);
         return tile;
     }
 

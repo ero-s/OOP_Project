@@ -4,6 +4,7 @@
  */
 package pkg2dgame;
 
+import Entity.NPC_Merchant;
 import object.*;
 import pkg2dgame.monster.*;
 import tile_interactive.IT_ChopTree;
@@ -30,8 +31,8 @@ public class AssetSetter {
     }
 
     public void setNPCTile(int mapNum, int ID, int x, int y){
-        gp.monster[mapNum][ID].worldX = gp.tileSize * x;
-        gp.monster[mapNum][ID].worldY = gp.tileSize * y;
+        gp.monster[mapNum][ID].worldX = gp.tileSize * 32;
+        gp.monster[mapNum][ID].worldY = gp.tileSize * 32;
     }
 
     public void setObject(){
@@ -60,6 +61,11 @@ public class AssetSetter {
     public void setNPC(){
         int i = 0;
         int mapNum = 0;
+        gp.npc[mapNum][i] = new NPC_Merchant(gp);
+        gp.npc[mapNum][0].worldX = 32 * gp.tileSize;
+        gp.npc[mapNum][0].worldY = 32 * gp.tileSize;
+        i++;
+
         // gp.npc[0] = new Andres(gp);
         // gp.npc[0].worldX = 22 * gp.tileSize;
         // gp.npc[0].worldY = 21 * gp.tileSize; 

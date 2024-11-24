@@ -21,8 +21,6 @@ public class Player extends Entity {
     private int cooldownTimer = 0; // Timer to track cooldown
     private boolean cooldownMessageShown = false;
     int standCounter = 0;
-    public ArrayList <Entity> inventory = new ArrayList<Entity>();
-    public final int maxInventorySize = 20;
     public boolean projectileUsed = false;
 
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
