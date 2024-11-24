@@ -20,6 +20,8 @@ public class Player extends Entity {
     private int projectileCooldown = 300; // Cooldown duration
     private int cooldownTimer = 0; // Timer to track cooldown
     private boolean cooldownMessageShown = false;
+    private int manaRegenTimer = 0; // Timer to track mana regeneration
+    private int hpRegenTimer = 0;
     int standCounter = 0;
     public boolean projectileUsed = false;
 
@@ -251,6 +253,23 @@ public class Player extends Entity {
         }
         if(life <= 0){
             gp.gameState = gp.gameOverState;
+        }
+
+        if (mana < maxMana) {
+            manaRegenTimer++;
+            if (manaRegenTimer >= 180) { // Assuming 60 updates per second (3 seconds)
+                mana++;
+                manaRegenTimer = 0; // Reset timer
+            }
+        }
+
+        // Regenerate HP every 10 seconds
+        if (life < maxLife) {
+            hpRegenTimer++;
+            if (hpRegenTimer >= 600) { // 10 seconds at 60 updates per second
+                life++;
+                hpRegenTimer = 0; // Reset timer
+            }
         }
     }
     public void contactMonster(int i){

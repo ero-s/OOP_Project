@@ -231,7 +231,7 @@ public class GamePanel extends JPanel implements Runnable{
             ui.draw((Graphics2D) g2);
         } else {
             // Draw tiles in the background
-            tileM.draw((Graphics2D) g2);
+            tileM.draw( g2);
 
             // Add all entities, including the player, to `entityList` for sorting
             entityList.add(player);

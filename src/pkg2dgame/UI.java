@@ -597,8 +597,8 @@ public class UI {
         }
     }
     public void drawLoadExist() {
-        g2.setColor(Color.orange);
-        g2.fillRect(0,0, gp.screenWidth, gp.screenHeight);
+        BufferedImage title = Entity.setup("/pics/ui/FARMHOUSE_1.png", gp.tileSize, gp.tileSize);
+        g2.drawImage(title,0,0,1350, 780, null);
         int x,y;
 
         String text;
