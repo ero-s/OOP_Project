@@ -108,13 +108,17 @@ public class SaveLoad {
             ds.setWorldY(gp.player.worldY);
             ds.setCurrentMap(gp.currentMap);
             ds.setHasSave(true);
-            // PLAYER INVENTORY
 
+            // PLAYER INVENTORY
             for (int i = 0; i < gp.player.inventory.size(); i++) {
                 System.out.println("item loaded!");
                 ds.getItemNames().add(gp.player.inventory.get(i).name);
                 ds.getItemAmounts().add(gp.player.inventory.get(i).amount);
             }
+
+            // PLAYER EQUIPMENT
+            ds.setCurrentWeaponSlot(gp.player.getCurrentWeaponSlot());
+            ds.setCurrentShieldSlot(gp.player.getCurrentShieldSlot());
 
             oos.writeObject(ds);
             oos.close();
@@ -161,13 +165,17 @@ public class SaveLoad {
             setHasSave(gp.hasSave);
 
             // PLAYER INVENTORY
-
             gp.player.inventory.clear(); // clears out the default items
 
             for (int i = 0; i < ds.getItemNames().size(); i++) {
                 gp.player.inventory.add(getObject(ds.getItemNames().get(i)));
                 gp.player.inventory.get(i).amount = ds.getItemAmounts().get(i);
             }
+
+            // PLAYER EQUIPMENT
+            gp.player.setCurrentWeapon(gp.player.inventory.get(ds.getCurrentWeaponSlot()));
+            gp.player.setCurrentShield(gp.player.inventory.get(ds.getCurrentShieldSlot()));
+            // theres a getter for attack, dmg, attack image (waiting)
 
             System.out.println("Game loaded successfully.");
 

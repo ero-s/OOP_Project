@@ -15,6 +15,24 @@ public class DataStorage implements Serializable {
     // ENCAPSULATED PLAYER INVENTORY
     private ArrayList<String> itemNames;
     private ArrayList<Integer> itemAmounts;
+    private int currentWeaponSlot;
+    private int currentShieldSlot;
+
+    public int getCurrentShieldSlot() {
+        return currentShieldSlot;
+    }
+
+    public void setCurrentShieldSlot(int currentShieldSlot) {
+        this.currentShieldSlot = currentShieldSlot;
+    }
+
+    public int getCurrentWeaponSlot() {
+        return currentWeaponSlot;
+    }
+
+    public void setCurrentWeaponSlot(int currentWeaponSlot) {
+        this.currentWeaponSlot = currentWeaponSlot;
+    }
 
     public DataStorage() {
         itemNames = new ArrayList<>();

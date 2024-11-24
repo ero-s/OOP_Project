@@ -26,9 +26,10 @@ public class IT_ChopTree extends InteractiveTile {
     public boolean isCorrectItem(Entity entity){
         boolean isCorrectItem = false;
 
-        if(entity.currentWeapon.type == type_axe){
+        if(entity.getCurrentWeapon().type == type_axe){
             isCorrectItem = true;
         }
+
         return isCorrectItem;
     }
 
