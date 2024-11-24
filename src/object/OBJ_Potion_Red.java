@@ -13,6 +13,7 @@ public class OBJ_Potion_Red extends Entity{
         name = "Red Potion";
         down1 = setup("/pics/objects/potion_red.png",gp.tileSize/2,gp.tileSize/2);
         description = "[" + name + "]\nHeals your life by " + value + ".";
+        stackable = true;
     }
 
     public void use(Entity entity){
