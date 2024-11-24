@@ -1,4 +1,7 @@
 package pkg2dgame;
+
+import Entity.Entity;
+
 public class EventHandler {
     GamePanel gp;
     EventRect[][][] eventRect;
@@ -58,6 +61,8 @@ public class EventHandler {
             else if(hit(3,30,30,"any")){teleport(0,4,10);}
 
             if(hit(1,14,2,"any")){teleport(2,18,7);}
+
+            if(hit(0, 32, 33, "up") == true) { speak(gp.npc[0][0]); }
         }
     }
     public void teleport(int map, int col, int row){
@@ -66,6 +71,14 @@ public class EventHandler {
         this.col = col;
         this.row = row;
         canTouchEvent = false;
+    }
+
+    public void speak(Entity entity){
+        if(gp.keyH.enterPressed == true){
+            gp.gameState = gp.dialogueState;
+            gp.player.attackCanceled = true;
+            entity.speak();
+        }
     }
     public boolean hit(int map, int col, int row, String reqDirection){
         boolean hit = false;
