@@ -58,6 +58,29 @@ public class Player extends Entity {
 
 
     }
+
+    public int getCurrentWeaponSlot() {
+        int currentWeaponSlot = 0;
+        for (int i = 0; i < inventory.size(); i++) {
+            if (inventory.get(i) == getCurrentWeapon()) {
+                currentWeaponSlot = i;
+            }
+        }
+
+        return currentWeaponSlot;
+    }
+
+    public int getCurrentShieldSlot() {
+        int currentShieldSlot = 0;
+        for (int i = 0; i < inventory.size(); i++) {
+            if (inventory.get(i) == getCurrentShield()) {
+                currentShieldSlot = i;
+            }
+        }
+
+        return currentShieldSlot;
+    }
+
     public void setDefaultValues() {
         gp.currentMap = 0;
         worldX = gp.tileSize * 36;
@@ -75,8 +98,8 @@ public class Player extends Entity {
         projectile = new OBJ_Projectile(gp);
         nextLevelExp = 5;
         coin = 0;
-        currentWeapon = new OBJ_Sword_Normal(gp);
-        currentShield = new OBJ_Shield_Wood(gp);
+        setCurrentWeapon(new OBJ_Sword_Normal(gp));
+        setCurrentShield(new OBJ_Shield_Wood(gp));
         attack = getAttack();
         defPower = getDefense();
         maxMana = 4;
@@ -88,11 +111,11 @@ public class Player extends Entity {
         inventory.add(new OBJ_Axe(gp));
     }
     public int getAttack(){
-        attackArea = currentWeapon.attackArea;
-        return attack = atkPower * currentWeapon.attackValue;
+        attackArea = getCurrentWeapon().attackArea;
+        return attack = atkPower * getCurrentWeapon().attackValue;
     }
     public int getDefense(){
-        return defPower = defense * currentShield.defenseValue;
+        return defPower = defense * getCurrentShield().defenseValue;
     }
     public void setDefaultPositions(){
         gp.currentMap = 0;
@@ -418,12 +441,12 @@ public class Player extends Entity {
             Entity selectedItem = inventory.get(itemIndex);
 
             if (selectedItem.type == type_sword || selectedItem.type == type_axe) {
-                currentWeapon = selectedItem;
+                setCurrentWeapon(selectedItem);
                 attack = getAttack();
             }
 
             if (selectedItem.type == type_shield) {
-                currentShield = selectedItem;
+                setCurrentShield(selectedItem);
                 defense = getDefense();
             }
 

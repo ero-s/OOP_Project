@@ -61,8 +61,8 @@ public class Entity {
     public String name;
     public int level, atkPower, defense, exp, nextLevelExp, coin, mana, useCost;
     public Projectile projectile;
-    public Entity currentWeapon;
-    public Entity currentShield;
+    private Entity currentWeapon;
+    private Entity currentShield;
     public int attack, defPower;
 
     // TYPE
@@ -428,5 +428,21 @@ public class Entity {
 //                onPath = false;
 //            }
         }
+    }
+
+    public Entity getCurrentWeapon() {
+        return currentWeapon;
+    }
+
+    public void setCurrentWeapon(Entity currentWeapon) {
+        this.currentWeapon = currentWeapon;
+    }
+
+    public Entity getCurrentShield() {
+        return currentShield;
+    }
+
+    public void setCurrentShield(Entity currentShield) {
+        this.currentShield = currentShield;
     }
 }

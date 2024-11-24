@@ -1,12 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package pkg2dgame;
-/**
- *
- * @author austi
- */
+
 import Entity.Entity;
 import dialogue.StoryDialogue;
 import java.awt.*;
@@ -263,7 +256,7 @@ public class UI {
         // DRAW PLAYER'S ITEM
         for(int i = 0; i < gp.player.inventory.size(); i++){
             // EQUIP CURSOR
-            if (entity.inventory.get(i).equals(gp.player.currentWeapon) || entity.inventory.get(i).equals(gp.player.currentShield)) {
+            if (entity.inventory.get(i).equals(gp.player.getCurrentWeapon()) || entity.inventory.get(i).equals(gp.player.getCurrentShield())) {
                 g2.setColor(new Color(240, 190, 90, 255));
                 g2.setStroke(new BasicStroke(1)); // Ensure stroke is thin if needed
                 g2.fillRoundRect(slotX, slotY, gp.tileSize / 2, gp.tileSize / 2, 10, 10);
@@ -1067,10 +1060,13 @@ public class UI {
         g2.drawString(value,textX,textY);
         textY +=lineHeight;
 
+        Entity currWeap = gp.player.getCurrentWeapon();
+        Entity currShield = gp.player.getCurrentShield();
+
         //weapon
-        g2.drawImage(gp.player.currentWeapon.down1, textX-16, textY-32, null);
+        g2.drawImage(currWeap.down1, textX-16, textY-32, null);
         textY +=lineHeight;
-        g2.drawImage(gp.player.currentShield.down1, textX-16, textY-32, null);
+        g2.drawImage(currShield.down1, textX-16, textY-32, null);
         textY += gp.tileSize;
 
     }

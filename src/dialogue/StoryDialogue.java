@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Timer;
 
-public class StoryDialogue implements Dialogue {
+public class  StoryDialogue implements Dialogue {
     private ArrayList<String> dialogues;
     private int currentIndex;
     private JTextArea textArea;
