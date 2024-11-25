@@ -16,11 +16,14 @@ import pkg2dgame.GamePanel;
  * @author austi
  */
 public class OBJ_Door extends Entity{
+    GamePanel gp;
     public OBJ_Door(GamePanel gp){
         super(gp);
+        this.gp = gp;
         name = "Door";
         down1 = setup("/pics/objects/door.png",gp.tileSize, gp.tileSize);
-        
+        collision = true;
+        type = type_obstacle;
         solidArea.x = 0;
         solidArea.y = 0;
         solidArea.width  = 96;
@@ -47,4 +50,9 @@ public class OBJ_Door extends Entity{
 //            g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
 //        }
 //    }
+
+    public void interact(){
+        gp.gameState = gp.dialogueState;
+        gp.ui.currentDialogue = "You need a key";
+    }
 }

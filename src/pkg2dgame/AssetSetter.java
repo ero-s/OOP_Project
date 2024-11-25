@@ -43,6 +43,10 @@ public class AssetSetter {
         setObjectTile(mapNum, i, 28, 39 );
         i++;
 
+        gp.obj[mapNum][i] = new OBJ_Door(gp);
+        setObjectTile(mapNum, i, 29, 39 );
+        i++;
+
 //        gp.obj[mapNum][i] = new CON_Carrot(gp);
 //        setObjectTile(mapNum, i, 24, 39 );
 //        i++;

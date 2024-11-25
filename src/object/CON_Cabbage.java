@@ -27,14 +27,18 @@ public class CON_Cabbage extends Entity {
         setCollisionArea(solidArea.x, solidArea.y, solidArea.width, solidArea.height, 0, 16);
     }
 
-    public void use(Entity entity) {
+    public boolean use(Entity entity) {
+        if(gp.player.mana >= gp.player.maxMana){
+            gp.gameState = gp.dialogueState;
+            gp.ui.currentDialogue = "You can't eat it yet\n"
+                    + "Your mana is full";
+            return false;
+        }
         gp.gameState = gp.dialogueState;
         gp.ui.currentDialogue = "You ate the " + name + "\n"
                 + "Your mana has been recovered by " + value + ".";
         entity.mana += value;
-        if(gp.player.mana > gp.player.maxMana){
-            gp.player.mana = gp.player. maxMana;
-        }
 //        gp.playSE(value);
+        return true;
     }
 }

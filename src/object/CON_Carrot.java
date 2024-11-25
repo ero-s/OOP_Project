@@ -28,14 +28,18 @@ public class CON_Carrot extends Entity{
         setCollisionArea(solidArea.x, solidArea.y, solidArea.width, solidArea.height, 0, 16);
     }
 
-    public void use(Entity entity) {
+    public boolean use(Entity entity) {
+        if(gp.player.life >= gp.player.maxLife){
+            gp.gameState = gp.dialogueState;
+            gp.ui.currentDialogue = "You can't eat it yet\n"
+                    + "Your health is full";
+            return false;
+        }
         gp.gameState = gp.dialogueState;
         gp.ui.currentDialogue = "You ate the " + name + "\n"
-                + "Your life has been recovered by " + value + ".";
+                + "Your health has been recovered by " + value + ".";
         entity.life += value;
-        if(gp.player.life > gp.player.maxLife){
-            gp.player.life = gp.player. maxLife;
-        }
 //        gp.playSE(value);
+        return true;
     }
 }

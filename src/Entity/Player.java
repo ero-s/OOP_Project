@@ -79,6 +79,8 @@ public class Player extends Entity {
         coin = 100;
         currentWeapon = new OBJ_Sword_Normal(gp);
         currentShield = new OBJ_Shield_Wood(gp);
+        defaultSpeed = 4;
+        speed = defaultSpeed;
         attack = getAttack();
         defPower = getDefense();
         maxMana = 4;
@@ -272,6 +274,11 @@ public class Player extends Entity {
             }
         }
     }
+    public void knockback(Entity entity){
+        entity.direction = this.direction;
+        entity.speed += 4;
+        entity.knockback = true;
+    }
     public void contactMonster(int i){
         if(i != 999){
             if(!invincible && !gp.monster[gp.currentMap][i].dead){
@@ -290,6 +297,7 @@ public class Player extends Entity {
             System.out.println("Monster life before damage: " + gp.monster[gp.currentMap][i].life);
             if (!gp.monster[gp.currentMap][i].invincible && !gp.monster[gp.currentMap][i].dead) {
                 int damage = atkPower -gp.monster[gp.currentMap][i].defense;
+                knockback(gp.monster[gp.currentMap][i]);
                 if(damage < 0){
                     damage = 0;
                 }
@@ -349,6 +357,11 @@ public class Player extends Entity {
             if(gp.obj[mapNum][i].type == type_pickupOnly){
                 gp.obj[mapNum][i].use(this);
                 gp.obj[mapNum][i] = null;
+            }
+            else if(gp.obj[mapNum][i].type == type_obstacle){
+                if(keyH.enterPressed){
+                    gp.obj[mapNum][i].interact();
+                }
             }
             else{
                 String text;
@@ -446,9 +459,19 @@ public class Player extends Entity {
                 defense = getDefense();
             }
 
-            if (selectedItem.type == type_consumable) {
-                selectedItem.use(this);
-                inventory.remove(itemIndex);
+            if(selectedItem.type == type_consumable)
+            {
+                if(selectedItem.use(this))
+                {
+                    if(selectedItem.amount > 1)
+                    {
+                        selectedItem.amount--;
+                    }
+                    else
+                    {
+                        inventory.remove(itemIndex);
+                    }
+                }
             }
         }
     }
@@ -553,8 +576,6 @@ public class Player extends Entity {
 //        g2.setFont(new Font("Arial",Font.PLAIN, 26));
 //        g2.setColor(Color.red);
 //        g2.drawString("Invincible: "+invincibleCounter, 10, 400);
-
-
 
     }
 }

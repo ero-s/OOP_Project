@@ -25,9 +25,10 @@ public class OBJ_Coin extends Entity {
         setCollisionArea(solidArea.x, solidArea.y, solidArea.width, solidArea.height, 0, 16);
     }
 
-    public void use(Entity entity){
+    public boolean use(Entity entity){
         gp.playSE(1);
         gp.ui.showMessage("Coin + "+value);
         gp.player.coin += value;
+        return true;
     }
 }

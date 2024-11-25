@@ -16,8 +16,10 @@ import pkg2dgame.GamePanel;
  * @author austi
  */
 public class OBJ_Key extends Entity{
+    GamePanel gp;
     public OBJ_Key(GamePanel gp){
         super(gp);
+        this.gp = gp;
         name = "Key";
         down1 = setup("/pics/objects/key.png",gp.tileSize/2, gp.tileSize/2);
         solidArea.x = 64;
@@ -29,6 +31,7 @@ public class OBJ_Key extends Entity{
         setCollisionArea(solidArea.x, solidArea.y, solidArea.width, solidArea.height, 0, 16);
         collision = true;
         stackable = true;
+        type = type_consumable;
         description = "[" + name + "]\nIt opens a door.";
     }
     
@@ -48,5 +51,19 @@ public class OBJ_Key extends Entity{
             // Draw the collision box (adjusted by solidArea position)
             g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
         }
+    }
+    public boolean use(Entity entity) {
+        gp.gameState = gp.dialogueState;
+
+        int objIndex = getDetected(entity, gp.obj, "Door");
+
+        if (objIndex != 999) {
+            gp.ui.currentDialogue = "You use the " + name + " and open the door";
+            gp.playSE(3);
+            gp.obj[gp.currentMap][objIndex] = null;
+        } else {
+            gp.ui.currentDialogue = "What are you doing?";
+        }
+        return true;
     }
 }

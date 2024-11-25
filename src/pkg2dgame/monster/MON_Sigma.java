@@ -24,8 +24,9 @@ public class MON_Sigma extends Entity implements MON_Interface{
         super(gp);
         this.gp = gp;
         name = "Sigma";
-        speed = 1;
         maxLife = 500;
+        defaultSpeed = 1;
+        speed = defaultSpeed;
         life = maxLife;
         invincible = false;  // Monster starts without invincibility
         type = type_monster;
@@ -33,6 +34,9 @@ public class MON_Sigma extends Entity implements MON_Interface{
         defense = 2;
         exp = 3;
         alive = true;
+        collision = true;
+        xOffset = 0;
+        yOffset = 0;
 
         solidArea.x = 16;
         solidArea.y = 32;
@@ -57,6 +61,9 @@ public class MON_Sigma extends Entity implements MON_Interface{
     @Override
     public void update() {
         // Handle invincibility
+        if(!knockback){
+            speed = defaultSpeed;
+        }
         if (invincible) {
             invincibleCounter++;
             if (invincibleCounter > 60) {  // Reset invincibility after 60 frames (1 second)
@@ -125,15 +132,17 @@ public class MON_Sigma extends Entity implements MON_Interface{
 
     public void setAction() {
         if (onPath) {
+            int goalCol = (gp.player.worldX + gp.player.solidArea.x)/gp.tileSize;
+            int goalRow = (gp.player.worldY + gp.player.solidArea.y)/gp.tileSize;
+
 //            //set goal Position
 //            int goalCol = 4;
 //            int goalRow = 11;
 
             //set to follow player
-            int goalCol = (gp.player.worldX + gp.player.solidArea.x)/gp.tileSize;
-            int goalRow = (gp.player.worldY + gp.player.solidArea.y)/gp.tileSize;
-
             searchPath(goalCol, goalRow);
+
+
 
         }
         else {

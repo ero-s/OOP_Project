@@ -30,7 +30,7 @@ public class GamePanel extends JPanel implements Runnable{
     Config config = new Config(this);
     Thread getGameThread;
     public Pathfinder pFinder = new Pathfinder(this);
-    
+
     //world settings
     public final int maxWorldCol = 50;
     public final int maxWorldRow = 50;
@@ -49,17 +49,17 @@ public class GamePanel extends JPanel implements Runnable{
     public boolean hasSave;
     //FPS
     int FPS = 60;
-    
+
     public TileManager tileM = new TileManager(this);
     public KeyHandler keyH = new KeyHandler(this);
     Sound sound = new Sound();
-    
+
     //Entity and object
     public CollisionChecker cChecker = new CollisionChecker(this);
     public AssetSetter aSetter = new AssetSetter(this);
     public Player player = new Player(this, keyH);
     Thread gameThread;
-    
+
     //gamestate
     public int gameState;
     public final int titleState = 0;
@@ -72,7 +72,7 @@ public class GamePanel extends JPanel implements Runnable{
     public final int transitionState = 7;
     public final int tradeState = 8;
 
-    
+
     public Entity obj[][] = new Entity[maxMap][100];
     public Entity npc[][] = new Entity[maxMap][100];
     public Entity monster[][] = new Entity[maxMap][100];
@@ -80,8 +80,8 @@ public class GamePanel extends JPanel implements Runnable{
     public ArrayList<Entity> particleList = new ArrayList<Entity>();
     public ArrayList<Entity> entityList = new ArrayList<>();
     public ArrayList<Entity> projectileList = new ArrayList<>();
-    
-   
+
+
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
@@ -100,7 +100,7 @@ public class GamePanel extends JPanel implements Runnable{
 
         tempScreen = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
         g2 = (Graphics2D)tempScreen.getGraphics();
-        
+
 //        playMusic(0);
         if(fullScreenOn){
             setFullScreen();
@@ -171,7 +171,7 @@ public class GamePanel extends JPanel implements Runnable{
         if(gameState == playState){
             //player
             player.update();
-            
+
             //npc
             for(int i = 0; i < npc[currentMap].length; i++){
                 if(npc[currentMap][i] != null){
@@ -179,7 +179,7 @@ public class GamePanel extends JPanel implements Runnable{
                 }
             }
             //monster
-            for(int i = 0; i < monster[1].length; i++){
+            for(int i = 0; i < monster[currentMap].length; i++){
                 //TODO look for the null monster
                 if(monster[currentMap][i] != null){
                     if (monster[currentMap][i].alive && !monster[currentMap][i].dead) {
@@ -317,6 +317,6 @@ public class GamePanel extends JPanel implements Runnable{
     public void playSE(int i){
         sound.setFile(i);
         sound.play();
-               
+
     }
 }
