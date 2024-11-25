@@ -24,7 +24,10 @@ public class Entity {
     public boolean invincible = false;
 
     // state
-    public int worldX, worldY, speed;
+    public int worldX;
+    public int worldY;
+    public int speed;
+
     public String direction = "down";
     public int spriteNum = 1;
     int dialogueIndex = 0;
@@ -217,7 +220,7 @@ public class Entity {
     public void damagePlayer(int atkPower){
         if(!gp.player.invincible){
             //damage player
-            int damage = atkPower - gp.player.defense;
+            int damage = atkPower - gp.player.getDefense();
             if(damage < 0){
                 damage = 0;
             }
@@ -233,7 +236,7 @@ public class Entity {
         if (alive || dead) {
             BufferedImage image = null;
             int screenX = worldX - gp.player.worldX + gp.player.screenX;
-            int screenY = worldY - gp.player.worldY + gp.player.screenY;
+            int screenY = worldY - gp.player.worldX + gp.player.screenY;
 
             // Ensure the entity is within view of the camera before drawing
             if (worldX + gp.tileSize > gp.player.worldX - gp.player.screenX &&
@@ -445,4 +448,69 @@ public class Entity {
     public void setCurrentShield(Entity currentShield) {
         this.currentShield = currentShield;
     }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public int getAtkPower() {
+        return atkPower;
+    }
+
+    public void setAtkPower(int atkPower) {
+        this.atkPower = atkPower;
+    }
+
+    public int getDefense() {
+        return defense;
+    }
+
+    public void setDefense(int defense) {
+        this.defense = defense;
+    }
+
+    public int getExp() {
+        return exp;
+    }
+
+    public void setExp(int exp) {
+        this.exp = exp;
+    }
+
+    public int getCoin() {
+        return coin;
+    }
+
+    public void setCoin(int coin) {
+        this.coin = coin;
+    }
+
+    public int getNextLevelExp() {
+        return nextLevelExp;
+    }
+
+    public void setNextLevelExp(int nextLevelExp) {
+        this.nextLevelExp = nextLevelExp;
+    }
+
+    public int getMana() {
+        return mana;
+    }
+
+    public void setMana(int mana) {
+        this.mana = mana;
+    }
+
+    public int getUseCost() {
+        return useCost;
+    }
+
+    public void setUseCost(int useCost) {
+        this.useCost = useCost;
+    }
+
 }
